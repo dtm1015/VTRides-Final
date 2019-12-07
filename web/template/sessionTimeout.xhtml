@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Created by Justin Kennedy on 2019.10.31
+Created by Justin Kennedy on 2019.11.15
 Copyright © 2019 Justin Kennedy. All rights reserved.
 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -10,8 +10,7 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
 
     <!-- Do not enter tags before the composition line since they are ignored by JSF -->
 
-    <!-- This page is constructed based on the siteTemplate and will not be 
-    displayed until the user is inactive for 30 minutes -->
+    <!-- This page is constructed based on the siteTemplate -->
     <ui:composition template="/template/siteTemplate.xhtml">
         <ui:define name="title">
             <!-- Set the page title -->
@@ -22,7 +21,10 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
         <ui:define name="editableContent">
             <br/><br/><br/>
             <div align="center">
-
+                <!--
+                    This page is only accessed if 30 minutes of inactivity go by
+                    This page lets you know that your session has expired  
+                -->
                 <h1>Your Session has Expired!</h1>
 
             </div>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Created by Justin Kennedy on 2019.10.31
+Created by Justin Kennedy on 2019.11.15
 Copyright © 2019 Justin Kennedy. All rights reserved.
 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
@@ -11,8 +11,7 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
     <!--
     **********************************************************************
     This template file defines the page layout design for the entire site.
-    All pages will be created with this layout to include the headerTemplate,
-    contentTemplate, footerTemplate, and growl messages
+    Any page created based on this template will have this layout design.
     **********************************************************************
     -->
     <h:head>
@@ -20,17 +19,17 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
         The <title> element (a) defines a title in the browser's toolbar,
         (b) provides a title for the page when it is added to favorites, and
         (c) displays a title for the page in search-engine results.
-        -Balci
         -->
         <title>
-            <ui:insert name="title">Videos</ui:insert>
+            <ui:insert name="title">VT Rides</ui:insert>
         </title>
 
         <!-- 
         =============================
         *   Mobile Device Support   *
         =============================
-        Alters page maximum width to work with mobile devices
+        Instruct the web browser on how to control the page's dimensions
+        and scaling on mobile devices. 
         -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
@@ -38,49 +37,57 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
         ================================
         *   Handling Session Timeout   *
         ================================
+        Show the sessionTimeout.xhtml page when user's session expires. 
         -->
         <meta http-equiv="refresh" content="#{facesContext.externalContext.sessionMaxInactiveInterval};
               url=#{request.contextPath}/template/sessionTimeout.xhtml"/>
-
+        
         <!-- 
         =============================
-        *   CSS for UI Styling  *
-        ============================= 
+        *   CSS for the Entire UI   *
+        =============================
+        The siteStyles CSS file is linked for styling and formatting the entire UI. 
         -->
         <h:outputStylesheet library="css" name="siteStyles.css" />
 
-        <!--
-        ========================================
-        *   Font Awesome "SVG with JS" Icons   *
-        ========================================
-        The following enables the use of more than 1,300 "Scalable Vector Graphics (SVG) with
-        JavaScript (JS)" free icons. For details, see:
-        https://fontawesome.com/how-to-use/on-the-web/setup/getting-started?using=svg-with-js
-        
-        -Balci
-        -->
-        <script defer='defer' src="https://use.fontawesome.com/releases/v5.2.0/js/all.js" 
-            integrity="sha384-4oV5EgaV02iISL2ban6c/RmotsABqE4yZxZLcYMAdG7FAPsyHYAPpywE9PJo+Khy"
-            crossorigin="anonymous">
-        </script>
 
+        <!-- 
+        ======================================== 
+        * Font Awesome "SVG with JS" Icons * 
+        ======================================== 
+        The following enables the use of more than 1,300 "Scalable Vector Graphics (SVG) with
+        JavaScript (JS)" free icons. For details, see: 
+        https://fontawesome.com/how-to-use/on-the-web/setup/getting-started?using=svg-with-js 
+        -->
+        <script defer='defer' src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+               integrity="sha384-kW+oWsYx3YpxvjtZjFXqazFpA7UP/MbiY4jvs+RWZo2+N94PFZ36T6TFkc9O3qoB" 
+               crossorigin="anonymous">
+        </script>
+        
         <!-- 
         =====================
         *   Favorite Icon   *
         =====================
-        This icon is displayed to the left of the page title on the web browser tab
+        A favicon (short for favorite icon), also known as a shortcut icon, website icon, tab icon, 
+        URL icon or bookmark icon, is a file named favicon.ico See https://en.wikipedia.org/wiki/Favicon
+        The icon is displayed to the left of the page title on a tab in the Chrome web browser.
+        The link below enables all your UI pages to display the favorite icon.
+        
+        Use EL to get the image file since it will be referenced by all UI pages.
+        - Balci
         -->
-        <link rel="shortcut icon" href="#{resource['images:favicon.ico']}" type="image/x-icon" />
+        <link rel="shortcut icon" href="#{resources['images:favicon.ico']}" type="image/x-icon" />
 
     </h:head>
 
     <h:body>  
         <div id="page">  
             <!-- 
-            This sets the body to be the standard 
-            header
-            editable content
-            footer
+            The Site Template file layout design consists of three components:
+                1. Header Component (Typically is the same for the entire UI)
+                2. Editable Content Component (each page creates its own content)
+                3. Footer Component (Typically is the same for the entire UI)
+
             -->
             <div id="header">
                 <ui:insert name="header" >
@@ -89,10 +96,29 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
             </div>
 
             <!--
-            This sets the default content to be editable content and inserts
-            growl messages so that messages can be displayed when the content is 
-            updated. If the default content is not named, then the contentTemplate
-            will be used
+            The ui:insert tag is a templating tag that declares a named content element
+            to be defined by another Facelet. It can be used effectively with the
+            ui:define tag to pass values between Facelets (JSF pages).
+            
+            The ui:include tag is a server-side include tag for Facelets. It simply includes
+            the document pointed to by the "src" attribute as part of the current JSF page.
+            The included document should use a component or composition tag to trim unnecessary
+            markup, or it may simply contain a fragment of XHTML or XML to be included.
+
+            ===============================================
+            * Editable Content Component of this Template *
+            ===============================================
+            Any page created based on this template is expected to provide its own content
+            by using <ui:define name="editableContent">. If the page content is not defined,
+            contentTemplate's content will be used as default. 
+            
+            The Growl statements in the growlMessages.xhtml file are automatically included at the
+            top of the editableContent of every page created based on this template. This prevents 
+            manually including the Growl statements in every JSF page. 
+            
+            This approach also enables maintainability since you can modify how the Growl messages
+            are displayed only in one place for all of the UI pages of your software application.
+            - Balci
             -->
             <div id="editableContent">
                 <ui:insert name="growlMessages" >
