@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DefaultCarViewDlg" widgetVar="DefaultCarViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewDefaultCarTitle}">
+            <h:form id="DefaultCarViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{defaultCarController.selected != null}">
+                        <h:outputText value="#{bundle.ViewDefaultCarLabel_id}"/>
+                        <h:outputText value="#{defaultCarController.selected.id}" title="#{bundle.ViewDefaultCarTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewDefaultCarLabel_make}"/>
+                        <h:outputText value="#{defaultCarController.selected.make}" title="#{bundle.ViewDefaultCarTitle_make}"/>
+                        <h:outputText value="#{bundle.ViewDefaultCarLabel_model}"/>
+                        <h:outputText value="#{defaultCarController.selected.model}" title="#{bundle.ViewDefaultCarTitle_model}"/>
+                        <h:outputText value="#{bundle.ViewDefaultCarLabel_color}"/>
+                        <h:outputText value="#{defaultCarController.selected.color}" title="#{bundle.ViewDefaultCarTitle_color}"/>
+                        <h:outputText value="#{bundle.ViewDefaultCarLabel_licensePlate}"/>
+                        <h:outputText value="#{defaultCarController.selected.licensePlate}" title="#{bundle.ViewDefaultCarTitle_licensePlate}"/>
+                        <h:outputText value="#{bundle.ViewDefaultCarLabel_mpg}"/>
+                        <h:outputText value="#{defaultCarController.selected.mpg}" title="#{bundle.ViewDefaultCarTitle_mpg}"/>
+                        <h:outputText value="#{bundle.ViewDefaultCarLabel_userId}"/>
+                        <h:outputText value="#{defaultCarController.selected.userId}" title="#{bundle.ViewDefaultCarTitle_userId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="DefaultCarViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

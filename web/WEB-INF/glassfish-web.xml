@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Osman Balci on 2018.08.08
+Copyright © 2018 Osman Balci. All rights reserved.
+-->
+<!DOCTYPE glassfish-web-app PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Servlet 3.0//EN" "http://glassfish.org/dtds/glassfish-web-app_3_0-1.dtd">
+<!--
+This file is used to configure a web application (WAR file).
+-->
+<glassfish-web-app error-url="">
+  <class-loader delegate="true"/>
+  <!--
+    If you include the keepgenerated property when you deploy the WAR file, the generated source
+    is kept in domain-dir/generated/jsp/app-name/module-name for an application, or
+    domain-dir/generated/jsp/module-name for an individually-deployed web module.
+  -->
+  <jsp-config>
+    <property name="keepgenerated" value="true">
+      <description>Keep a copy of the generated servlet class' java code.</description>
+    </property>
+  </jsp-config>
+  <!--
+    We inform GlassFish that we will access files outside of our cloud software application by 
+    specifying the following <property> statement.
+
+    alternatedocroot_n specifies an alternate document root (DocRoot), where n is a positive integer
+    that allows specification of more than one. Alternate DocRoots allow web applications to serve 
+    requests for certain resources from outside of their own deployed directory.
+
+    With the <property> statement below, we specify an alternate document root (DocRoot) to allow 
+    our application to read and write files external to (outside of) its deployed directory.
+
+    dir=    specifies the DocRoot directory's absolute path where the external files are stored.
+    from=   /CloudStorage/* specifies the top directory in the DocRoot directory.
+    *       implies that you can put directories and files within the /CloudStorage/ top directory.
+    
+    Pay attention to the slashes! Different parts will be combined to form an absolute path specification:
+
+        Example: /Users/Balci/DocRoot/CloudStorage/PhotoStorage/defaultUserPhoto.png
+
+    macOS (Unix or Linux): Specify the DocRoot absolute path as shown below.
+
+    Windows OS: Specify the DocRoot absolute path starting with C:
+    <property name="alternatedocroot_1" value="from=/CloudStorage/* dir=C:/Users/Balci/DocRoot" />
+  -->
+  <property name="alternatedocroot_1" value="from=/VTRidesStorage/* dir=C:/Users/Justin/DocRoot" />
+</glassfish-web-app>

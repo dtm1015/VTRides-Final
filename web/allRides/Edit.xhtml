@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <!-- 
+        ============================================================
+        |  Clicking the EDIT button on the bottom of the public    |
+        |   video list displays this Dialog window                 |
+        |  for the user to edit the data of a public video         |
+        ============================================================
+        -->
+        <p:dialog id="AllRidesEditDlg" widgetVar="AllRidesEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditAllRidesTitle}" width="60%">
+            <div align="center">
+                <h:form id="AllRidesEditForm">
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="2" columnClasses="panelGridColumn1,panelGridColumn2" rendered="#{allRidesController.selected != null}" style="border-style: hidden;width: 90%; align-content: center">
+                            <!--
+                            ********************************
+                            *        Starting Address1     *
+                            ********************************
+                            -->
+                            <p:outputLabel value="#{bundle.CreateAllRidesLabel_startingAddress1}" for="startingAddress1" />
+                            <p:inputText id="startingAddress1" value="#{allRidesController.selected.startingAddress1}" 
+                                         class="inputTextField" required="true" requiredMessage="#{bundle.CreateAllRidesRequiredMessage_startingAddress1}" style="width: 90%"/>
+                            <!--
+                        ********************************
+                        *          Starting Address2         *
+                        ********************************
+                            -->
+                            <p:outputLabel value="#{bundle.CreateAllRidesLabel_startingAddress2}" for="startingAddress2" />
+                            <p:inputText id="startingAddress2" value="#{allRidesController.selected.startingAddress2}" 
+                                         class="inputTextField" required="false" style="width: 90%"/>
+                            <!--
+                        *************************************
+                        *          Starting City        *
+                        *************************************
+                            -->
+                            <p:outputLabel value="#{bundle.CreateAllRidesLabel_startingCity}" for="startingCity" />
+                            <p:inputText id="startingCity" value="#{allRidesController.selected.startingCity}" 
+                                         class="inputTextField" required="true" requiredMessage="#{bundle.CreateAllRidesRequiredMessage_startingCity}"/>
+
+                            <!--
+                        *************************************
+                        *          Starting State        *
+                        *************************************
+                            -->
+                            <p:outputLabel value="#{bundle.CreateAllRidesLabel_startingState}" for="startingState" />
+                            <h:selectOneMenu id="startingState" value="#{allRidesController.selected.startingState}" required="true">
+                                <f:selectItems value="#{allRidesController.listOfStates()}" var="startingState"
+                                               itemLabel="#{state}" itemValue="#{state}" />
+                            </h:selectOneMenu>
+
+                            <!--
+                        ********************************
+                        *           Starting ZIP CODE           *
+                        ********************************
+                            -->
+                            <p:outputLabel id="startingZipcodeEntry" value="#{bundle.CreateAllRidesLabel_startingZipcode}" for="startingZipcode" >
+                                &nbsp;<i class="fas fa-question-circle" />
+                                <!--
+                                When the user mouses over the icon, a tooltip is displayed
+                                to provide context-sensitive help information to the user.
+                                -->
+                                <p:tooltip for="startingZipcodeEntry" value="Enter 5 digits or 9 digits with hyphen, e.g., 24060-1804" 
+                                           showEffect="clip" hideEffect="explode" position="top" />
+                            </p:outputLabel> 
+
+                            <p:inputText id="startingZipcode" value="#{allRidesController.selected.startingZipcode}" required="true" class="inputTextField"
+                                         requiredMessage="#{bundle.CreateAllRidesRequiredMessage_startingZipcode}">
+                                <f:validateLength minimum="5" />
+                                <!-- 
+                                Execute the "validate" method in the "ZipCodeValidator.java" 
+                                class file to validate the ZIP code entered. 
+                                -->
+                                <f:validator validatorId="zipCodeValidator"/> 
+                            </p:inputText>
+
+                            <!--
+                            ********************************
+                            *        Ending Address1     *
+                            ********************************
+                            -->
+                            <p:outputLabel value="#{bundle.CreateAllRidesLabel_endingAddress1}" for="endingAddress1" />
+                            <p:inputText id="endingAddress1" value="#{allRidesController.selected.endingAddress1}" 
+                                         class="inputTextField" required="true" requiredMessage="#{bundle.CreateAllRidesRequiredMessage_endingAddress1}" style="width: 90%"/>
+                            <!--
+                        ********************************
+                        *          Ending Address2         *
+                        ********************************
+                            -->
+                            <p:outputLabel value="#{bundle.CreateAllRidesLabel_endingAddress2}" for="endingAddress2" />
+                            <p:inputText id="endingAddress2" value="#{allRidesController.selected.endingAddress2}" 
+                                         class="inputTextField" required="false" style="width: 90%"/>
+                            <!--
+                        *************************************
+                        *          Ending City        *
+                        *************************************
+                            -->
+                            <p:outputLabel value="#{bundle.CreateAllRidesLabel_endingCity}" for="endingCity" />
+                            <p:inputText id="endingCity" value="#{allRidesController.selected.endingCity}" 
+                                         class="inputTextField" required="true" requiredMessage="#{bundle.CreateAllRidesRequiredMessage_endingCity}"/>
+
+                            <!--
+                        *************************************
+                        *          Ending State        *
+                        *************************************
+                            -->
+                            <p:outputLabel value="#{bundle.CreateAllRidesLabel_endingState}" for="endingState" />
+                            <h:selectOneMenu id="endingState" value="#{allRidesController.selected.endingState}" required="true">
+                                <f:selectItems value="#{allRidesController.listOfStates()}" var="endingState"
+                                               itemLabel="#{state}" itemValue="#{state}" />
+                            </h:selectOneMenu>
+
+                            <!--
+                        ********************************
+                        *           Ending ZIP CODE           *
+                        ********************************
+                            -->
+                            <p:outputLabel id="endingZipcodeEntry" value="#{bundle.CreateAllRidesLabel_endingZipcode}" for="endingZipcode" >
+                                &nbsp;<i class="fas fa-question-circle" />
+                                <!--
+                                When the user mouses over the icon, a tooltip is displayed
+                                to provide context-sensitive help information to the user.
+                                -->
+                                <p:tooltip for="endingZipcodeEntry" value="Enter 5 digits or 9 digits with hyphen, e.g., 24060-1804" 
+                                           showEffect="clip" hideEffect="explode" position="top" />
+                            </p:outputLabel> 
+
+                            <p:inputText id="endingZipcode" value="#{allRidesController.selected.endingZipcode}" required="true" class="inputTextField"
+                                         requiredMessage="#{bundle.CreateAllRidesRequiredMessage_endingZipcode}">
+                                <f:validateLength minimum="5" />
+                                <!-- 
+                                Execute the "validate" method in the "ZipCodeValidator.java" 
+                                class file to validate the ZIP code entered. 
+                                -->
+                                <f:validator validatorId="zipCodeValidator"/> 
+                            </p:inputText>
+
+                            <!--
+                        **********************************
+                        *          TRIP DATE        *
+                        **********************************
+                            -->
+                            <p:outputLabel value="#{bundle.CreateAllRidesLabel_tripDate}" for="tripDate" />
+                            <p:calendar id="tripDate" pattern="MM/dd/yyyy" class="inputTextField" mask="true" 
+                                        value="#{allRidesController.selected.tripDate}" required="true" 
+                                        requiredMessage="#{bundle.EditAllRidesRequiredMessage_tripDate}"/>
+                            <!--
+                        ********************************
+                        *          SEATS AVAILABLE     *
+                        ********************************
+                            -->
+                            <p:outputLabel value="#{bundle.CreateAllRidesLabel_seatsAvailable}" for="seatsAvailable" />
+                            <p:selectOneMenu id="seatsAvailable" value="#{allRidesController.selected.seatsAvailable}" 
+                                             class="inputTextField" required="true" requiredMessage="#{bundle.CreateAllRidesRequiredMessage_seatsAvailable}">
+                                <f:selectItem itemLabel="Select Number of Seats Available"  itemValue="" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="1"           itemValue="1" />
+                                <f:selectItem itemLabel="2"           itemValue="2" />
+                                <f:selectItem itemLabel="3"           itemValue="3" />
+                                <f:selectItem itemLabel="4"           itemValue="4" />
+                                <f:selectItem itemLabel="5"           itemValue="5" />
+                                <f:selectItem itemLabel="6"           itemValue="6" />
+                            </p:selectOneMenu>
+
+                             <!--
+                        *************************************
+                        *          Car Make        *
+                        *************************************
+                            -->
+                            <p:outputLabel value="#{bundle.CreateAllRidesLabel_carMake}" for="carMake" />
+                            <p:inputText id="carMake" value="#{allRidesController.selected.carMake}" 
+                                         class="inputTextField" required="true" requiredMessage="#{bundle.CreateAllRidesRequiredMessage_carMake}"/>
+
+                            <!--
+                        *************************************
+                        *          Car Model        *
+                        *************************************
+                            -->
+                            <p:outputLabel value="#{bundle.CreateAllRidesLabel_carModel}" for="carModel" />
+                            <p:inputText id="carModel" value="#{allRidesController.selected.carModel}" 
+                                         class="inputTextField" required="true" requiredMessage="#{bundle.CreateAllRidesRequiredMessage_carModel}"/>
+                            
+                            <!--
+                        *************************************
+                        *          Car Color        *
+                        *************************************
+                            -->
+                            <p:outputLabel value="#{bundle.CreateAllRidesLabel_carColor}" for="carColor" />
+                            <p:inputText id="carColor" value="#{allRidesController.selected.carColor}" 
+                                         class="inputTextField" required="true" requiredMessage="#{bundle.CreateAllRidesRequiredMessage_carColor}"/>
+                            
+                            <!--
+                        *************************************
+                        *          Car License Plate       *
+                        *************************************
+                            -->
+                            <p:outputLabel value="#{bundle.CreateAllRidesLabel_carLicensePlate}" for="carLicensePlate" />
+                            <p:inputText id="carLicensePlate" value="#{allRidesController.selected.carLicensePlate}" 
+                                         class="inputTextField" required="true" requiredMessage="#{bundle.CreateAllRidesRequiredMessage_carLicensePlate}"/>
+                            
+                            <!--
+                        *************************************
+                        *          Car Mpg      *
+                        *************************************
+                            -->
+                            <p:outputLabel value="#{bundle.CreateAllRidesLabel_carMpg}" for="carMpg" />
+                            <p:inputText id="carMpg" value="#{allRidesController.selected.carMpg}" 
+                                         class="inputTextField" required="true" requiredMessage="#{bundle.CreateAllRidesRequiredMessage_carMpg}"/>
+                            
+                        </p:panelGrid>
+                        <div align="center">
+                            <!-- UPDATE BUTTON -->
+                            <p:commandButton actionListener="#{allRidesController.update}" value="#{bundle.Save}" icon="fas fa-save" ajax="false" 
+                                             update="display,:AllRidesListForm:datalist,:growl" oncomplete="handleSubmit(args, 'AllRidesEditDialog');"/>
+                            &nbsp;&nbsp;
+                            <!-- CANCEL BUTTON -->
+                            <p:commandButton value="#{bundle.Cancel}" onclick="AllRidesEditDialog.hide()" icon="fas fa-ban" immediate="true"/>
+                        </div>
+                    </h:panelGroup>
+                </h:form>
+            </div>
+        </p:dialog>
+
+    </ui:composition>
+</html>

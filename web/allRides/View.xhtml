@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AllRidesViewDlg" widgetVar="AllRidesViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewAllRidesTitle}">
+            <h:form id="AllRidesViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{allRidesController.selected != null}">
+                        <h:outputText value="#{bundle.ViewAllRidesLabel_id}"/>
+                        <h:outputText value="#{allRidesController.selected.id}" title="#{bundle.ViewAllRidesTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewAllRidesLabel_passeger1Id}"/>
+                        <h:outputText value="#{allRidesController.selected.passeger1Id}" title="#{bundle.ViewAllRidesTitle_passeger1Id}"/>
+                        <h:outputText value="#{bundle.ViewAllRidesLabel_passenger2Id}"/>
+                        <h:outputText value="#{allRidesController.selected.passenger2Id}" title="#{bundle.ViewAllRidesTitle_passenger2Id}"/>
+                        <h:outputText value="#{bundle.ViewAllRidesLabel_passenger3Id}"/>
+                        <h:outputText value="#{allRidesController.selected.passenger3Id}" title="#{bundle.ViewAllRidesTitle_passenger3Id}"/>
+                        <h:outputText value="#{bundle.ViewAllRidesLabel_passenger4Id}"/>
+                        <h:outputText value="#{allRidesController.selected.passenger4Id}" title="#{bundle.ViewAllRidesTitle_passenger4Id}"/>
+                        <h:outputText value="#{bundle.ViewAllRidesLabel_passenger5Id}"/>
+                        <h:outputText value="#{allRidesController.selected.passenger5Id}" title="#{bundle.ViewAllRidesTitle_passenger5Id}"/>
+                        <h:outputText value="#{bundle.ViewAllRidesLabel_passenger6Id}"/>
+                        <h:outputText value="#{allRidesController.selected.passenger6Id}" title="#{bundle.ViewAllRidesTitle_passenger6Id}"/>
+                        <h:outputText value="#{bundle.ViewAllRidesLabel_seatsAvailable}"/>
+                        <h:outputText value="#{allRidesController.selected.seatsAvailable}" title="#{bundle.ViewAllRidesTitle_seatsAvailable}"/>
+                        <h:outputText value="#{bundle.ViewAllRidesLabel_startingAddress1}"/>
+                        <h:outputText value="#{allRidesController.selected.startingAddress1}" title="#{bundle.ViewAllRidesTitle_startingAddress1}"/>
+                        <h:outputText value="#{bundle.ViewAllRidesLabel_startingAddress2}"/>
+                        <h:outputText value="#{allRidesController.selected.startingAddress2}" title="#{bundle.ViewAllRidesTitle_startingAddress2}"/>
+                        <h:outputText value="#{bundle.ViewAllRidesLabel_startingCity}"/>
+                        <h:outputText value="#{allRidesController.selected.startingCity}" title="#{bundle.ViewAllRidesTitle_startingCity}"/>
+                        <h:outputText value="#{bundle.ViewAllRidesLabel_startingState}"/>
+                        <h:outputText value="#{allRidesController.selected.startingState}" title="#{bundle.ViewAllRidesTitle_startingState}"/>
+                        <h:outputText value="#{bundle.ViewAllRidesLabel_startingZipcode}"/>
+                        <h:outputText value="#{allRidesController.selected.startingZipcode}" title="#{bundle.ViewAllRidesTitle_startingZipcode}"/>
+                        <h:outputText value="#{bundle.ViewAllRidesLabel_endingAddress1}"/>
+                        <h:outputText value="#{allRidesController.selected.endingAddress1}" title="#{bundle.ViewAllRidesTitle_endingAddress1}"/>
+                        <h:outputText value="#{bundle.ViewAllRidesLabel_endingAddress2}"/>
+                        <h:outputText value="#{allRidesController.selected.endingAddress2}" title="#{bundle.ViewAllRidesTitle_endingAddress2}"/>
+                        <h:outputText value="#{bundle.ViewAllRidesLabel_endingCity}"/>
+                        <h:outputText value="#{allRidesController.selected.endingCity}" title="#{bundle.ViewAllRidesTitle_endingCity}"/>
+                        <h:outputText value="#{bundle.ViewAllRidesLabel_endingState}"/>
+                        <h:outputText value="#{allRidesController.selected.endingState}" title="#{bundle.ViewAllRidesTitle_endingState}"/>
+                        <h:outputText value="#{bundle.ViewAllRidesLabel_endingZipcode}"/>
+                        <h:outputText value="#{allRidesController.selected.endingZipcode}" title="#{bundle.ViewAllRidesTitle_endingZipcode}"/>
+                        <h:outputText value="#{bundle.ViewAllRidesLabel_tripTime}"/>
+                        <h:outputText value="#{allRidesController.selected.tripTime}" title="#{bundle.ViewAllRidesTitle_tripTime}"/>
+                        <h:outputText value="#{bundle.ViewAllRidesLabel_tripDistance}"/>
+                        <h:outputText value="#{allRidesController.selected.tripDistance}" title="#{bundle.ViewAllRidesTitle_tripDistance}"/>
+                        <h:outputText value="#{bundle.ViewAllRidesLabel_tripCost}"/>
+                        <h:outputText value="#{allRidesController.selected.tripCost}" title="#{bundle.ViewAllRidesTitle_tripCost}"/>
+                        <h:outputText value="#{bundle.ViewAllRidesLabel_tripDate}"/>
+                        <h:outputText value="#{allRidesController.selected.tripDate}" title="#{bundle.ViewAllRidesTitle_tripDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewAllRidesLabel_carMake}"/>
+                        <h:outputText value="#{allRidesController.selected.carMake}" title="#{bundle.ViewAllRidesTitle_carMake}"/>
+                        <h:outputText value="#{bundle.ViewAllRidesLabel_carModel}"/>
+                        <h:outputText value="#{allRidesController.selected.carModel}" title="#{bundle.ViewAllRidesTitle_carModel}"/>
+                        <h:outputText value="#{bundle.ViewAllRidesLabel_carColor}"/>
+                        <h:outputText value="#{allRidesController.selected.carColor}" title="#{bundle.ViewAllRidesTitle_carColor}"/>
+                        <h:outputText value="#{bundle.ViewAllRidesLabel_carLicensePlate}"/>
+                        <h:outputText value="#{allRidesController.selected.carLicensePlate}" title="#{bundle.ViewAllRidesTitle_carLicensePlate}"/>
+                        <h:outputText value="#{bundle.ViewAllRidesLabel_carMpg}"/>
+                        <h:outputText value="#{allRidesController.selected.carMpg}" title="#{bundle.ViewAllRidesTitle_carMpg}"/>
+                        <h:outputText value="#{bundle.ViewAllRidesLabel_driverId}"/>
+                        <h:outputText value="#{allRidesController.selected.driverId}" title="#{bundle.ViewAllRidesTitle_driverId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="AllRidesViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

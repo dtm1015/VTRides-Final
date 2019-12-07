@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Created by Justin Kennedy on 2019.10.31
+Copyright © 2019 Justin Kennedy. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <!-- 
+        ============================================================
+        |  Clicking the SEARCH button displays this Dialog window  |
+        |  for the user to enter the data to search for a public   |
+        |  video.                                                  |
+        ============================================================
+        -->
+        <p:dialog id="AllRidesSearchDlg" widgetVar="AllRidesSearchDialog" modal="true" 
+                  resizable="false" appendTo="@(body)" header="Search Public Videos" width="40%">
+
+            <div align="center">
+                <h:form id="AllRidesSearchForm" class="ui-datatable-data">
+
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="3" columnClasses="panelGridColumn1,panelGridColumn2,panelGridColumn2">
+
+                            <!-- COLUMN 1: "SEARCH" -->
+                            <p:outputLabel value="Search" for="search" />
+                            <!-- COLUMN 2: SEARCH STRING TO ENTER -->
+                            <p:inputText id="search" value="#{allRidesController.searchString}" required="true" 
+                                         requiredMessage="Please enter search string!"/>
+                            <!-- COLUMN 3: SEARCH CATEGORY -->
+                            <p:selectOneMenu id="category" value="#{allRidesController.searchCategory}" 
+                                             title="Search Category" required="true" requiredMessage="Please select a search category!">
+                                <!--Default is "select category". User must choose to search by title, description, category, or all of the above -->
+                                <f:selectItem itemLabel="Select Category" itemValue="" />
+                                <f:selectItem itemLabel="Starting City" itemValue="startingCity"/>
+                                <f:selectItem itemLabel="Ending City" itemValue="endingCity"/>
+                            </p:selectOneMenu>
+
+                        </p:panelGrid>
+                        <br/><br/>
+                        <div align="center">
+                            <!-- SEARCH button -->
+                            <p:commandButton value="Search" id="searchButton"  ajax="false" icon="fas fa-search"
+                                             action="#{allRidesController.search()}" />&nbsp;&nbsp;
+                            <!-- CANCEL button -->
+                            <p:commandButton value="#{bundle.Cancel}" onclick="AllRidesSearchDialog.hide()" icon="fas fa-ban" immediate="true"/>
+                        </div>
+                    </h:panelGroup>
+                </h:form>
+            </div>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Justin Kennedy on 2019.10.31
+Copyright © 2019 Justin Kennedy. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <!--
+    *********************************************
+    * Footer Component of Template siteTemplate *
+    *********************************************
+    This page's content is displayed on the bottom of each page created based on the siteTemplate.
+    This page sets the rollable social media icons, the relevant links, and the attribution statement.
+    -->
+
+    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+    <ui:composition>
+
+        <table width="80%" border="0" align="center" cellpadding="5" cellspacing="0">
+            <tr>
+                <!--
+                **************************************************
+                Row 1 Column 1 (Left): Animated Social Media Icons
+                **************************************************
+                -->
+                <td align="left" valign="middle">
+                    <a class="social-roll" href="https://www.facebook.com/virginiatech" target="_blank">
+                        <img src="#{resource['images:socialMediaIcons/facebook.png']}" /></a>
+                    <a class="social-roll" href="https://twitter.com/virginia_tech" target="_blank">
+                        <img src="#{resource['images:socialMediaIcons/twitter.png']}" /></a>
+                    <a class="social-roll" href="https://www.linkedin.com/school/virginia-tech" target="_blank">
+                        <img src="#{resource['images:socialMediaIcons/linkedIn.png']}" /></a>
+                    <a class="social-roll" href="https://plus.google.com/+virginiatech" target="_blank">
+                        <img src="#{resource['images:socialMediaIcons/googlePlus.png']}" /></a>
+                </td>
+                <!--
+                *****************************************
+                Row 1 Column 2 (Right): Relevant Links
+                *****************************************
+                -->
+                <td align="right" valign="middle">
+                <!-- 
+                With the i tag, I can access the corresponding fontawesome icons
+                for each link
+                -->
+                    <a href="https://www.youtube.com/" target="_blank">
+                        <i class="fab fa-youtube"></i>&nbsp;YouTube</a>&nbsp;&nbsp;&nbsp;
+                    <a href="https://www.vimeo.com/" target="_blank">
+                        <i class="fab fa-vimeo"></i>&nbsp;Vimeo</a>&nbsp;&nbsp;&nbsp;
+                    <a href="https://www.instagram.com/" target="_blank">
+                        <i class="fab fa-instagram"></i>&nbsp;Instagram</a>
+                </td>
+            </tr>
+            <!--
+            *************************************************
+            Row 2 Columns 1 & 2 Merged: Attribution Statement
+            *************************************************
+            -->
+            <tr>
+                <td colspan="2" align="center" valign="middle">
+                    <a href="https://manta.cs.vt.edu/cs3754/" target="_blank">CS3754 Cloud Software Development</a> course Assignment 4 app developed by
+                    <a href="https://www.vt.edu/" target="_blank">Justin Kennedy</a>.
+                </td>
+            </tr>
+        </table>
+        <br /><br />
+    </ui:composition>
+    <!-- Do not enter tags after the composition line since they are ignored by JSF -->
+
+</html>

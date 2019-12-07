@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Justin Kennedy on 2019.10.31
+Copyright © 2019 Justin Kennedy. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <!--
+    **********************************************************************
+    This template file defines the page layout design for the entire site.
+    All pages will be created with this layout to include the headerTemplate,
+    contentTemplate, footerTemplate, and growl messages
+    **********************************************************************
+    -->
+    <h:head>
+        <!-- 
+        The <title> element (a) defines a title in the browser's toolbar,
+        (b) provides a title for the page when it is added to favorites, and
+        (c) displays a title for the page in search-engine results.
+        -Balci
+        -->
+        <title>
+            <ui:insert name="title">Videos</ui:insert>
+        </title>
+
+        <!-- 
+        =============================
+        *   Mobile Device Support   *
+        =============================
+        Alters page maximum width to work with mobile devices
+        -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <!-- 
+        ================================
+        *   Handling Session Timeout   *
+        ================================
+        -->
+        <meta http-equiv="refresh" content="#{facesContext.externalContext.sessionMaxInactiveInterval};
+              url=#{request.contextPath}/template/sessionTimeout.xhtml"/>
+
+        <!-- 
+        =============================
+        *   CSS for UI Styling  *
+        ============================= 
+        -->
+        <h:outputStylesheet library="css" name="siteStyles.css" />
+
+        <!--
+        ========================================
+        *   Font Awesome "SVG with JS" Icons   *
+        ========================================
+        The following enables the use of more than 1,300 "Scalable Vector Graphics (SVG) with
+        JavaScript (JS)" free icons. For details, see:
+        https://fontawesome.com/how-to-use/on-the-web/setup/getting-started?using=svg-with-js
+        
+        -Balci
+        -->
+        <script defer='defer' src="https://use.fontawesome.com/releases/v5.2.0/js/all.js" 
+            integrity="sha384-4oV5EgaV02iISL2ban6c/RmotsABqE4yZxZLcYMAdG7FAPsyHYAPpywE9PJo+Khy"
+            crossorigin="anonymous">
+        </script>
+
+        <!-- 
+        =====================
+        *   Favorite Icon   *
+        =====================
+        This icon is displayed to the left of the page title on the web browser tab
+        -->
+        <link rel="shortcut icon" href="#{resource['images:favicon.ico']}" type="image/x-icon" />
+
+    </h:head>
+
+    <h:body>  
+        <div id="page">  
+            <!-- 
+            This sets the body to be the standard 
+            header
+            editable content
+            footer
+            -->
+            <div id="header">
+                <ui:insert name="header" >
+                    <ui:include src="headerTemplate.xhtml" />
+                </ui:insert>
+            </div>
+
+            <!--
+            This sets the default content to be editable content and inserts
+            growl messages so that messages can be displayed when the content is 
+            updated. If the default content is not named, then the contentTemplate
+            will be used
+            -->
+            <div id="editableContent">
+                <ui:insert name="growlMessages" >
+                    <ui:include src="growlMessages.xhtml" />
+                </ui:insert>
+                <ui:insert name="editableContent" >
+                    <ui:include src="contentTemplate.xhtml" />
+                </ui:insert>
+            </div>
+
+            <!--
+            =====================================
+            * Footer Component of this Template *
+            =====================================
+            -->
+            <div id="footer">
+                <ui:insert name="footer" >
+                    <ui:include src="footerTemplate.xhtml" />
+                </ui:insert>
+            </div>
+
+        </div>
+    </h:body>
+</html>

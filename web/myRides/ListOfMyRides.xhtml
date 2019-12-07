@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Created by Justin Kennedy on 2019.10.31
+Copyright © 2019 Justin Kennedy. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+    <!-- This page is constructed based on the siteTemplate -->
+    <ui:composition template="/template/siteTemplate.xhtml">
+
+        <ui:define name="title">
+            <!-- Set the page title -->
+            <h:outputText value="All Rides"></h:outputText>
+        </ui:define>
+
+        <ui:define name="editableContent">
+
+            <div align="center" style="width:97%;">
+                <!-- Display my database table of public videos Set the title, paginator, and rows per page -->
+                <!--reflow allows for a better view on mobile devices -->
+                <h:form id="MyRidesListForm">
+                    <p:panel header="#{bundle.ListAllRidesTitle}">
+                        <!-- list of items gathered from allRidesController.getItems()-->
+                        <p:dataTable id="datalist" value="#{allRidesController.myItems}" var="item"
+                                     selectionMode="single" selection="#{allRidesController.selected}"
+                                     reflow ="true"
+                                     paginator="true"
+                                     rowKey="#{item.id}"
+                                     rows="5"
+                                     rowsPerPageTemplate="5,10,15,20,30,40,50"
+                                     class="dataTable"
+                                     >
+                            <!-- When I select a row, I want to enable the buttons, other than create and share, which are already enabled -->
+                            <p:ajax event="rowSelect"   update="createButton viewButton editButton"/>
+                            <p:ajax event="rowUnselect" update="createButton viewButton editButton"/>
+
+                            <!-- ID COLUMN-->
+                            <p:column headerText="#{bundle.ListAllRidesTitle_id}">
+                                <div align="center">
+                                    <h:outputText class="inputTextField" value="#{item.id}"/>
+                                </div>
+                            </p:column>
+
+                            <!-- TITLE COLUMN sortable-->
+                            <p:column sortBy="#{item.startingCity}" headerText="#{bundle.ListAllRidesTitle_startingCity}"
+                                      class="titleColumn">
+                                <h:outputText class="inputTextField" value="#{item.startingCity}"/>
+                            </p:column>
+
+                            <!-- DESCRIPTION COLUMN-->
+                            <p:column headerText="#{bundle.ListAllRidesTitle_endingCity}">
+                                <h:outputText class="inputTextField" value="#{item.endingCity}"/>
+                            </p:column>
+                            <!-- DURATION COLUMN sortable-->
+                            <p:column sortBy="#{item.tripDate}" headerText="#{bundle.ListAllRidesTitle_tripDate}">
+                                <div align="center">
+                                    <h:outputText class="inputTextField" value="#{item.tripDate}"/>
+                                </div>
+                            </p:column>
+                            <!-- DATE PUBLISHED COLUMN sortable-->
+                            <p:column sortBy="#{item.seatsAvailable}" headerText="#{bundle.ListAllRidesTitle_seatsAvailable}">
+                                <div align="center">
+                                    <h:outputText class="inputTextField" value="#{item.seatsAvailable}"/>
+                                </div>
+                            </p:column>
+
+                            <!-- The footer sets the buttons to perform CRUD operations --> 
+                            <f:facet name="footer">
+                                <p:commandButton id="createButton" icon="fas fa-plus"   value="#{bundle.Create}" 
+                                                 actionListener="#{allRidesController.prepareCreate}" 
+                                                 update=":AllRidesCreateForm" oncomplete="PF('AllRidesCreateDialog').show()"/>
+
+                                <p:commandButton id="viewButton"   icon="fas fa-eye" value="#{bundle.View}" 
+                                                 update=":AllRidesViewForm" oncomplete="PF('AllRidesViewDialog').show()" 
+                                                 disabled="#{empty allRidesController.selected}"/>
+
+                                <p:commandButton id="editButton"   icon="fas fa-edit" value="#{bundle.Edit}" 
+                                                 update=":AllRidesEditForm" oncomplete="PF('AllRidesEditDialog').show()" 
+                                                 disabled="#{empty allRidesController.selected}"/>
+
+<!--                                 
+                               ***************************************************
+                               Display a Confirmation dialog for the DELETE button
+                               *************************************************** 
+                                
+                                <p:commandButton id="deleteButton" icon="fas fa-trash-alt"  value="#{bundle.Delete}" 
+                                                 actionListener="#{allRidesController.destroy}" 
+                                                 update="datalist,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage" 
+                                                 disabled="#{empty allRidesController.selected}">
+
+                                    <p:confirm header="Deletion Confirmation" 
+                                               message="Are you sure you want to permanently delete the selected video from the database?" 
+                                               icon="fas fa-exclamation-triangle fa-2x" />
+                                </p:commandButton>
+
+                                <p:confirmDialog id="deleteConfirmDialogBox" global="true" showEffect="slide" hideEffect="fade">
+                                    <div align="center">
+                                         The value of the first button listed below will be 
+                                        shown as highlighted (default action) when displayed 
+                                        <p:commandButton value="No" type="button" 
+                                                         class="ui-confirmdialog-no" icon="fas fa-window-close" />
+                                        &nbsp;
+                                        <p:commandButton value="Yes" type="button" 
+                                                         class="ui-confirmdialog-yes" icon="fas fa-check-square" />
+                                    </div>
+                                </p:confirmDialog>
+                                 
+                                ************************************************
+                                End of Display of the DELETE Confirmation dialog 
+                                ************************************************ 
+                                
+                                <p:commandButton id="playButton" icon="fas fa-play" value="Play" 
+                                                 update=":AllRidesPlayForm" oncomplete="PF('AllRidesPlayDialog').show()" 
+                                                 disabled="#{empty allRidesController.selected}"/>
+
+                                 
+                              ***************************************************
+                              Display a Confirmation dialog for the SHARE button
+                              *************************************************** 
+                                
+                                <p:commandButton id="shareButton" icon="fas fa-share"  value="Share" 
+                                                 actionListener="#{allRidesController.share()}" 
+                                                 update="datalist,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage" 
+                                                 disabled="#{empty allRidesController.selected}">
+
+                                    <p:confirm header="Share Confirmation" 
+                                               message="Are you sure you want to share the selected video from the database?" 
+                                               icon="fas fa-exclamation-triangle fa-2x" />
+                                </p:commandButton>
+
+                                <p:confirmDialog id="shareConfirmDialogBox" global="true" showEffect="slide" hideEffect="fade">
+                                    <div align="center">
+                                         The value of the first button listed below will be 
+                                        shown as highlighted (default action) when displayed 
+                                        <p:commandButton value="No" type="button" 
+                                                         class="ui-confirmdialog-no" icon="fas fa-window-close" />
+                                        &nbsp;
+                                        <p:commandButton value="Yes" type="button" 
+                                                         class="ui-confirmdialog-yes" icon="fas fa-check-square" />
+                                    </div>
+                                </p:confirmDialog>-->
+                                <!-- 
+                                ************************************************
+                                End of Display of the SHARE Confirmation dialog 
+                                ************************************************ 
+                                -->
+                                <p:commandButton id="searchButton" icon="fas fa-search" value="Search" 
+                                                 update=":AllRidesSearchForm" oncomplete="PF('AllRidesSearchDialog').show()"/>
+
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </div>
+            <!--Files to include to access their forms -->
+            <ui:include src="/allRides/Create.xhtml"/>
+            <ui:include src="/allRides/Edit.xhtml"/>
+            <ui:include src="/allRides/View.xhtml"/>
+            <ui:include src="/search/Search.xhtml"/>
+
+        </ui:define>
+    </ui:composition>
+
+</html>

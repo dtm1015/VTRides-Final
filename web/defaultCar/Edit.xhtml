@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DefaultCarEditDlg" widgetVar="DefaultCarEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditDefaultCarTitle}">
+            <h:form id="DefaultCarEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{defaultCarController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditDefaultCarLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{defaultCarController.selected.id}" title="#{bundle.EditDefaultCarTitle_id}" required="true" requiredMessage="#{bundle.EditDefaultCarRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.EditDefaultCarLabel_make}" for="make" />
+                        <p:inputText id="make" value="#{defaultCarController.selected.make}" title="#{bundle.EditDefaultCarTitle_make}" required="true" requiredMessage="#{bundle.EditDefaultCarRequiredMessage_make}"/>
+                        <p:outputLabel value="#{bundle.EditDefaultCarLabel_model}" for="model" />
+                        <p:inputText id="model" value="#{defaultCarController.selected.model}" title="#{bundle.EditDefaultCarTitle_model}" required="true" requiredMessage="#{bundle.EditDefaultCarRequiredMessage_model}"/>
+                        <p:outputLabel value="#{bundle.EditDefaultCarLabel_color}" for="color" />
+                        <p:inputText id="color" value="#{defaultCarController.selected.color}" title="#{bundle.EditDefaultCarTitle_color}" required="true" requiredMessage="#{bundle.EditDefaultCarRequiredMessage_color}"/>
+                        <p:outputLabel value="#{bundle.EditDefaultCarLabel_licensePlate}" for="licensePlate" />
+                        <p:inputText id="licensePlate" value="#{defaultCarController.selected.licensePlate}" title="#{bundle.EditDefaultCarTitle_licensePlate}" required="true" requiredMessage="#{bundle.EditDefaultCarRequiredMessage_licensePlate}"/>
+                        <p:outputLabel value="#{bundle.EditDefaultCarLabel_mpg}" for="mpg" />
+                        <p:inputText id="mpg" value="#{defaultCarController.selected.mpg}" title="#{bundle.EditDefaultCarTitle_mpg}" required="true" requiredMessage="#{bundle.EditDefaultCarRequiredMessage_mpg}"/>
+                        <p:outputLabel value="#{bundle.EditDefaultCarLabel_userId}" for="userId" />
+                        <p:selectOneMenu id="userId" value="#{defaultCarController.selected.userId}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{userController.itemsAvailableSelectOne}"
+                                           var="userIdItem"
+                                           itemValue="#{userIdItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{defaultCarController.update}" value="#{bundle.Save}" update="display,:DefaultCarListForm:datalist,:growl" oncomplete="handleSubmit(args, 'DefaultCarEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="DefaultCarEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

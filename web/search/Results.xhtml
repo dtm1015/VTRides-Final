@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Created by Justin Kennedy on 2019.10.31
+Copyright © 2019 Justin Kennedy. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+    <!-- This page is constructed based on the siteTemplate -->
+    <ui:composition template="/template/siteTemplate.xhtml">
+
+        <ui:define name="title">
+            <!-- Set the page title -->
+            <h:outputText value="Search Results"></h:outputText>
+        </ui:define>
+
+        <ui:define name="editableContent">
+
+            <div align="center" style="width:97%;">
+                <!-- Display my database table of public videos Set the title, paginator, and rows per page -->
+                <!--reflow allows for a better view on mobile devices -->
+                <h:form id="AllRidesListForm">
+                    <p:panel header="#{bundle.ListAllRidesTitle}">
+                        <!-- list of items gathered from allRidesController.getItems()-->
+                        <p:dataTable id="datalist" value="#{allRidesController.searchedItems}" var="item"
+                                     selectionMode="single" selection="#{allRidesController.selected}"
+                                     reflow ="true"
+                                     paginator="true"
+                                     rowKey="#{item.id}"
+                                     rows="5"
+                                     rowsPerPageTemplate="5,10,15,20,30,40,50"
+                                     class="dataTable"
+                                     >
+                            <!-- When I select a row, I want to enable the buttons, other than create and share, which are already enabled -->
+                            <p:ajax event="rowSelect"   update="backButton"/>
+                            <p:ajax event="rowUnselect" update="backButton"/>
+
+                            <!-- ID COLUMN-->
+                            <p:column headerText="#{bundle.ListAllRidesTitle_id}">
+                                <div align="center">
+                                    <h:outputText class="inputTextField" value="#{item.id}"/>
+                                </div>
+                            </p:column>
+
+                            <!-- TITLE COLUMN sortable-->
+                            <p:column sortBy="#{item.startingCity}" headerText="#{bundle.ListAllRidesTitle_startingCity}"
+                                      class="titleColumn">
+                                <h:outputText class="inputTextField" value="#{item.startingCity}"/>
+                            </p:column>
+
+                            <!-- DESCRIPTION COLUMN-->
+                            <p:column headerText="#{bundle.ListAllRidesTitle_endingCity}">
+                                <h:outputText class="inputTextField" value="#{item.endingCity}"/>
+                            </p:column>
+                            <!-- DURATION COLUMN sortable-->
+                            <p:column sortBy="#{item.tripDate}" headerText="#{bundle.ListAllRidesTitle_tripDate}">
+                                <div align="center">
+                                    <h:outputText class="inputTextField" value="#{item.tripDate}"/>
+                                </div>
+                            </p:column>
+                            <!-- DATE PUBLISHED COLUMN sortable-->
+                            <p:column sortBy="#{item.seatsAvailable}" headerText="#{bundle.ListAllRidesTitle_seatsAvailable}">
+                                <div align="center">
+                                    <h:outputText class="inputTextField" value="#{item.seatsAvailable}"/>
+                                </div>
+                            </p:column>
+
+                            <!-- The footer sets the buttons to perform CRUD operations --> 
+                            <f:facet name="footer">
+                                <!-- 
+                                ************************************************
+                                End of Display of the SHARE Confirmation dialog 
+                                ************************************************ 
+                                -->
+                                <p:button id="backButton" icon="fas fa-arrow-left" value="Go Back" 
+                                          outcome="/publicVideo/List.xhtml"/>
+
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </div>
+
+        </ui:define>
+    </ui:composition>
+
+</html>

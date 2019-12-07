@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Justin Kennedy on 2019.10.31
+Copyright © 2019 Justin Kennedy. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+    <!-- This page is constructed based on the siteTemplate -->
+    <ui:composition template="/template/siteTemplate.xhtml">
+
+        <ui:define name="title">
+            <!-- Set the page title -->
+            <h:outputText value="Password Recovery"></h:outputText>
+        </ui:define>
+
+        <!-- Create the content for this page below -->
+        <ui:define name="editableContent">
+
+            <div align="center" style="width:50%; margin:0 auto;">
+
+                <h:form id="EnterUsernameForm">
+
+                    <h1>Please Enter Your Username</h1>
+
+                    <!-- fieldset is an HTML tag that draws a box around the content enclosed within it -->
+                    <fieldset>
+                        <div style="margin-bottom: 5px">
+                            <!-- This dialog box requires the user to enter their username to link to
+                                 the account that needs a password reset-->
+                            <p:inputText id="username" value="#{passwordResetManager.username}"
+                                         required="true" requiredMessage="Please enter your username!" 
+                                         class="inputTextField" />
+                        </div>
+
+                        <br/>
+                        <!--
+                        ================================
+                        |         SUBMIT Button        |
+                        ================================
+                        -->         
+                        <!-- The submit button causes the passwordResetManager to execute the
+                        usernameSubmit()method-->
+                        <p:commandButton id="submit" value="Submit" ajax="false" icon="fas fa-arrow-up"
+                                         action="#{passwordResetManager.usernameSubmit()}"/>
+
+                        &nbsp;
+                        <!--
+                        ================================
+                        |         CANCEL Button        |
+                        ================================
+                        -->
+                        <p:button outcome="/index" value="Cancel" icon="fas fa-ban" />
+
+                    </fieldset>  
+                    <br/>               
+                </h:form>
+                
+            </div>
+        </ui:define>
+
+    </ui:composition>
+    <!-- Do not enter tags after the composition line since they are ignored by JSF -->
+</html>
