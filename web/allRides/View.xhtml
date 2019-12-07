@@ -4,14 +4,16 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:composition>
 
-        <p:dialog id="AllRidesViewDlg" widgetVar="AllRidesViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewAllRidesTitle}">
+        <p:dialog id="AllRidesViewDlg" widgetVar="AllRidesViewDialog" 
+                  modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewAllRidesTitle}" width="500px" height="500px">
             <h:form id="AllRidesViewForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{allRidesController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="panelGridColumn1,panelGridColumn2" rendered="#{allRidesController.selected != null}">
                         <h:outputText value="#{bundle.ViewAllRidesLabel_id}"/>
                         <h:outputText value="#{allRidesController.selected.id}" title="#{bundle.ViewAllRidesTitle_id}"/>
                         <h:outputText value="#{bundle.ViewAllRidesLabel_passeger1Id}"/>
@@ -71,6 +73,11 @@
                         <h:outputText value="#{bundle.ViewAllRidesLabel_driverId}"/>
                         <h:outputText value="#{allRidesController.selected.driverId}" title="#{bundle.ViewAllRidesTitle_driverId}"/>
                     </p:panelGrid>
+                    <c:choose>
+                        <c:when test="#{userController.selected.id != allRidesController.selected.driverId || allRidesController.selected.driverId == null}">
+                        
+                        </c:when>
+                    </c:choose>
                     <p:commandButton value="#{bundle.Close}" onclick="AllRidesViewDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

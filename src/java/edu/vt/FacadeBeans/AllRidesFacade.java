@@ -62,11 +62,32 @@ public class AllRidesFacade extends AbstractFacade<AllRides> {
                 .getResultList();
         driver.addAll(passenger1);
         
-        List<AllRides> passenger2 = (List<AllRides>) em.createNamedQuery("AllRides.findByPasseger2Id")
+        List<AllRides> passenger2 = (List<AllRides>) em.createNamedQuery("AllRides.findByPassenger2Id")
                 .setParameter("passenger2Id", primaryKey)
                 .getResultList();
         
+        List<AllRides> passenger3 = (List<AllRides>) em.createNamedQuery("AllRides.findByPassenger3Id")
+                .setParameter("passenger3Id", primaryKey)
+                .getResultList();
+        
+        List<AllRides> passenger4 = (List<AllRides>) em.createNamedQuery("AllRides.findByPassenger4Id")
+                .setParameter("passenger4Id", primaryKey)
+                .getResultList();
+        
+        List<AllRides> passenger5 = (List<AllRides>) em.createNamedQuery("AllRides.findByPassenger5Id")
+                .setParameter("passenger5Id", primaryKey)
+                .getResultList();
+        
+        List<AllRides> passenger6 = (List<AllRides>) em.createNamedQuery("AllRides.findByPassenger6Id")
+                .setParameter("passenger6Id", primaryKey)
+                .getResultList();
         driver.addAll(passenger1);
+        driver.addAll(passenger2);
+        driver.addAll(passenger3);
+        driver.addAll(passenger4);
+        driver.addAll(passenger5);
+        driver.addAll(passenger6);
+        
         return driver;
     }
     
