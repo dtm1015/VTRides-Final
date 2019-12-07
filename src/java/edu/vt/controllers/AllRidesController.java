@@ -5,6 +5,7 @@ import edu.vt.controllers.util.JsfUtil;
 import edu.vt.controllers.util.JsfUtil.PersistAction;
 import edu.vt.FacadeBeans.AllRidesFacade;
 import edu.vt.globals.Constants;
+import edu.vt.globals.Methods;
 
 import java.io.Serializable;
 import java.util.List;
@@ -120,6 +121,106 @@ public class AllRidesController implements Serializable {
     private AllRidesFacade getFacade() {
         return ejbFacade;
     }
+    
+    public String join() {
+        Methods.preserveMessages();
+        int joinId = userController.getSelected().getId();
+        int isJoined = this.areJoined(joinId);
+        // there are seats available and the user is not joined
+        if (selected.getSeatsAvailable() > 0 && isJoined == 0){
+            if (selected.getPasseger1Id() == null){
+                selected.setPasseger1Id(joinId);
+                selected.setSeatsAvailable(selected.getSeatsAvailable() - 1);
+            }
+            else if (selected.getPassenger2Id() == null){
+                selected.setPassenger2Id(joinId);
+                selected.setSeatsAvailable(selected.getSeatsAvailable() - 1);
+            }
+            else if (selected.getPassenger3Id() == null){
+                selected.setPassenger3Id(joinId);
+                selected.setSeatsAvailable(selected.getSeatsAvailable() - 1);
+            }
+            else if (selected.getPassenger4Id() == null){
+                selected.setPassenger4Id(joinId);
+                selected.setSeatsAvailable(selected.getSeatsAvailable() - 1);
+            }
+            else if (selected.getPassenger5Id() == null){
+                selected.setPassenger5Id(joinId);
+                selected.setSeatsAvailable(selected.getSeatsAvailable() - 1);
+            }
+            else {
+                selected.setPassenger6Id(joinId);
+                selected.setSeatsAvailable(selected.getSeatsAvailable() - 1);
+            }
+        }// joined on the ride already, needs to be unjoined
+        else if (isJoined > 0){
+            switch(isJoined){
+                case 1: 
+                    selected.setPasseger1Id(null);
+                    selected.setSeatsAvailable(selected.getSeatsAvailable() + 1);
+                    break;
+                case 2: 
+                    selected.setPassenger2Id(null);
+                    selected.setSeatsAvailable(selected.getSeatsAvailable() + 1);
+                    break;
+                case 3: 
+                    selected.setPassenger3Id(null);
+                    selected.setSeatsAvailable(selected.getSeatsAvailable() + 1);
+                    break;
+                case 4: 
+                    selected.setPassenger4Id(null);
+                    selected.setSeatsAvailable(selected.getSeatsAvailable() + 1);
+                    break;
+                case 5: 
+                    selected.setPassenger5Id(null);
+                    selected.setSeatsAvailable(selected.getSeatsAvailable() + 1);
+                    break;
+                case 6: 
+                    selected.setPassenger6Id(null);
+                    selected.setSeatsAvailable(selected.getSeatsAvailable() + 1);
+                    break;
+            }
+        }// not joined yet but no seats available
+        else if(selected.getSeatsAvailable() == 0 && isJoined == 0){
+            Methods.showMessage("Information", "Join Unsuccessful", "There are no seats available to join");
+        }// something went wrong
+        else {
+            Methods.showMessage("Information", "Something Went Wrong", "");
+        }
+        /*
+        Cases: 
+        1) There is an open spot - check if they are joined, add them if they are not
+        2) There is an open spot - check if they are joined, remove them if they are
+        3) There are no open spots - check if they are joined, and do nothing if they are not
+        4) There are no open spots - check if they are joined, remove them if they are
+        */
+        return "/allRides/List?faces-redirect=true";
+    }
+    
+    private int areJoined(int passengerId){
+        if (selected.getPasseger1Id() != null && selected.getPasseger1Id() == passengerId){
+            return 1;
+        }
+        else if(selected.getPassenger2Id() != null && selected.getPassenger2Id() == passengerId){
+            return 2;
+        }
+        else if(selected.getPassenger3Id() != null && selected.getPassenger3Id() == passengerId){
+            return 3;
+        }
+        else if(selected.getPassenger4Id() != null && selected.getPassenger4Id() == passengerId){
+            return 4;
+        }
+        else if(selected.getPassenger5Id() != null && selected.getPassenger5Id() == passengerId){
+            return 5;
+        }
+        else if(selected.getPassenger6Id() != null && selected.getPassenger6Id() == passengerId){
+            return 6;
+        }
+        else {
+            return 0;
+        }
+    }
+    
 
     public AllRides prepareCreate() {
         selected = new AllRides();

@@ -121,7 +121,7 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                             <p:outputLabel value="#{bundle.CreateAllRidesLabel_endingState}" for="endingState" />
                             <h:selectOneMenu id="endingState" value="#{allRidesController.selected.endingState}" required="true">
                                 <f:selectItems value="#{allRidesController.listOfStates()}" var="endingState"
-                                               itemLabel="#{state}" itemValue="#{state}" />
+                                               itemLabel="#{endingState}" itemValue="#{endingState}" />
                             </h:selectOneMenu>
 
                             <!--

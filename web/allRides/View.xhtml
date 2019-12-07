@@ -74,14 +74,66 @@
                         <h:outputText value="#{allRidesController.selected.driverId}" title="#{bundle.ViewAllRidesTitle_driverId}"/>
                     </p:panelGrid>
                     <c:choose>
-                        <c:when test="#{userController.selected.id != allRidesController.selected.driverId || allRidesController.selected.driverId == null}">
-                        
+                        <c:when test="#{userController.selected.id == allRidesController.selected.driverId.id || allRidesController.selected.driverId == null}">
+                            <!--
+                               ***************************************************
+                               Display a Confirmation dialog for the DELETE button
+                               *************************************************** 
+                            -->
+
+                            <p:commandButton id="deleteButton" icon="fas fa-trash-alt"  value="#{bundle.Delete}" 
+                                             actionListener="#{allRidesController.destroy}" oncomplete="PF('AllRidesViewDialog').hide()"  
+                                             update="AllRidesListForm,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage" 
+                                             disabled="#{empty allRidesController.selected}">
+
+                                <p:confirm header="Deletion Confirmation" 
+                                           message="Are you sure you want to permanently delete the selected video from the database?" 
+                                           icon="fas fa-exclamation-triangle fa-2x" />
+                            </p:commandButton>
+
+                            <p:confirmDialog id="deleteConfirmDialogBox" global="true" showEffect="slide" hideEffect="fade">
+                                <div align="center">
+                                    The value of the first button listed below will be 
+                                    shown as highlighted (default action) when displayed 
+                                    <p:commandButton value="No" type="button" 
+                                                     class="ui-confirmdialog-no" icon="fas fa-window-close" />
+                                    &nbsp;
+                                    <p:commandButton value="Yes" type="button" 
+                                                     class="ui-confirmdialog-yes" icon="fas fa-check-square" />
+                                </div>
+                            </p:confirmDialog>
+
+                            <p:commandButton id="editButton"   icon="fas fa-edit" value="#{bundle.Edit}" 
+                                             update=":AllRidesEditForm" oncomplete="PF('AllRidesEditDialog').show()" 
+                                             disabled="#{empty allRidesController.selected}"/>
+                            <!--
+                            ************************************************
+                            End of Display of the DELETE Confirmation dialog 
+                            ************************************************ 
+                            -->
                         </c:when>
+                        <c:otherwise>
+                            <c:when test="#{userController.selected.id != allRidesController.selected.driverId.id}">
+                                <p:commandButton id="joinButton" icon="fas fa-edit" value="Join/Unjoin" 
+                                                 actionListener="#{allRidesController.join()}" oncomplete="PF('AllRidesViewDialog').hide()"  
+                                                 update="AllRidesListForm,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage" 
+                                                 disabled="#{empty allRidesController.selected}"/>
+                            </c:when>
+
+                        </c:otherwise> 
                     </c:choose>
+                    
                     <p:commandButton value="#{bundle.Close}" onclick="AllRidesViewDialog.hide()"/>
                 </h:panelGroup>
+
+
             </h:form>
+
         </p:dialog>
+
+
+
+
 
     </ui:composition>
 </html>
