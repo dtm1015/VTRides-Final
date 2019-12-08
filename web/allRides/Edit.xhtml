@@ -216,7 +216,7 @@
                         <div align="center">
                             <!-- UPDATE BUTTON -->
                             <p:commandButton actionListener="#{allRidesController.update}" value="#{bundle.Save}" icon="fas fa-save" ajax="false" 
-                                             update="display,:AllRidesListForm:datalist,:growl" oncomplete="handleSubmit(args, 'AllRidesEditDialog');"/>
+                                             update="display,:AllRidesListForm:datalist,:MyRidesListForm:datalist,:growl" oncomplete="handleSubmit(args, 'AllRidesEditDialog');"/>
                             &nbsp;&nbsp;
                             <!-- CANCEL BUTTON -->
                             <p:commandButton value="#{bundle.Cancel}" onclick="AllRidesEditDialog.hide()" icon="fas fa-ban" immediate="true"/>

@@ -19,11 +19,11 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
         |  video.                                                  |
         ============================================================
         -->
-        <p:dialog id="AllRidesCreateDlg" widgetVar="AllRidesCreateDialog" modal="true" 
+        <p:dialog id="MyRidesCreateDlg" widgetVar="MyRidesCreateDialog" modal="true" 
                   resizable="false" appendTo="@(body)" header="#{bundle.CreateAllRidesTitle}" width="500px" height="500px">
 
             <div align="center">
-                <h:form id="AllRidesCreateForm" class="ui-datatable-data" style="align-content: center; align-items: center">
+                <h:form id="MyRidesCreateForm" class="ui-datatable-data" style="align-content: center; align-items: center">
 
                     <h:panelGroup id="display">
                         <p:panelGrid columns="2" columnClasses="panelGridColumn1,panelGridColumn2" rendered="#{allRidesController.selected != null}" style="border-style: hidden;width: 90%; align-content: center">
@@ -224,10 +224,10 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                         <div align="center">
                             <!-- SAVE BUTTON -->
                             <p:commandButton icon="fas fa-save" ajax="false" actionListener="#{allRidesController.create}" value="#{bundle.Save}" 
-                                             update="display,:AllRidesListForm, :MyRidesListForm:datalist,:growl" oncomplete="handleSubmit(args,'AllRidesCreateDialog');"/>
+                                             update="display,:MyRidesListForm,:growl" oncomplete="handleSubmit(args,'MyRidesCreateDialog');"/>
                             &nbsp;&nbsp;
                             <!-- CANCEL BUTTON -->
-                            <p:commandButton value="#{bundle.Cancel}" onclick="AllRidesCreateDialog.hide()" icon="fas fa-ban" immediate="true"/>
+                            <p:commandButton value="#{bundle.Cancel}" onclick="MyRidesCreateDialog.hide()" icon="fas fa-ban" immediate="true"/>
                         </div>
                     </h:panelGroup>
                 </h:form>

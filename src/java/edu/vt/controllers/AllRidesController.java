@@ -21,6 +21,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
+import org.primefaces.PrimeFaces;
 
 @Named("allRidesController")
 @SessionScoped
@@ -122,7 +123,7 @@ public class AllRidesController implements Serializable {
         return ejbFacade;
     }
     
-    public String join() {
+    public void join() {
         Methods.preserveMessages();
         int joinId = userController.getSelected().getId();
         int isJoined = this.areJoined(joinId);
@@ -152,6 +153,7 @@ public class AllRidesController implements Serializable {
                 selected.setPassenger6Id(joinId);
                 selected.setSeatsAvailable(selected.getSeatsAvailable() - 1);
             }
+            this.update();
         }// joined on the ride already, needs to be unjoined
         else if (isJoined > 0){
             switch(isJoined){
@@ -180,6 +182,7 @@ public class AllRidesController implements Serializable {
                     selected.setSeatsAvailable(selected.getSeatsAvailable() + 1);
                     break;
             }
+            this.update();
         }// not joined yet but no seats available
         else if(selected.getSeatsAvailable() == 0 && isJoined == 0){
             Methods.showMessage("Information", "Join Unsuccessful", "There are no seats available to join");
@@ -187,6 +190,9 @@ public class AllRidesController implements Serializable {
         else {
             Methods.showMessage("Information", "Something Went Wrong", "");
         }
+        items = null;
+        items = this.getItems();
+        
         /*
         Cases: 
         1) There is an open spot - check if they are joined, add them if they are not
@@ -194,7 +200,6 @@ public class AllRidesController implements Serializable {
         3) There are no open spots - check if they are joined, and do nothing if they are not
         4) There are no open spots - check if they are joined, remove them if they are
         */
-        return "/allRides/List?faces-redirect=true";
     }
     
     private int areJoined(int passengerId){
