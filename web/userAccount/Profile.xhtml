@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Created by Osman Balci on 2018.06.16
-Copyright © 2018 Osman Balci. All rights reserved.
+Created by Justin Kennedy on 2019.11.16 
+Copyright © 2019 Justin Kennedy. All rights reserved.
 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <!-- Do not enter tags before the composition line since they are ignored by JSF -->
 
@@ -24,12 +25,22 @@ Copyright © 2018 Osman Balci. All rights reserved.
 
             <h:form id="UserProfileForm">
                 <!--
-                <tr> defines a row in the table
-                <td> defines a column within a row.
+                <tr> is the tables row
+                <td> is the column in the row
                 Number of <td> elements = number of columns
                 The table below has 1 row and 2 columns.
                 Left column contains the vertical navigation menu.
-                Right column contains the user's profile data.
+                The vertical navigation menu allows the user to 
+                quickly go to the home page, take surveys page, list user surveys page,
+                and go to all of the normal profile pages 
+                i.e. edit profile, change user photo, change password, delete account
+                sign out
+                
+                The right column contains the title "_____'s Account Profile"
+                the User's user photo, and the user's user information
+                
+                This page was specifically designed for the non-admin user account only
+                
                 -->
                 <table width="100%" border="0" cellspacing="0" cellpadding="10">
                     <tr>
@@ -55,11 +66,32 @@ Copyright © 2018 Osman Balci. All rights reserved.
                                 <li class="verticalMenuItem">
                                     <!--
                                     ================================
-                                    |         MY FILES Link        |
+                                    |         DEFAULT CAR Link        |
                                     ================================
                                     -->
-                                    <h:link outcome="/userFile/ListUserFiles">
-                                        <i class="fas fa-file-alt"></i>&nbsp;My Files
+                                    <h:link outcome="/defaultCar/Create">
+                                        <i class="fas fa-th-list"></i>&nbsp;Set Default Car
+                                    </h:link>
+                                </li>
+                                <li class="verticalMenuItem">
+                                    <!--
+                                    ================================
+                                    |         ALL RIDES Link        |
+                                    ================================
+                                    -->
+                                    <h:link outcome="/allRides/List">
+                                        <i class="fas fa-users"></i>&nbsp;All Rides
+                                    </h:link>
+                                </li>
+                                
+                                <li class="verticalMenuItem">
+                                    <!--
+                                    ================================
+                                    |         USER RIDES Link        |
+                                    ================================
+                                    -->
+                                    <h:link outcome="/myRides/ListOfMyRides">
+                                        <i class="fas fa-car"></i>&nbsp;My Rides
                                     </h:link>
                                 </li>
 
@@ -210,14 +242,9 @@ Copyright © 2018 Osman Balci. All rights reserved.
             <p:dialog position="center center" id="SecurityQuestionDlg" widgetVar="SecurityQuestionDialog" 
                       modal="true" resizable="false" appendTo="@(body)" header="Security Question" 
                       showEffect="blind" hideEffect="fade">
-                <!--
-                Various effect options are available when displaying and closing p:dialog or p:confirmDialog.
-                You can apply a showEffect and a hideEffect option listed below: 
-                ******************************************************************
-                |   blind, bounce, clip, drop, explode, fade, fold, highlight,   |
-                |   puff, pulsate, scale, shake, size, slide, and transfer.      |
-                ******************************************************************
-                -->
+                
+                <!--This dialog is opened when the user would like to delete their account. To ensure that 
+                    they fully intend to delete their account, they must first answer their security question-->
                 <h:form id="SecurityQuestionForm">
                     <fieldset>
                         <div style="margin-bottom:20px">
@@ -258,6 +285,7 @@ Copyright © 2018 Osman Balci. All rights reserved.
 
                             immediate="true" causes the execution of only the Apply Request Values Phase. 
                             Therefore, the <f:event> validation is not performed since the operation is cancelled.
+                            - Balci
                             -->
                             <p:commandButton id="cancel" value="Cancel" icon="fas fa-ban" immediate="true"
                                              oncomplete="PF('SecurityQuestionDialog').hide()" />

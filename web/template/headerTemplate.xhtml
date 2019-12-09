@@ -76,19 +76,22 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                         <div tabindex="0" class="menu" style="float:right;padding-right:20px;">
                             <div class="menu-dropdown" style="right:0;">
 
-                                <h:link outcome="/index" class="standardText">
-                                    <i class="fas fa-home"></i>&nbsp;Home
-                                </h:link>
+
 
 
                                 <c:choose>
-                                    <c:when test="#{userController.isLoggedIn() == true}"> 
+
+                                    <c:when test="#{userController.isLoggedIn() == true}">
+
+                                        <h:link outcome="/userAccount/Profile" class="standardText">
+                                            <i class="fas fa-home"></i>&nbsp;Home
+                                        </h:link>
 
                                         <h:link outcome="/allRides/List" class="standardText" >
                                             <i class="fas fa-users"></i>&nbsp;All Rides
                                         </h:link>
 
-                                        <h:link outcome="/userRides/List" class="standardText" >
+                                        <h:link outcome="/myRides/ListOfMyRides" class="standardText" >
                                             <i class="fas fa-car"></i>&nbsp;User Rides
                                         </h:link>
 
@@ -119,7 +122,9 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                                     <c:otherwise>
 
                                         <c:when test="#{userController.isLoggedIn() == false}">
-
+                                            <h:link outcome="/index" class="standardText">
+                                                <i class="fas fa-home"></i>&nbsp;Home
+                                            </h:link>
                                             <!-- Clicking "Create an Account" displays the CreateAccount.xhtml file -->
                                             <h:link outcome="/userAccount/CreateAccount" class="standardText">
                                                 <i class="fas fa-user-plus"></i>&nbsp;Create an Account
