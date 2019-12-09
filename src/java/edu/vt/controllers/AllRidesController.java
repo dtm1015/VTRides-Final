@@ -6,6 +6,7 @@ import edu.vt.controllers.util.JsfUtil.PersistAction;
 import edu.vt.FacadeBeans.AllRidesFacade;
 import edu.vt.globals.Constants;
 import edu.vt.globals.Methods;
+import edu.vt.managers.GoogleMapsManager;
 
 import java.io.Serializable;
 import java.util.List;
@@ -21,7 +22,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
-import org.primefaces.PrimeFaces;
 
 @Named("allRidesController")
 @SessionScoped
@@ -35,8 +35,10 @@ public class AllRidesController implements Serializable {
     private AllRides selected;
     
     @Inject
-    UserController userController;
+    private UserController userController;
     
+    @Inject
+    private GoogleMapsManager googleMapsManager;
     private String searchString;
     private String searchCategory;
 
@@ -122,7 +124,9 @@ public class AllRidesController implements Serializable {
     private AllRidesFacade getFacade() {
         return ejbFacade;
     }
-    
+    public String getMapUrl(){
+        return googleMapsManager.getDirections();
+    }
     public void join() {
         Methods.preserveMessages();
         int joinId = userController.getSelected().getId();
@@ -234,11 +238,14 @@ public class AllRidesController implements Serializable {
         return selected;
     }
 
-    public void create() {
+    public void create() throws Exception {
+        googleMapsManager.getTripInfo();
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("AllRidesCreated"));
         if (!JsfUtil.isValidationFailed()) {
+            //googleMapsManager.getTripInfo();
             items = null;    // Invalidate list of items to trigger re-query.
         }
+        
     }
 
     public void update() {

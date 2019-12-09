@@ -411,11 +411,11 @@ public class AllRides implements Serializable {
         this.carLicensePlate = carLicensePlate;
     }
 
-    public int getCarMpg() {
+    public Integer getCarMpg() {
         return carMpg;
     }
 
-    public void setCarMpg(int carMpg) {
+    public void setCarMpg(Integer carMpg) {
         this.carMpg = carMpg;
     }
 

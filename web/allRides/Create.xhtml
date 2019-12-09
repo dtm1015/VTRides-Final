@@ -8,7 +8,8 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:composition>
         <!-- 
@@ -130,7 +131,7 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                         ********************************
                             -->
                             <p:outputLabel id="endingZipcodeEntry" value="#{bundle.CreateAllRidesLabel_endingZipcode}" for="endingZipcode" >
-                                &nbsp;<i class="fas fa-question-circle" />
+                                &nbsp;<i class="fas fa-question-circle"/>
                                 <!--
                                 When the user mouses over the icon, a tooltip is displayed
                                 to provide context-sensitive help information to the user.
@@ -149,6 +150,7 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                                 <f:validator validatorId="zipCodeValidator"/> 
                             </p:inputText>
 
+                            
                             <!--
                         **********************************
                         *          TRIP DATE        *
@@ -157,7 +159,7 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                             <p:outputLabel value="#{bundle.CreateAllRidesLabel_tripDate}" for="tripDate" />
                             <p:calendar id="tripDate" pattern="MM/dd/yyyy" class="inputTextField" mask="true" 
                                         value="#{allRidesController.selected.tripDate}" required="true" 
-                                        requiredMessage="#{bundle.EditAllRidesRequiredMessage_tripDate}"/>
+                                        requiredMessage="#{bundle.EditAllRidesRequiredMessage_tripDate}" />
                             <!--
                         ********************************
                         *          SEATS AVAILABLE     *
