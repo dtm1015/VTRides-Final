@@ -1,6 +1,6 @@
 /*****************************************************
 *   Cascading Style Sheets (CSS) Style Definitions   *
-*   Composed by Justin Kennedy for the Videos App    *
+*   Composed by Osman Balci for the BevQ app.        *
 *****************************************************/
 
 /*
@@ -82,7 +82,7 @@ Style the div component whose unique id is "header" per reference
 <div id="header"> in siteTemplate
 */
 #header {
-    background-color: azure;
+    background-color: powderblue;
     width: 100%;
     height: 84px;
     position: absolute;
@@ -99,8 +99,8 @@ Style the div component whose unique id is "editableContent" per reference
     /* height = 100% window height - (header height 84px + footer height 100px) */
     height: calc(100% - 184px); 
     width: 100%;
-    left: 0px;
-    right: 0px;
+    margin-left: 10px;
+    margin-right: 10px;
     margin-top: 100px;
     margin-bottom: 16px;
 }
@@ -130,8 +130,7 @@ Hyperlinks (or links) are styled differently depending on what state they are in
 
 /* Set the font family for the standard HTML tag "a" for hyperlinks */
 a {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 10pt;
+    font-family: Arial, Helvetica, sans-serif
 }
 
 a:link {
@@ -211,19 +210,19 @@ Used in headerTemplate
     font-size: 12pt;
     color:white;                /* Text color */
     padding: 5px 10px;          /* Top Right Bottom Left */
-    border: 1px solid seagreen;
+    border: 1px solid dodgerblue;
     border-radius:6px;
-    background: seagreen;
+    background: dodgerblue;
 }
 .menu:focus { pointer-events:none; }
 .menu:focus .menu-dropdown { opacity:1; visibility:visible; }
 
 .menu-dropdown {
-    background: seagreen;
+    background: dodgerblue;
     width: auto;
     margin:6px 20px 0 0;        /* Top Right Bottom Left = 20px on right same as in headerTemplate */
     padding: 10px;              /* Top Right Bottom Left */
-    border:1px seagreen solid;
+    border:1px dodgerblue solid;
     border-radius:6px;
     pointer-events: auto;
     position: absolute;
@@ -245,7 +244,7 @@ Used in headerTemplate
 }
 
 .menu-dropdown a:hover {
-    background-color: lightgreen;
+    background-color: lightskyblue;
     color:black;
 }
 
@@ -297,42 +296,7 @@ Used in Profile
 .verticalMenuItem a:hover {
     background-color: lightskyblue;
 }
-/*
-=========================================
-|   Database Column Style Definitions   |
-=========================================
-*/
-.idColumn{
-    width: 20px;
-    align-content: center;
-    align-items: center;
-}
-.titleColumn{
-    width: 100px;
-}
-.thumbnailColumn{
-    width: 80px;
-    align-content: center;
-    align-items: center;
-}
-.descriptionColumn{
-    width: 250px;
-}
-.durationColumn{
-    width: 80px;
-    align-content: center;
-    align-items: center;
-}
-.datePublishedColumn{
-    width: 100px;
-    align-content: center;
-    align-items: center;
-}
-.categoryColumn{
-    width: 80px;
-    align-content: center;
-    align-items: center;
-}
+
 /*
 ===============================
 |   Other Style Definitions   |
@@ -344,8 +308,6 @@ Used in Profile
     text-align: right;
     background-color: bisque; 
     white-space: nowrap;        /* Disallow line break */
-    font-size: 12pt;
-    border-style: hidden;
 }
 
 /* Style p:panelGrid Column 2 */
@@ -353,11 +315,9 @@ Used in Profile
     text-align: left;
     background-color: blanchedalmond; 
     white-space: nowrap;        /* Disallow line break */
-    border-style: hidden;
-    
 }
 
-/* Style heading text */
+/* Style heading text used in About and UserGuide */
 .heading {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 14pt;
@@ -388,6 +348,14 @@ Used in Profile
     width: 275px;
 }
 
+/* Style the beverage images used in TakeQuestionnaire */
+.beverageImage {
+    max-height: 100%;
+    width: auto;
+    vertical-align: middle;
+    padding-bottom: 5px;
+}
+
 /* Used in Profile and About pages to style person's photo in a circle */
 .profilePhoto {
     display: inline-block;
@@ -411,49 +379,6 @@ Used in Profile
     vertical-align: middle;
 }
 
-/* Used in UserFiles */
-.previewImage {
-    width: auto;
-    height: 36px;
-}
-
-/*
-=========================================
-|   Image and Video Responsive Design   |
-=========================================
-*/
-
-/* 
-Proportionately scale image to show on mobile devices and smaller browser windows.
-Scale the image downward, but do not enlarge it beyond the width size of 500px.
-*/
-.scalableImage {
-    width: 90%;
-    max-width: 500px;
-    height: auto;
-    border: none;
-}
-/*
-Proportionally scale container for the video to be displayed on 
-*/
-.responsive-container {
-    position: relative;
-    overflow: hidden;
-    padding-top: 56.25%;
-}
-/*
-Proportionally scale video to maximum possible size according to the 
-responsive container
-*/
-.responsive-iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
-}
-
 /*
 =========================================
 |   Skinning PrimeFaces UI Components   |
@@ -467,7 +392,6 @@ to determine which CSS style is used so that you can override it.
 Styles are applied in a cascading order. To make sure that a
 style is applied regardless of where the style is defined in the
 cascading hierarchy, use the !important attribute.
--Balci
 */
 
 /*
@@ -517,7 +441,6 @@ Skinning PrimeFaces Buttons
 Style PrimeFaces ui-button, which is the base style for buttons such as
 p:commandButton, p:button, .ui-confirmdialog-yes, .ui-confirmdialog-no,
 .ui-fileupload-choose, .ui-fileupload-upload, .ui-fileupload-cancel
--Balci
 */
 .ui-button {
     border-radius: 2em !important;
@@ -575,19 +498,6 @@ Therefore, remove the default ui-icon showing in the ui-confirm-dialog backgroun
 }
 
 /*
------------------------------------------
-Skinning PrimeFaces Galleria Image Slider
------------------------------------------
-*/
-
-.ui-galleria-caption {
-    position: absolute;
-    left: 0px !important;
-    background-color: rgba(240, 255, 255, 0.8) !important;
-    padding: 0px !important;
-}
-
-/*
 ---------------------------------------
 Skinning PrimeFaces Other UI Components
 ---------------------------------------
@@ -626,7 +536,7 @@ Position the confirmation dialog box on the center of the screen per
     font-style: normal;
     font-weight: normal;
     text-decoration: none;
-    background-color: oldlace; 
+    background-color: oldlace;
 }
 
 /* Override PrimeFaces style definitions for the Panel component */
@@ -637,13 +547,6 @@ Position the confirmation dialog box on the center of the screen per
     font-weight: normal;
     text-decoration: none;
     background-color: oldlace;
-}
-/* Override PrimeFaces Grid style to remove borders*/
-.ui-panelgrid .ui-panelgrid-cell {
-    border-width: 1px;
-    border-color: inherit;
-    padding: 4px 10px;
-    border-style: hidden;
 }
 
 /* Override PrimeFaces style definitions for the Dialog component */
@@ -665,6 +568,11 @@ Position the confirmation dialog box on the center of the screen per
 .ui-fileupload-content {
     /* The drag-and-drop area height will increase as more files are dropped */
     min-height: 200px;
+}
+
+/* Style p:selectOneRadio circle icons to be left justified */
+.ui-radiobutton {
+    float: left;
 }
 
 /*
