@@ -2,9 +2,11 @@ package edu.vt.controllers;
 
 import edu.vt.EntityBeans.AllRides;
 import edu.vt.EntityBeans.DefaultCar;
+import edu.vt.EntityBeans.User;
 import edu.vt.controllers.util.JsfUtil;
 import edu.vt.controllers.util.JsfUtil.PersistAction;
 import edu.vt.FacadeBeans.AllRidesFacade;
+import edu.vt.FacadeBeans.UserFacade;
 import edu.vt.globals.Constants;
 import edu.vt.globals.Methods;
 import edu.vt.managers.GoogleMapsManager;
@@ -37,6 +39,9 @@ public class AllRidesController implements Serializable {
 
     @Inject
     private UserController userController;
+
+    @EJB
+    private UserFacade userFacade;
 
     @Inject
     private GoogleMapsManager googleMapsManager;
@@ -271,6 +276,50 @@ public class AllRidesController implements Serializable {
         } else {
             return 0;
         }
+    }
+
+    public String getEmails() {
+        StringBuilder emails = new StringBuilder("");
+        if (selected.getPasseger1Id() != null) {
+            User passenger1 = userFacade.find(selected.getPasseger1Id());
+            emails.append(passenger1.getEmail());
+        }
+        if (selected.getPassenger2Id() != null) {
+            User passenger2 = userFacade.find(selected.getPassenger2Id());
+            if (emails.length() > 0) {
+                emails.append(",");
+            }
+            emails.append(passenger2.getEmail());
+        }
+        if (selected.getPassenger3Id() != null) {
+            User passenger3 = userFacade.find(selected.getPassenger3Id());
+            if (emails.length() > 0) {
+                emails.append(",");
+            }
+            emails.append(passenger3.getEmail());
+        }
+        if (selected.getPassenger4Id() != null) {
+            User passenger4 = userFacade.find(selected.getPassenger4Id());
+            if (emails.length() > 0){
+                emails.append(",");
+            }
+            emails.append(passenger4.getEmail());
+        }
+        if (selected.getPassenger5Id() != null) {
+            User passenger5 = userFacade.find(selected.getPassenger5Id());
+            if (emails.length() > 0){
+                emails.append(",");
+            }
+            emails.append(passenger5.getEmail());
+        }
+        if (selected.getPassenger6Id() != null) {
+            User passenger6 = userFacade.find(selected.getPassenger4Id());
+            if (emails.length() > 0){
+                emails.append(",");
+            }
+            emails.append(passenger6.getEmail());
+        }
+        return emails.toString();
     }
 
     public int numberOfRiders() {
