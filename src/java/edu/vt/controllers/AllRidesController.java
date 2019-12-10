@@ -146,31 +146,45 @@ public class AllRidesController implements Serializable {
         Methods.preserveMessages();
         int joinId = userController.getSelected().getId();
         int isJoined = this.areJoined(joinId);
+        int initialCost = selected.getTripCost();
+        int totalCost = this.numberOfRiders() * initialCost;
         // there are seats available and the user is not joined
         if (selected.getSeatsAvailable() > 0 && isJoined == 0){
             if (selected.getPasseger1Id() == null){
                 selected.setPasseger1Id(joinId);
                 selected.setSeatsAvailable(selected.getSeatsAvailable() - 1);
+                double newCost = totalCost/this.numberOfRiders();
+                selected.setTripCost((int)newCost);
             }
             else if (selected.getPassenger2Id() == null){
                 selected.setPassenger2Id(joinId);
                 selected.setSeatsAvailable(selected.getSeatsAvailable() - 1);
+                double newCost = totalCost/this.numberOfRiders();
+                selected.setTripCost((int)newCost);
             }
             else if (selected.getPassenger3Id() == null){
                 selected.setPassenger3Id(joinId);
                 selected.setSeatsAvailable(selected.getSeatsAvailable() - 1);
+                double newCost = totalCost/this.numberOfRiders();
+                selected.setTripCost((int)newCost);
             }
             else if (selected.getPassenger4Id() == null){
                 selected.setPassenger4Id(joinId);
                 selected.setSeatsAvailable(selected.getSeatsAvailable() - 1);
+                double newCost = totalCost/this.numberOfRiders();
+                selected.setTripCost((int)newCost);
             }
             else if (selected.getPassenger5Id() == null){
                 selected.setPassenger5Id(joinId);
                 selected.setSeatsAvailable(selected.getSeatsAvailable() - 1);
+                double newCost = totalCost/this.numberOfRiders();
+                selected.setTripCost((int)newCost);
             }
             else {
                 selected.setPassenger6Id(joinId);
                 selected.setSeatsAvailable(selected.getSeatsAvailable() - 1);
+                double newCost = totalCost/this.numberOfRiders();
+                selected.setTripCost((int)newCost);
             }
             this.update();
         }// joined on the ride already, needs to be unjoined
@@ -179,26 +193,38 @@ public class AllRidesController implements Serializable {
                 case 1: 
                     selected.setPasseger1Id(null);
                     selected.setSeatsAvailable(selected.getSeatsAvailable() + 1);
+                    double newCost = totalCost/this.numberOfRiders();
+                    selected.setTripCost((int)newCost);
                     break;
                 case 2: 
                     selected.setPassenger2Id(null);
                     selected.setSeatsAvailable(selected.getSeatsAvailable() + 1);
+                    newCost = totalCost/this.numberOfRiders();
+                    selected.setTripCost((int)newCost);
                     break;
                 case 3: 
                     selected.setPassenger3Id(null);
                     selected.setSeatsAvailable(selected.getSeatsAvailable() + 1);
+                    newCost = totalCost/this.numberOfRiders();
+                    selected.setTripCost((int)newCost);
                     break;
                 case 4: 
                     selected.setPassenger4Id(null);
                     selected.setSeatsAvailable(selected.getSeatsAvailable() + 1);
+                    newCost = totalCost/this.numberOfRiders();
+                    selected.setTripCost((int)newCost);
                     break;
                 case 5: 
                     selected.setPassenger5Id(null);
                     selected.setSeatsAvailable(selected.getSeatsAvailable() + 1);
+                    newCost = totalCost/this.numberOfRiders();
+                    selected.setTripCost((int)newCost);
                     break;
                 case 6: 
                     selected.setPassenger6Id(null);
                     selected.setSeatsAvailable(selected.getSeatsAvailable() + 1);
+                    newCost = totalCost/this.numberOfRiders();
+                    selected.setTripCost((int)newCost);
                     break;
             }
             this.update();
