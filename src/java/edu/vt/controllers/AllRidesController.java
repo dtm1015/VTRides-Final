@@ -6,6 +6,7 @@ import edu.vt.controllers.util.JsfUtil.PersistAction;
 import edu.vt.FacadeBeans.AllRidesFacade;
 import edu.vt.globals.Constants;
 import edu.vt.globals.Methods;
+import edu.vt.managers.GoogleMapsManager;
 
 import java.io.Serializable;
 import java.util.List;
@@ -34,10 +35,14 @@ public class AllRidesController implements Serializable {
     private AllRides selected;
     
     @Inject
-    UserController userController;
+    private UserController userController;
     
+    @Inject
+    private GoogleMapsManager googleMapsManager;
     private String searchString;
     private String searchCategory;
+    
+    
 
     public AllRidesController() {
     }
@@ -122,64 +127,107 @@ public class AllRidesController implements Serializable {
         return ejbFacade;
     }
     
-    public String join() {
+    public String getMapUrl(){
+        return googleMapsManager.getDirections();
+    }
+    
+    public boolean canUseMap(){
+        return this.selected != null &&
+                this.selected.getStartingAddress1() != null && 
+                this.selected.getStartingCity() != null && 
+                this.selected.getStartingState() != null &&
+                this.selected.getStartingZipcode() != null &&
+                this.selected.getEndingAddress1() != null &&
+                this.selected.getEndingCity() != null && 
+                this.selected.getEndingState() != null &&
+                this.selected.getEndingZipcode() != null;
+    }
+    public void join() {
         Methods.preserveMessages();
         int joinId = userController.getSelected().getId();
         int isJoined = this.areJoined(joinId);
+        int initialCost = selected.getTripCost();
+        int totalCost = this.numberOfRiders() * initialCost;
         // there are seats available and the user is not joined
         if (selected.getSeatsAvailable() > 0 && isJoined == 0){
             if (selected.getPasseger1Id() == null){
                 selected.setPasseger1Id(joinId);
                 selected.setSeatsAvailable(selected.getSeatsAvailable() - 1);
+                double newCost = totalCost/this.numberOfRiders();
+                selected.setTripCost((int)newCost);
             }
             else if (selected.getPassenger2Id() == null){
                 selected.setPassenger2Id(joinId);
                 selected.setSeatsAvailable(selected.getSeatsAvailable() - 1);
+                double newCost = totalCost/this.numberOfRiders();
+                selected.setTripCost((int)newCost);
             }
             else if (selected.getPassenger3Id() == null){
                 selected.setPassenger3Id(joinId);
                 selected.setSeatsAvailable(selected.getSeatsAvailable() - 1);
+                double newCost = totalCost/this.numberOfRiders();
+                selected.setTripCost((int)newCost);
             }
             else if (selected.getPassenger4Id() == null){
                 selected.setPassenger4Id(joinId);
                 selected.setSeatsAvailable(selected.getSeatsAvailable() - 1);
+                double newCost = totalCost/this.numberOfRiders();
+                selected.setTripCost((int)newCost);
             }
             else if (selected.getPassenger5Id() == null){
                 selected.setPassenger5Id(joinId);
                 selected.setSeatsAvailable(selected.getSeatsAvailable() - 1);
+                double newCost = totalCost/this.numberOfRiders();
+                selected.setTripCost((int)newCost);
             }
             else {
                 selected.setPassenger6Id(joinId);
                 selected.setSeatsAvailable(selected.getSeatsAvailable() - 1);
+                double newCost = totalCost/this.numberOfRiders();
+                selected.setTripCost((int)newCost);
             }
+            this.update();
         }// joined on the ride already, needs to be unjoined
         else if (isJoined > 0){
             switch(isJoined){
                 case 1: 
                     selected.setPasseger1Id(null);
                     selected.setSeatsAvailable(selected.getSeatsAvailable() + 1);
+                    double newCost = totalCost/this.numberOfRiders();
+                    selected.setTripCost((int)newCost);
                     break;
                 case 2: 
                     selected.setPassenger2Id(null);
                     selected.setSeatsAvailable(selected.getSeatsAvailable() + 1);
+                    newCost = totalCost/this.numberOfRiders();
+                    selected.setTripCost((int)newCost);
                     break;
                 case 3: 
                     selected.setPassenger3Id(null);
                     selected.setSeatsAvailable(selected.getSeatsAvailable() + 1);
+                    newCost = totalCost/this.numberOfRiders();
+                    selected.setTripCost((int)newCost);
                     break;
                 case 4: 
                     selected.setPassenger4Id(null);
                     selected.setSeatsAvailable(selected.getSeatsAvailable() + 1);
+                    newCost = totalCost/this.numberOfRiders();
+                    selected.setTripCost((int)newCost);
                     break;
                 case 5: 
                     selected.setPassenger5Id(null);
                     selected.setSeatsAvailable(selected.getSeatsAvailable() + 1);
+                    newCost = totalCost/this.numberOfRiders();
+                    selected.setTripCost((int)newCost);
                     break;
                 case 6: 
                     selected.setPassenger6Id(null);
                     selected.setSeatsAvailable(selected.getSeatsAvailable() + 1);
+                    newCost = totalCost/this.numberOfRiders();
+                    selected.setTripCost((int)newCost);
                     break;
             }
+            this.update();
         }// not joined yet but no seats available
         else if(selected.getSeatsAvailable() == 0 && isJoined == 0){
             Methods.showMessage("Information", "Join Unsuccessful", "There are no seats available to join");
@@ -187,6 +235,9 @@ public class AllRidesController implements Serializable {
         else {
             Methods.showMessage("Information", "Something Went Wrong", "");
         }
+        items = null;
+        items = this.getItems();
+        
         /*
         Cases: 
         1) There is an open spot - check if they are joined, add them if they are not
@@ -194,7 +245,6 @@ public class AllRidesController implements Serializable {
         3) There are no open spots - check if they are joined, and do nothing if they are not
         4) There are no open spots - check if they are joined, remove them if they are
         */
-        return "/allRides/List?faces-redirect=true";
     }
     
     private int areJoined(int passengerId){
@@ -221,6 +271,28 @@ public class AllRidesController implements Serializable {
         }
     }
     
+    public int numberOfRiders(){
+        int numPeople = 1;
+        if (selected.getPasseger1Id() != null){
+            numPeople++;
+        }
+        if (selected.getPassenger2Id() != null){
+            numPeople++;
+        }
+        if (selected.getPassenger3Id() != null){
+            numPeople++;
+        }
+        if (selected.getPassenger4Id() != null){
+            numPeople++;
+        }
+        if (selected.getPassenger5Id() != null){
+            numPeople++;
+        }
+        if (selected.getPassenger6Id() != null){
+            numPeople++;
+        }
+        return numPeople;
+    }
 
     public AllRides prepareCreate() {
         selected = new AllRides();
@@ -229,11 +301,17 @@ public class AllRidesController implements Serializable {
         return selected;
     }
 
-    public void create() {
+    public void create() throws Exception {
+        if(this.canUseMap()){
+            googleMapsManager.getTripInfo();
+            googleMapsManager.getGasPrice();
+        }
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("AllRidesCreated"));
         if (!JsfUtil.isValidationFailed()) {
+            //googleMapsManager.getTripInfo();
             items = null;    // Invalidate list of items to trigger re-query.
         }
+        
     }
 
     public void update() {

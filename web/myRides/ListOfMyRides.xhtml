@@ -17,7 +17,7 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
 
         <ui:define name="title">
             <!-- Set the page title -->
-            <h:outputText value="All Rides"></h:outputText>
+            <h:outputText value="My Rides"></h:outputText>
         </ui:define>
 
         <ui:define name="editableContent">
@@ -75,14 +75,14 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                             <f:facet name="footer">
                                 <p:commandButton id="createButton" icon="fas fa-plus"   value="#{bundle.Create}" 
                                                  actionListener="#{allRidesController.prepareCreate}" 
-                                                 update=":AllRidesCreateForm" oncomplete="PF('AllRidesCreateDialog').show()"/>
+                                                 update="MyRidesCreateForm" oncomplete="PF('MyRidesCreateDialog').show()"/>
 
                                 <p:commandButton id="viewButton"   icon="fas fa-eye" value="#{bundle.View}" 
-                                                 update=":AllRidesViewForm" oncomplete="PF('AllRidesViewDialog').show()" 
+                                                 update="MyRidesViewForm" oncomplete="PF('MyRidesViewDialog').show()" 
                                                  disabled="#{empty allRidesController.selected}"/>
 
                                 <p:commandButton id="editButton"   icon="fas fa-edit" value="#{bundle.Edit}" 
-                                                 update=":AllRidesEditForm" oncomplete="PF('AllRidesEditDialog').show()" 
+                                                 update="MyRidesEditForm" oncomplete="PF('MyRidesEditDialog').show()" 
                                                  disabled="#{empty allRidesController.selected}"/>
 
 <!--                                 
@@ -153,16 +153,19 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                                 -->
                                 <p:commandButton id="searchButton" icon="fas fa-search" value="Search" 
                                                  update=":AllRidesSearchForm" oncomplete="PF('AllRidesSearchDialog').show()"/>
-
+                               
                             </f:facet>
                         </p:dataTable>
                     </p:panel>
                 </h:form>
             </div>
             <!--Files to include to access their forms -->
-            <ui:include src="/allRides/List.xhtml"/>
-            
 
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+            <ui:include src="/search/Search.xhtml"/>
+            
         </ui:define>
     </ui:composition>
 

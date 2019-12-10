@@ -9,20 +9,15 @@
 
     <ui:composition>
 
-        <p:dialog id="AllRidesViewDlg" widgetVar="AllRidesViewDialog" 
+        <p:dialog id="MyRidesViewDlg" widgetVar="MyRidesViewDialog" 
                   modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewAllRidesTitle}" rendered="#{allRidesController.selected != null}" width="500px" height="500px">
-            <h:form id="AllRidesViewForm">
-                <c:choose>
-                    <c:when test="#{allRidesController.canUseMap()}">
-                        <iframe
-                        width="450"
-                        height="250"
-                        frameborder="0" style="border:0"
-                        src="#{allRidesController.mapUrl}" allowfullscreen="true">
-                        </iframe>
-                    </c:when>
-                </c:choose>
-
+            <h:form id="MyRidesViewForm">
+                <iframe
+                    width="450"
+                    height="250"
+                    frameborder="0" style="border:0"
+                    src="#{allRidesController.mapUrl}" allowfullscreen="true">
+                </iframe>
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" columnClasses="panelGridColumn1,panelGridColumn2" rendered="#{allRidesController.selected != null}">
                         <h:outputText value="#{bundle.ViewAllRidesLabel_id}"/>
@@ -93,8 +88,8 @@
                             -->
 
                             <p:commandButton id="deleteButton" icon="fas fa-trash-alt"  value="#{bundle.Delete}" 
-                                             actionListener="#{allRidesController.destroy}" oncomplete="PF('AllRidesViewDialog').hide()"  
-                                             update="AllRidesListForm,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage" 
+                                             actionListener="#{allRidesController.destroy}" oncomplete="PF('MyRidesViewDialog').hide()"  
+                                             update="MyRidesListForm,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage" 
                                              disabled="#{empty allRidesController.selected}">
 
                                 <p:confirm header="Deletion Confirmation" 
@@ -115,7 +110,7 @@
                             </p:confirmDialog>
 
                             <p:commandButton id="editButton"   icon="fas fa-edit" value="#{bundle.Edit}" 
-                                             update=":AllRidesEditForm," oncomplete="PF('AllRidesEditDialog').show()" 
+                                             update=":MyRidesEditForm" oncomplete="PF('MyRidesEditDialog').show()" 
                                              disabled="#{empty allRidesController.selected}"/>
                             <!--
                             ************************************************
@@ -125,25 +120,25 @@
                         </c:when>
                         <c:otherwise>
                             <c:when test="#{userController.selected.id != allRidesController.selected.driverId.id}">
-                                <p:commandButton id="joinButton" icon="fas fa-edit" value="Join/Unjoin" 
-                                                 actionListener="#{allRidesController.join()}" oncomplete="PF('AllRidesViewDialog').hide()"  
-                                                 update="AllRidesListForm,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage" 
-                                                 disabled="#{empty allRidesController.selected}"/>
+                                <p:commandButton id="joinButton" ajax="true" icon="fas fa-edit" value="Join/Unjoin" 
+                                                 actionListener="#{allRidesController.join()}" oncomplete="PF('MyRidesViewDialog').hide()"  
+                                                 update="MyRidesListForm,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage" 
+                                                 disabled="#{empty allRidesController.selected}" process="@this" immediate="true">
+                                    
+                                </p:commandButton>
+                                
                             </c:when>
 
                         </c:otherwise> 
                     </c:choose>
-
-                    <p:commandButton value="#{bundle.Close}" onclick="AllRidesViewDialog.hide()"/>
+                    
+                    <p:commandButton value="#{bundle.Close}" onclick="MyRidesViewDialog.hide()"/>
                 </h:panelGroup>
 
 
             </h:form>
 
         </p:dialog>
-
-
-
 
 
     </ui:composition>
