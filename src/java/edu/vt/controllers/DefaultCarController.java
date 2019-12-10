@@ -8,6 +8,7 @@ import edu.vt.FacadeBeans.DefaultCarFacade;
 import edu.vt.globals.Methods;
 import edu.vt.globals.Password;
 
+import java.lang.String;
 import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -26,19 +27,16 @@ import javax.faces.convert.FacesConverter;
 @SessionScoped
 public class DefaultCarController implements Serializable {
 
-    @EJB
-    
     private String carMake;
     private String carModel;
     private String carColor;
     private String carLicenseNumber;
     private int carMPG;
-            
-            
+
     private edu.vt.FacadeBeans.DefaultCarFacade ejbFacade;
     private List<DefaultCar> items = null;
     private DefaultCar selected;
-    
+
     @EJB
     private DefaultCarFacade carFacade;
 
@@ -119,37 +117,57 @@ public class DefaultCarController implements Serializable {
         return ejbFacade;
     }
 
-    public String createDefaultCar(User user){
+    public boolean hasDefaultCar(User user) {
+        DefaultCar userCar = getCarFacade().findByUserid(user);
+        if (userCar != null) {
+            // A car already exists associated the signed in user.
+            if (selected == null) {
+                setSelected(userCar);
+            }
+            return true;
+        } else {
+            setSelected(null);
+            return false;
+        }
+    }
+
+    public String createDefaultCar(User user) {
         Methods.preserveMessages();
         DefaultCar userCar = getCarFacade().findByUserid(user);
         if (userCar != null) {
             // A user already exists with the username entered by the user
             Methods.showMessage("Fatal Error", "You already have a default car!", "Click the edit button instead!");
-            return "";
+            return "/userAccount/Profile.xhtml?faces-redirect=true";
         }
         //The user does not have a default car.
-        try
-        {
+        try {
             DefaultCar newCar = new DefaultCar();
             newCar.setColor(carColor);
             newCar.setLicensePlate(carLicenseNumber);
             newCar.setMake(carMake);
             newCar.setMpg(carMPG);
             newCar.setModel(carModel);
-            
+            newCar.setUserId(user);
+
             getCarFacade().create(newCar);
-            
-        }
-        catch (EJBException ex) {
+
+        } catch (EJBException ex) {
             Methods.showMessage("Fatal Error", "Something went wrong while creating default car!",
                     "See: " + ex.getMessage());
             return "";
         }
-        
+
         Methods.showMessage("Information", "Success!", "Default Car is Successfully Created!");
-        
+
         return "/userAccount/Profile.xhtml?faces-redirect=true";
     }
+
+    public String updateDefaultCar() {
+        Methods.preserveMessages();
+        getCarFacade().edit(selected);
+        return "/userAccount/Profile.xhtml?faces-redirect=true";
+    }
+
     public DefaultCar prepareCreate() {
         selected = new DefaultCar();
         initializeEmbeddableKey();
@@ -164,7 +182,9 @@ public class DefaultCarController implements Serializable {
     }
 
     public void update() {
+        Methods.preserveMessages();
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("DefaultCarUpdated"));
+
     }
 
     public void destroy() {
