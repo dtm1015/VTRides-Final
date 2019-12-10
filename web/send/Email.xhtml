@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Justin Kennedy on 2019.09.15
+Copyright © 2019 Justin Kennedy. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+    <!-- This page is constructed based on the siteTemplate -->
+    <ui:composition template="/template/siteTemplate.xhtml">
+
+        <ui:define name="title">
+            <!-- Set the page title to Contact Us -->
+            <h:outputText value="Send Email"></h:outputText>
+        </ui:define>
+
+        <!-- Create the content for this page below -->
+        <ui:define name="editableContent">
+
+            <h:form id="EmailCompositionForm"> 
+                <div align="center">
+                    <br />
+                    <span class="headingText">Compose and Send Your Email Message To Passengers</span>
+                    <br /><br />
+                    <h:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2">
+<!--                        
+                        ***************************
+                        *     Email TO Field      *
+                        ***************************
+                        
+                        <p:outputLabel value="To:" for="toField" />
+                        <p:inputText id="toField" class="inputTextField" value="#{emailController.emailTo}" 
+                                     required="true" requiredMessage="Please Enter Only One Email Address!"
+                                     placeholder="Enter only one email address!" >
+                             
+                            Execute the "validate" method of the "EmailValidator.java"
+                            class to validate only one email address entered. 
+                            
+                            <f:validator validatorId="emailValidator" />
+                        </p:inputText>
+
+                        
+                        ***************************
+                        *    Email COPY Field     *
+                        ***************************
+                        
+                        <p:outputLabel value="Cc: " for="ccField" />
+                        <p:inputText id="ccField" class="inputTextField" value="#{emailController.emailCc}" required="false"
+                                     placeholder="Enter email addresses as comma separated with no spaces!" >
+                             
+                            Execute the "validate" method of the "EmailAddressesValidator.java"
+                            class to validate comma-separated email addresses entered.
+                            
+                            <f:validator validatorId="emailAddressesValidator" />
+                        </p:inputText>-->
+
+                        <!--
+                        ***************************
+                        *   Email SUBJECT Field   *
+                        ***************************
+                        -->
+                        <p:outputLabel value="Subject:" for="subjectField" />
+                        <p:inputText id="subjectField" class="inputTextField" value="#{emailController.emailSubject}" 
+                                     required="true" requiredMessage="Please Enter Email Subject!"
+                                     placeholder="Enter email subject!" />
+
+                    </h:panelGrid>
+                    <br />
+                    <!-- 
+                    ============================================
+                    | PrimeFaces HTML Text Editor UI Component |
+                    ============================================
+                    p:textEditor is an input UI component with rich text editing features. 
+                    
+                    The editorController.emailMessage property is a String containing the
+                    entire email message content as a String of characters.
+                    -->
+                    <p:textEditor id="editor" value="#{editorController.emailMessage}" height="350"
+                                  placeholder="Enter your email content here!" />
+                    <br />
+                    <!--
+                    ================================
+                    |       SEND EMAIL Button      |
+                    ================================
+                    -->
+                    <p:commandButton value="Send Email" icon="far fa-envelope" ajax="false"
+                                     type="submit" action="#{emailController.emailPassengers()}" />
+                    &nbsp;&nbsp;
+                    <!--
+                    ================================
+                    |         CLEAR Button         |
+                    ================================
+
+                    To clear entered input data, we must reset the instance variable values 
+                    in the backing bean.
+
+                    "Input components keep their local values at state when validation fails. 
+                    p:resetInput is used to clear the cached values from state so that components
+                    retrieve their values from the backing bean model instead." [PrimeFaces]
+                    
+                    We want the <p:commandButton> to perform its 'action' immediately without
+                    first rendering the current JSF page by using the attribute immediate="true".
+
+                    JSF application lifecycle execute phase contains the following subphases:
+
+                        1. Restore View Phase
+                        2. Apply Request Values Phase
+                        3. Process Validations Phase
+                        4. Update Model Values Phase
+                        5. Invoke Application Phase
+                        6. Render Response Phase
+
+                    immediate="true" causes the execution of only the Apply Request Values Phase.
+                    Therefore, the Process Validations Phase is skipped implying that the
+                    validation tests in the JSF page are not processed.
+                    
+                    This p:commandButton performs the Submit of the form in which it is located, 
+                    i.e. "EmailCompositionForm", by initiating HTTP request/response cycle from 
+                    within this JSF page.
+
+                    ajax="true"     implies that the response will come back to this page 
+                                    after the request is processed.
+                    ajax="false"    implies that only the HTTP request will be processed 
+                                    and no response will come to this page.
+                    -->
+                    <p:commandButton value="Clear" icon="fas fa-undo" ajax="false"
+                                     actionListener="#{editorController.clearEmailContent()}" 
+                                     immediate="true" >
+
+                        <p:resetInput target="EmailCompositionForm" />
+                    </p:commandButton>
+                </div>
+                <br /><br />
+            </h:form>
+
+        </ui:define>
+
+    </ui:composition>
+    <!-- Do not enter tags after the composition line since they are ignored by JSF -->
+
+</html>

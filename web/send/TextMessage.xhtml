@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Justin Kennedy on 2019.09.15
+Copyright © 2019 Justin Kennedy. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+    <!-- This page is constructed based on the siteTemplate -->
+    <ui:composition template="/template/siteTemplate.xhtml">
+
+        <ui:define name="title">
+            <!-- Set the page title -->
+            <h:outputText value="Send Text Message"></h:outputText>
+        </ui:define>
+
+        <!-- Create the content for this page below -->
+        <ui:define name="editableContent">
+
+            <div align="center">
+                <h:form id="TextMessageForm">
+
+                    <!-- This form is used to compose and send a text message to a cell phone number -->
+
+                    <br />
+                    <span class="headingText">Compose and Send Your Text Message to a Cell Phone</span>
+                    <br /><br />
+                    <h:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2" cellpadding="10">
+
+                        <p:outputLabel for="cellPhoneNumber" value="Cell Phone Number" class="standardText" />
+                        <!-- 
+                        PrimeFaces inputMask enforces the phone number format defined by mask="(999) 999-9999"  
+                        and prevents a non-numeric character to be entered by the user.
+                        -->
+                        <p:inputMask id="cellPhoneNumber" class="standardText"
+                                     required="true" requiredMessage="Cell Phone Number is Required!" 
+                                     value="#{textMessageController.cellPhoneNumber}" mask="(999) 999-9999" />
+
+                        <p:outputLabel for="carrier" value="Cell Phone Carrier" class="standardText" />
+
+                        <!-- 
+                        Specify the email address to send the email message containing the text message as
+                
+                            5401234567@CellPhoneCarrier's MMS gateway domain
+                
+                        The designated cell phone number will be charged for the text messaging by its carrier.
+                        Here are the MMS gateway domain names for some of the cell phone carriers:
+                
+                            mms.att.net         for AT&T            5401234567@mms.att.net
+                            pm.sprint.com       for Sprint          5401234567@pm.sprint.com
+                            tmomail.net         for T-Mobile        5401234567@tmomail.net
+                            vzwpix.com          for Verizon         5401234567@vzwpix.com
+                            vmpix.com           for Virgin Mobile   5401234567@vmpix.com
+                        
+                        When the email message is sent to the cell phone number @ the MMS gateway domain,
+                        the message is automatically sent to the cell phone as an MMS text message by the
+                        domain and the carrier charges the cell phone number for the text messaging.
+                        -->  
+
+                        <p:selectOneMenu id="carrier" value="#{textMessageController.cellPhoneCarrierDomain}"
+                                         required="true" requiredMessage="Please Select a Carrier!" 
+                                         class="standardText" >
+
+                            <f:selectItem itemLabel="Select a Carrier"  itemValue="" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="AT&amp;T"          itemValue="mms.att.net" />
+                            <f:selectItem itemLabel="Sprint"            itemValue="pm.sprint.com" />
+                            <f:selectItem itemLabel="T-Mobile"          itemValue="tmomail.net" />
+                            <f:selectItem itemLabel="Verizon"           itemValue="vzwpix.com" />
+                            <f:selectItem itemLabel="Virgin Mobile"     itemValue="vmpix.com" />
+
+                        </p:selectOneMenu>
+
+                    </h:panelGrid>
+
+                    <!-- 
+                    The user selects a cell phone carrier company's name (itemLabel) from the pull-down menu.
+                    The itemValue (carrier's domain name) corresponding to the selected itemLabel (carrier name)
+                    is set to be the value of the instance variable (property) "cellPhoneCarrierDomain" of the 
+                    CDI-managed bean object named "textMessageController".
+                    -->
+
+                    <br/><br/>
+                    <!-- 
+                    This defines the input text area in which the user composes a message in plain text format.
+                    We format the text message in plain text format since some cell phones cannot handle HTML.
+                    -->
+                    <p:inputTextarea id="textMessage" rows="5" cols="50" counter="counterText" maxlength="500" 
+                                     counterTemplate="{0} characters remaining..." autoResize="false" 
+                                     value="#{textMessageController.mmsTextMessage}" class="standardText"
+                                     required="true" requiredMessage="Text Message Body is Required!" />
+
+                    <p:watermark for="textMessage" value="Enter your text message here. Resize box if needed." />
+
+                    <br/>
+                    <h:outputText id="counterText" class="standardText" />
+                    <br/><br/><br/>
+
+                    <div align="center">
+                        <!--
+                        ================================
+                        |   SEND TEXT MESSAGE Button   |
+                        ================================
+                        -->
+                        <p:commandButton value="Send Text Message" icon="far fa-comment-dots" ajax="false"
+                                         action="#{textMessageController.sendTextMessage()}" />
+
+                        &nbsp;
+                        <!--
+                        ================================
+                        |         CLEAR Button         |
+                        ================================
+                        -->
+                        <!--
+                        To clear entered input data, we must reset the instance variable values 
+                        in the backing bean.
+    
+                        "Input components keep their local values at state when validation fails. 
+                        p:resetInput is used to clear the cached values from state so that components
+                        retrieve their values from the backing bean model instead." [PrimeFaces]
+                        
+                        We want the <p:commandButton> to perform its 'action' immediately without
+                        first rendering the current JSF page by using the attribute immediate="true".
+    
+                        JSF application lifecycle execute phase contains the following subphases:
+    
+                            1. Restore View Phase
+                            2. Apply Request Values Phase
+                            3. Process Validations Phase
+                            4. Update Model Values Phase
+                            5. Invoke Application Phase
+                            6. Render Response Phase
+    
+                        immediate="true" causes the execution of only the Apply Request Values Phase.
+                        Therefore, the Process Validations Phase is skipped implying that the
+                        validation tests in the JSF page are not processed.
+                        
+                        This p:commandButton performs the Submit of the form in which it is located, 
+                        i.e. "EmailCompositionForm", by initiating HTTP request/response cycle 
+                        from within this JSF page.
+
+                        ajax="true"     implies that the response will come back to this page 
+                                        after the request is processed.
+                        ajax="false"    implies that only the HTTP request will be processed and 
+                                        no response will come to this page.
+                        -->
+                        <p:commandButton value="Clear" icon="fas fa-undo" ajax="false"
+                                         actionListener="#{textMessageController.clearTextMessage()}" 
+                                         immediate="true" >
+
+                            <p:resetInput target="TextMessageForm" />
+                        </p:commandButton>
+                    </div>
+                    <br/><br/>
+
+                </h:form>
+
+            </div>
+        </ui:define>
+
+    </ui:composition>
+    <!-- Do not enter tags after the composition line since they are ignored by JSF -->
+
+</html>
