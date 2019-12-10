@@ -312,9 +312,14 @@ public class UserController implements Serializable {
     - Balci 
      */
     public Map<String, Object> getSecurity_questions() {
-
         if (security_questions == null) {
-            
+            /*
+            Difference between HashMap and LinkedHashMap:
+            HashMap stores key-value pairings in no particular order. 
+                Values are retrieved based on their corresponding Keys.
+            LinkedHashMap stores and retrieves key-value pairings
+                in the order they were put into the map.
+             */
             security_questions = new LinkedHashMap<>();
 
             for (int i = 0; i < Constants.QUESTIONS.length; i++) {
