@@ -34,7 +34,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "DefaultCar.findByModel", query = "SELECT d FROM DefaultCar d WHERE d.model = :model")
     , @NamedQuery(name = "DefaultCar.findByColor", query = "SELECT d FROM DefaultCar d WHERE d.color = :color")
     , @NamedQuery(name = "DefaultCar.findByLicensePlate", query = "SELECT d FROM DefaultCar d WHERE d.licensePlate = :licensePlate")
-    , @NamedQuery(name = "DefaultCar.findByMpg", query = "SELECT d FROM DefaultCar d WHERE d.mpg = :mpg")})
+    , @NamedQuery(name = "DefaultCar.findByMpg", query = "SELECT d FROM DefaultCar d WHERE d.mpg = :mpg")
+    , @NamedQuery(name = "DefaultCar.findByUserid", query = "SELECT d FROM DefaultCar d WHERE d.userId = :userid")})
+
 public class DefaultCar implements Serializable {
 
     private static final long serialVersionUID = 1L;

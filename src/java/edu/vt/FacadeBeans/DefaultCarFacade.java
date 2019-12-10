@@ -5,6 +5,7 @@
 package edu.vt.FacadeBeans;
 
 import edu.vt.EntityBeans.DefaultCar;
+import edu.vt.EntityBeans.User;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,6 +27,18 @@ public class DefaultCarFacade extends AbstractFacade<DefaultCar> {
 
     public DefaultCarFacade() {
         super(DefaultCar.class);
+    }
+    
+    public DefaultCar findByUserid(User userid) {
+        if (em.createQuery("SELECT d FROM DefaultCar d WHERE d.userId = :userid")
+                .setParameter("userid", userid)
+                .getResultList().isEmpty()) {
+            return null;
+        } else {
+            return (DefaultCar) (em.createQuery("SELECT d FROM DefaultCar d WHERE d.userId = :userid")
+                    .setParameter("userid", userid)
+                    .getSingleResult());
+        }
     }
     
 }

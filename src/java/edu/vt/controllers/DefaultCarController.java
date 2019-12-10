@@ -1,9 +1,12 @@
 package edu.vt.controllers;
 
 import edu.vt.EntityBeans.DefaultCar;
+import edu.vt.EntityBeans.User;
 import edu.vt.controllers.util.JsfUtil;
 import edu.vt.controllers.util.JsfUtil.PersistAction;
 import edu.vt.FacadeBeans.DefaultCarFacade;
+import edu.vt.globals.Methods;
+import edu.vt.globals.Password;
 
 import java.io.Serializable;
 import java.util.List;
@@ -24,15 +27,82 @@ import javax.faces.convert.FacesConverter;
 public class DefaultCarController implements Serializable {
 
     @EJB
+    
+    private String carMake;
+    private String carModel;
+    private String carColor;
+    private String carLicenseNumber;
+    private int carMPG;
+            
+            
     private edu.vt.FacadeBeans.DefaultCarFacade ejbFacade;
     private List<DefaultCar> items = null;
     private DefaultCar selected;
+    
+    @EJB
+    private DefaultCarFacade carFacade;
 
     public DefaultCarController() {
     }
 
     public DefaultCar getSelected() {
         return selected;
+    }
+
+    public String getCarMake() {
+        return carMake;
+    }
+
+    public void setCarMake(String carMake) {
+        this.carMake = carMake;
+    }
+
+    public String getCarModel() {
+        return carModel;
+    }
+
+    public void setCarModel(String carModel) {
+        this.carModel = carModel;
+    }
+
+    public String getCarColor() {
+        return carColor;
+    }
+
+    public void setCarColor(String carColor) {
+        this.carColor = carColor;
+    }
+
+    public String getCarLicenseNumber() {
+        return carLicenseNumber;
+    }
+
+    public void setCarLicenseNumber(String carLicenseNumber) {
+        this.carLicenseNumber = carLicenseNumber;
+    }
+
+    public int getCarMPG() {
+        return carMPG;
+    }
+
+    public void setCarMPG(int carMPG) {
+        this.carMPG = carMPG;
+    }
+
+    public DefaultCarFacade getEjbFacade() {
+        return ejbFacade;
+    }
+
+    public void setEjbFacade(DefaultCarFacade ejbFacade) {
+        this.ejbFacade = ejbFacade;
+    }
+
+    public DefaultCarFacade getCarFacade() {
+        return carFacade;
+    }
+
+    public void setCarFacade(DefaultCarFacade carFacade) {
+        this.carFacade = carFacade;
     }
 
     public void setSelected(DefaultCar selected) {
@@ -49,6 +119,37 @@ public class DefaultCarController implements Serializable {
         return ejbFacade;
     }
 
+    public String createDefaultCar(User user){
+        Methods.preserveMessages();
+        DefaultCar userCar = getCarFacade().findByUserid(user);
+        if (userCar != null) {
+            // A user already exists with the username entered by the user
+            Methods.showMessage("Fatal Error", "You already have a default car!", "Click the edit button instead!");
+            return "";
+        }
+        //The user does not have a default car.
+        try
+        {
+            DefaultCar newCar = new DefaultCar();
+            newCar.setColor(carColor);
+            newCar.setLicensePlate(carLicenseNumber);
+            newCar.setMake(carMake);
+            newCar.setMpg(carMPG);
+            newCar.setModel(carModel);
+            
+            getCarFacade().create(newCar);
+            
+        }
+        catch (EJBException ex) {
+            Methods.showMessage("Fatal Error", "Something went wrong while creating default car!",
+                    "See: " + ex.getMessage());
+            return "";
+        }
+        
+        Methods.showMessage("Information", "Success!", "Default Car is Successfully Created!");
+        
+        return "/userAccount/Profile.xhtml?faces-redirect=true";
+    }
     public DefaultCar prepareCreate() {
         selected = new DefaultCar();
         initializeEmbeddableKey();
