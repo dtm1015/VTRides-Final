@@ -41,6 +41,8 @@ public class AllRidesController implements Serializable {
     private GoogleMapsManager googleMapsManager;
     private String searchString;
     private String searchCategory;
+    
+    
 
     public AllRidesController() {
     }
@@ -124,8 +126,21 @@ public class AllRidesController implements Serializable {
     private AllRidesFacade getFacade() {
         return ejbFacade;
     }
+    
     public String getMapUrl(){
         return googleMapsManager.getDirections();
+    }
+    
+    public boolean canUseMap(){
+        return this.selected != null &&
+                this.selected.getStartingAddress1() != null && 
+                this.selected.getStartingCity() != null && 
+                this.selected.getStartingState() != null &&
+                this.selected.getStartingZipcode() != null &&
+                this.selected.getEndingAddress1() != null &&
+                this.selected.getEndingCity() != null && 
+                this.selected.getEndingState() != null &&
+                this.selected.getEndingZipcode() != null;
     }
     public void join() {
         Methods.preserveMessages();
@@ -230,6 +245,28 @@ public class AllRidesController implements Serializable {
         }
     }
     
+    public int numberOfRiders(){
+        int numPeople = 1;
+        if (selected.getPasseger1Id() != null){
+            numPeople++;
+        }
+        if (selected.getPassenger2Id() != null){
+            numPeople++;
+        }
+        if (selected.getPassenger3Id() != null){
+            numPeople++;
+        }
+        if (selected.getPassenger4Id() != null){
+            numPeople++;
+        }
+        if (selected.getPassenger5Id() != null){
+            numPeople++;
+        }
+        if (selected.getPassenger6Id() != null){
+            numPeople++;
+        }
+        return numPeople;
+    }
 
     public AllRides prepareCreate() {
         selected = new AllRides();
@@ -239,7 +276,10 @@ public class AllRidesController implements Serializable {
     }
 
     public void create() throws Exception {
-        googleMapsManager.getTripInfo();
+        if(this.canUseMap()){
+            googleMapsManager.getTripInfo();
+            googleMapsManager.getGasPrice();
+        }
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("AllRidesCreated"));
         if (!JsfUtil.isValidationFailed()) {
             //googleMapsManager.getTripInfo();

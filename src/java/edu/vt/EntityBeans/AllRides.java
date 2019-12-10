@@ -426,6 +426,8 @@ public class AllRides implements Serializable {
     public void setDriverId(User driverId) {
         this.driverId = driverId;
     }
+    
+    
 
     @Override
     public int hashCode() {

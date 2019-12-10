@@ -12,12 +12,17 @@
         <p:dialog id="AllRidesViewDlg" widgetVar="AllRidesViewDialog" 
                   modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewAllRidesTitle}" rendered="#{allRidesController.selected != null}" width="500px" height="500px">
             <h:form id="AllRidesViewForm">
-                <iframe
-                    width="450"
-                    height="250"
-                    frameborder="0" style="border:0"
-                    src="#{allRidesController.mapUrl}" allowfullscreen="true">
-                </iframe>
+                <c:choose>
+                    <c:when test="#{allRidesController.canUseMap()}">
+                        <iframe
+                        width="450"
+                        height="250"
+                        frameborder="0" style="border:0"
+                        src="#{allRidesController.mapUrl}" allowfullscreen="true">
+                        </iframe>
+                    </c:when>
+                </c:choose>
+
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" columnClasses="panelGridColumn1,panelGridColumn2" rendered="#{allRidesController.selected != null}">
                         <h:outputText value="#{bundle.ViewAllRidesLabel_id}"/>

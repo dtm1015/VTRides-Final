@@ -31,9 +31,19 @@ public class GoogleMapsManager implements Serializable {
     private final String apiKey = "AIzaSyCquujdZ6xRKgTJF1qkYW6nghXtmqPw9ws";
     private final String directionsUrl = "https://www.google.com/maps/embed/v1/directions?key=";
     private final String tripInfoUrl = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=";
+    private final String latLongUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=";
+    private final String priceApiKey = "rfej9napna.json";
+    private final String priceUrl = "http://devapi.mygasfeed.com/stations/radius/";
     private int tripDistance;
     private int tripTime;
 
+    private double startingLat;
+    private double startingLong;
+    private double endingLat;
+    private double endingLong;
+    private double gasPrice;
+    private double pricePerPerson;
+    
     public boolean getTripInfo() throws Exception {
         Methods.preserveMessages();
         String start = getStartingAddress();
@@ -50,7 +60,7 @@ public class GoogleMapsManager implements Serializable {
             JSONObject duration = element.optJSONObject("duration");
             int seconds = duration.optInt("value", -1);
             JSONObject distance = element.optJSONObject("distance");
-            int feet = distance.optInt("value",-1);
+            int meters = distance.optInt("value",-1);
             AllRides ride = allRidesController.getSelected();
             if (seconds > 0){
                 double minutesD = (double) seconds / 60;
@@ -59,8 +69,8 @@ public class GoogleMapsManager implements Serializable {
                 ride.setTripTime(minutes);
                 //System.out.println(ride.getTripTime().toString());
             }
-            if (feet > 0){
-                double milesD = (double) feet / 5280;
+            if (meters > 0){
+                double milesD = (double) meters / 1609.344;
                 int miles = (int)milesD;
                 tripDistance = miles;
                 ride.setTripDistance(miles);
@@ -98,6 +108,39 @@ public class GoogleMapsManager implements Serializable {
         this.tripTime = tripTime;
     }
 
+    public double getStartingLat() {
+        return startingLat;
+    }
+
+    public void setStartingLat(double startingLat) {
+        this.startingLat = startingLat;
+    }
+
+    public double getStartingLong() {
+        return startingLong;
+    }
+
+    public void setStartingLong(double startingLong) {
+        this.startingLong = startingLong;
+    }
+
+    public double getEndingLat() {
+        return endingLat;
+    }
+
+    public void setEndingLat(double endingLat) {
+        this.endingLat = endingLat;
+    }
+
+    public double getEndingLong() {
+        return endingLong;
+    }
+
+    public void setEndingLong(double endingLong) {
+        this.endingLong = endingLong;
+    }
+
+    
     
     private String getStartingAddress() {
         String start;
@@ -182,5 +225,86 @@ public class GoogleMapsManager implements Serializable {
 
     public String getDirections() {
         return directionsUrl + apiKey + "&origin="+getStartingAddress() + "&destination=" + getEndingAddress();
+    }
+    
+    private void getLatLong() {
+        String totalUrl1 = latLongUrl + getStartingAddress() + "&key=" + apiKey;
+        String totalUrl2 = latLongUrl + getEndingAddress() + "&key=" + apiKey;
+        Methods.preserveMessages();
+        
+        try {
+            
+            String urlResultsJsonData = readUrlContent(totalUrl1);
+            JSONObject resultsJsonObject = new JSONObject(urlResultsJsonData);
+            JSONArray results = resultsJsonObject.getJSONArray("results");
+            JSONObject oneResult = results.getJSONObject(0);
+            JSONObject geometry1 = oneResult.getJSONObject("geometry");
+            JSONObject location1 = geometry1.getJSONObject("location");
+            double startLat = location1.optDouble("lat", 200);
+            double startLong = location1.optDouble("lng", 200);
+            
+            if (startLat < 200){
+                this.startingLat = startLat;
+                //System.out.println(ride.getTripTime().toString());
+            }
+            if (startLong < 200){
+                this.startingLong = startLong;
+                //System.out.println(ride.getTripDistance().toString());
+            }
+            //allRidesController.update();
+            
+            String urlResultsJsonData2 = readUrlContent(totalUrl2);
+            JSONObject resultsJsonObject2 = new JSONObject(urlResultsJsonData2);
+            JSONArray results2 = resultsJsonObject2.getJSONArray("results");
+            JSONObject oneResult2 = results2.getJSONObject(0);
+            JSONObject geometry2 = oneResult2.getJSONObject("geometry");
+            JSONObject location2 = geometry2.getJSONObject("location");
+            double endLat = location2.optDouble("lat", 200);
+            double endLong = location2.optDouble("lng", 200);
+            
+            if (endLat < 200){
+                this.endingLat = endLat;
+                //System.out.println(ride.getTripTime().toString());
+            }
+            if (endLong < 200){
+                this.endingLong = endLong;
+                //System.out.println(ride.getTripDistance().toString());
+            }
+        } catch (Exception ex) {
+            Methods.showMessage("Fatal Error", "The Google Maps Database was not accessed correctly.", "See: " + ex.getMessage());
+        }
+        
+    }
+    
+    
+    public void getGasPrice(){
+        getLatLong();
+        gasPrice = 0;
+        
+        try {
+            String totalUrl = priceUrl + startingLat +"/" + startingLong + "/20/reg/price/" + priceApiKey;
+            String urlResultsJsonData = readUrlContent(totalUrl);
+            JSONObject resultsJsonObject = new JSONObject(urlResultsJsonData);
+            JSONArray stations = resultsJsonObject.getJSONArray("stations");
+            if (stations.length() > 0){
+                for(int i = 0; i < stations.length(); i++){
+                    JSONObject object = stations.getJSONObject(i);
+                    Double onePrice = object.optDouble("reg_price", -1);
+                    if (onePrice > 0){
+                        gasPrice = gasPrice + onePrice;
+                    }
+                }
+            }
+            gasPrice = gasPrice/stations.length();
+            System.out.println("" + gasPrice);
+            AllRides ride = allRidesController.getSelected();
+            pricePerPerson = gasPrice * ride.getTripDistance() / (ride.getCarMpg() * allRidesController.numberOfRiders());
+            ride.setTripCost((int)pricePerPerson);
+            
+            
+            
+        } catch (Exception ex) {
+            Methods.showMessage("Fatal Error", "The Google Maps Database was not accessed correctly.", "See: " + ex.getMessage());
+        }
     }
 }
