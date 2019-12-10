@@ -6,36 +6,62 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition>
+    <ui:composition template="/template/siteTemplate.xhtml">
 
-        <p:dialog id="DefaultCarCreateDlg" widgetVar="DefaultCarCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateDefaultCarTitle}">
-            <h:form id="DefaultCarCreateForm">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{defaultCarController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateDefaultCarLabel_id}" for="id" />
-                        <p:inputText id="id" value="#{defaultCarController.selected.id}" title="#{bundle.CreateDefaultCarTitle_id}" required="true" requiredMessage="#{bundle.CreateDefaultCarRequiredMessage_id}"/>
-                        <p:outputLabel value="#{bundle.CreateDefaultCarLabel_make}" for="make" />
-                        <p:inputText id="make" value="#{defaultCarController.selected.make}" title="#{bundle.CreateDefaultCarTitle_make}" required="true" requiredMessage="#{bundle.CreateDefaultCarRequiredMessage_make}"/>
-                        <p:outputLabel value="#{bundle.CreateDefaultCarLabel_model}" for="model" />
-                        <p:inputText id="model" value="#{defaultCarController.selected.model}" title="#{bundle.CreateDefaultCarTitle_model}" required="true" requiredMessage="#{bundle.CreateDefaultCarRequiredMessage_model}"/>
-                        <p:outputLabel value="#{bundle.CreateDefaultCarLabel_color}" for="color" />
-                        <p:inputText id="color" value="#{defaultCarController.selected.color}" title="#{bundle.CreateDefaultCarTitle_color}" required="true" requiredMessage="#{bundle.CreateDefaultCarRequiredMessage_color}"/>
-                        <p:outputLabel value="#{bundle.CreateDefaultCarLabel_licensePlate}" for="licensePlate" />
-                        <p:inputText id="licensePlate" value="#{defaultCarController.selected.licensePlate}" title="#{bundle.CreateDefaultCarTitle_licensePlate}" required="true" requiredMessage="#{bundle.CreateDefaultCarRequiredMessage_licensePlate}"/>
-                        <p:outputLabel value="#{bundle.CreateDefaultCarLabel_mpg}" for="mpg" />
-                        <p:inputText id="mpg" value="#{defaultCarController.selected.mpg}" title="#{bundle.CreateDefaultCarTitle_mpg}" required="true" requiredMessage="#{bundle.CreateDefaultCarRequiredMessage_mpg}"/>
-                        <p:outputLabel value="#{bundle.CreateDefaultCarLabel_userId}" for="userId" />
-                        <p:selectOneMenu id="userId" value="#{defaultCarController.selected.userId}" >
-                            <f:selectItems value="#{userController.itemsAvailableSelectOne}"
-                                           var="userIdItem"
-                                           itemValue="#{userIdItem}"/>
-                        </p:selectOneMenu>
-                    </p:panelGrid>
-                    <p:commandButton actionListener="#{defaultCarController.create}" value="#{bundle.Save}" update="display,:DefaultCarListForm:datalist,:growl" oncomplete="handleSubmit(args,'DefaultCarCreateDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="DefaultCarCreateDialog.hide()"/>
-                </h:panelGroup>
-            </h:form>
-        </p:dialog>
+        <!-- This page creates the user account. It replaces the default create in 
+        the user folder to provide more functionality -->
+        <ui:define name="title">
+            <!-- Set the page title -->
+            <h:outputText value="Create Default Car"></h:outputText>
+        </ui:define>
 
+        <!-- Create the content for this page below -->
+        <ui:define name="editableContent">
+
+            <div align="center" width="100%">
+
+                <h:form id="DefaultCarCreateForm">
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="2">
+
+                            <!-- Make of the default car -->
+                            <p:outputLabel value="#{bundle.CreateDefaultCarLabel_make}" for="make" />
+                            <p:inputText id="make" value="#{defaultCarController}" 
+                                         title="#{bundle.CreateDefaultCarTitle_make}" required="true" 
+                                         requiredMessage="#{bundle.CreateDefaultCarRequiredMessage_make}"/>
+
+                            <!-- model of default car -->
+                            <p:outputLabel value="#{bundle.CreateDefaultCarLabel_model}" for="model" />
+                            <p:inputText id="model" value="#{defaultCarController.selected.model}" 
+                                         title="#{bundle.CreateDefaultCarTitle_model}" required="true" 
+                                         requiredMessage="#{bundle.CreateDefaultCarRequiredMessage_model}"/>
+
+                            <!-- Color of default car -->
+                            <p:outputLabel value="#{bundle.CreateDefaultCarLabel_color}" for="color" />
+                            <p:inputText id="color" value="#{defaultCarController.selected.color}" 
+                                         title="#{bundle.CreateDefaultCarTitle_color}" required="true" 
+                                         requiredMessage="#{bundle.CreateDefaultCarRequiredMessage_color}"/>
+
+                            <!-- License plate number of car -->
+                            <p:outputLabel value="#{bundle.CreateDefaultCarLabel_licensePlate}" for="licensePlate" />
+                            <p:inputText id="licensePlate" value="#{defaultCarController.selected.licensePlate}" 
+                                         title="#{bundle.CreateDefaultCarTitle_licensePlate}" required="true" 
+                                         requiredMessage="#{bundle.CreateDefaultCarRequiredMessage_licensePlate}"/>
+
+                            <!-- MPG of the car -->
+                            <p:outputLabel value="#{bundle.CreateDefaultCarLabel_mpg}" for="mpg" />
+                            <p:inputText id="mpg" value="#{defaultCarController.selected.mpg}" title="#{bundle.CreateDefaultCarTitle_mpg}"
+                                         required="true" requiredMessage="#{bundle.CreateDefaultCarRequiredMessage_mpg}"/>
+                        </p:panelGrid>
+                        <p:commandButton actionListener="#{defaultCarController.create(userController.selected)}" value="#{bundle.Save}"
+                                         update="display,:DefaultCarListForm:datalist,:growl"
+                                         oncomplete="handleSubmit(args,'DefaultCarCreateDialog');"/>
+                        <p:button value="#{bundle.Cancel}" outcome="/userAccount/Profile.xhtml"/>
+                    </h:panelGroup>
+                </h:form>
+            </div>
+            
+            <ui:include src="List.xhtml"/>
+        </ui:define>
     </ui:composition>
 </html>
