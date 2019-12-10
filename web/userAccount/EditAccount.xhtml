@@ -132,7 +132,7 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                         <!-- Username is listed in an uneditable mode and cannot be changed -->
                         <h:outputText value="#{bundle.ViewUserLabel_username}" />
                         <h:outputText value="#{userController.selected.username}" />
-                    </p:panelGrid>
+                    
                     
                     <!--
                         ********************************
@@ -144,7 +144,7 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                         The required="true" attribute automatically places an asterisk *
                         at the end of the value to indicate that the field is required.  
                         -->
-                        <p:inputText id="emergencyContactFirstName" value="#{userController.emergencyContactFirstName}" required="true" class="inputTextField"
+                        <p:inputText id="emergencyContactFirstName" value="#{userController.selected.emergencyContactFirstName}" required="true" class="inputTextField"
                                      requiredMessage="#{bundle.CreateUserRequiredMessage_emergencyContactFirstName}">
                             <f:validateLength minimum="2" />
                         </p:inputText>   
@@ -155,7 +155,7 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                         ********************************
                         -->
                         <p:outputLabel value="#{bundle.CreateUserLabel_emergencyContactLastName}" for="emergencyContactLastName" />
-                        <p:inputText id="emergencyContactLastName" value="#{userController.emergencyContactLastName}" required="true" class="inputTextField"
+                        <p:inputText id="emergencyContactLastName" value="#{userController.selected.emergencyContactLastName}" required="true" class="inputTextField"
                                      requiredMessage="#{bundle.CreateUserRequiredMessage_emergencyContactLastName}">
                             <f:validateLength minimum="2" />
                         </p:inputText>
@@ -166,7 +166,7 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                         ********************************
                         -->
                         <p:outputLabel value="Emergency Contact Email Address" for="emergencyContactEmail" />
-                        <p:inputText id="emergencyContactEmail" value="#{userController.emergencyContactEmail}" required="true" class="inputTextField"
+                        <p:inputText id="emergencyContactEmail" value="#{userController.selected.emergencyContactEmail}" required="true" class="inputTextField"
                                      requiredMessage="#{bundle.CreateUserRequiredMessage_emergencyContactEmail}">
                             <f:validateLength minimum="2" />
                             <!-- 
@@ -182,7 +182,7 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                         ********************************
                         -->
                         <p:outputLabel value="Emergency Contact Phone Number" for="emergencyContactPhoneNumber" />
-                        <p:inputText id="emergencyContactPhoneNumber" value="#{userController.emergencyContactPhoneNumber}" required="true" class="inputTextField"
+                        <p:inputText id="emergencyContactPhoneNumber" value="#{userController.selected.emergencyContactPhoneNumber}" required="true" class="inputTextField"
                                      requiredMessage="#{bundle.CreateUserRequiredMessage_emergencyContactPhoneNumber}">
                             <f:validateLength minimum="9" />
                             <!-- 
@@ -193,7 +193,7 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                         </p:inputText>
                         
                         <p:outputLabel value="Emergency Contact Phone Carrier" for="carrier"/>
-                        <p:selectOneMenu id="carrier" value="#{userController.emergencyContactPhoneCarrier}"
+                        <p:selectOneMenu id="carrier" value="#{userController.selected.emergencyContactPhoneCarrier}"
                                          required="true" requiredMessage="Please Select a Carrier!" 
                                          class="standardText" >
 
@@ -205,7 +205,7 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                             <f:selectItem itemLabel="Virgin Mobile"     itemValue="vmpix.com" />
 
                         </p:selectOneMenu>
-
+</p:panelGrid>
                     <br />
                     <!--
                     ================================
