@@ -9,7 +9,8 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <!--
     *********************************************
@@ -21,7 +22,7 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
     -->
 
     <!-- Do not enter tags before the composition line since they are ignored by JSF -->
-    <ui:composition>
+    <ui:composition>        
         <h:form>
             <table border="0" cellspacing="0" cellpadding="10" width="100%">
                 <tr>
@@ -60,9 +61,11 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                             </c:otherwise>
                         </c:choose>
                     </td>
+
+                    
                     <!--
                     ***************************************
-                    Column 3 (Right): Hamburger Menu Button
+                    Column 4 (Right): Hamburger Menu Button
                     ***************************************
                     -->
                     <td align="right" valign="middle" style="width:100px;">
@@ -85,6 +88,10 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
 
                                         <h:link outcome="/userAccount/Profile" class="standardText">
                                             <i class="fas fa-home"></i>&nbsp;Home
+                                        </h:link>
+
+                                        <h:link outcome="/safety/TripTimer" class="standardText">
+                                            <i class="fas fa-home"></i>&nbsp;Timer
                                         </h:link>
 
                                         <h:link outcome="/allRides/List" class="standardText" >

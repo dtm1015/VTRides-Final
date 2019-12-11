@@ -38,6 +38,9 @@ public class AllRidesController implements Serializable {
 
     @Inject
     private UserController userController;
+    
+    @Inject 
+    private TimerController timerController;
 
     @EJB
     private UserFacade userFacade;

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Justin Kennedy on 2019.12.10 
+Copyright © 2019 Justin Kennedy. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+    <!-- This page is constructed based on the siteTemplate -->
+    <ui:composition template="/template/siteTemplate.xhtml">
+
+        <ui:define name="title">
+            <!-- Set the page title to Contact Us -->
+            <h:outputText value="Trip Setting"></h:outputText>
+        </ui:define>
+
+        <!-- Create the content for this page below -->
+        <ui:define name="editableContent">
+            <h:form id="StartStopForm"> 
+                <div align="center">
+                    #{timerController.time}<br/>
+                
+                    <p:commandButton id="startButton" icon="fas fa-trash-alt"  value="Start Trip" 
+                                     action="#{emailController.goToConfirmationPage()}"
+                                     onclick="#{timerController.startTimer(allRidesController.getSelected().tripTime * 1.5 * 60000, userController.selected, allRidesController)}" 
+                                     disabled="#{empty allRidesController.selected}">
+
+                        <p:confirm header="Email Confirmation" 
+                                   message="Would you like to notify your emergency contact?" />
+                    </p:commandButton>
+
+                    <p:confirmDialog id="emailConfirmDialogBox" global="true" showEffect="slide" hideEffect="fade">
+                        <div align="center">
+                            <!--The value of the first button listed below will be 
+                            shown as highlighted (default action) when displayed -->
+                            <p:commandButton value="Yes" type="button" 
+                                             class="ui-confirmdialog-yes" icon="fas fa-check-square" />
+                            &nbsp;
+                            <p:commandButton value="No" type="button" 
+                                             class="ui-confirmdialog-no" icon="fas fa-window-close"/>
+                        </div>
+                    </p:confirmDialog>
+                    <p:button outcome="/safety/ConfirmDefaultStartMessage?faces-redirect=true" value="test"/>
+                    
+                    <p:commandButton id="pauseButton" value="Pause Trip" onclick="PF('timer').pause()"/>
+                    <p:commandButton id="stopButton" value="Stop Trip" onclick="PF('timer').stop()"/>
+                    
+                </div>
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+</html>

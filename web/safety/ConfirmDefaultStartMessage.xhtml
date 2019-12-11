@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Justin Kennedy on 2019.12.10 
+Copyright © 2019 Justin Kennedy. All rights reserved.
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+    <!-- This page is constructed based on the siteTemplate -->
+    <ui:composition template="/template/siteTemplate.xhtml">
+        <ui:define name="title">
+            <!-- Set the page title -->
+            <h:outputText value="Confirm Start Message"></h:outputText>
+        </ui:define>
+
+        <!-- Create the content for this page below -->
+        <ui:define name="editableContent">
+            <h:form id="ConfirmStartForm"> 
+                <h1>The following message will be sent to your emergency contacts email:</h1>
+                <br /><br />
+                <h:body>
+                    <h:outputText value="#{emailController.setDefaultBeginEmail()}"/>
+                </h:body>
+                <p:commandButton id="confirmButton" value="Confirm" onclick="PF('timer').start()" actionListener="#{emailController.sendSafetyStartTripEmail()}"/>
+                <p:button id="cancelButton" value="Cancel" outcome="/safety/TripTimer"/>
+            </h:form>
+        </ui:define>
+
+    </ui:composition>
+</html>
