@@ -17,7 +17,18 @@ import javax.inject.Named;
 import org.primefaces.json.JSONArray;
 import org.primefaces.json.JSONObject;
 
+/*
+-------------------------------------------------------------------------------
+Within JSF XHTML pages, this bean will be referenced by using the name
+'googleMapsManager'
+-------------------------------------------------------------------------------
+ */
 @Named("googleMapsManager")
+
+/*
+ allRidesController will be session scoped, so the values of its instance variables
+ will be preserved across multiple HTTP request-response cycles 
+ */
 @SessionScoped
 
 /**
@@ -28,6 +39,11 @@ public class GoogleMapsManager implements Serializable {
 
     @Inject
     private AllRidesController allRidesController;
+     /*
+    ===============================
+    Instance Variables (Properties)
+    ===============================
+     */
     private final String apiKey = "AIzaSyCquujdZ6xRKgTJF1qkYW6nghXtmqPw9ws";
     private final String directionsUrl = "https://www.google.com/maps/embed/v1/directions?key=";
     private final String tripInfoUrl = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=";
@@ -44,6 +60,14 @@ public class GoogleMapsManager implements Serializable {
     private double gasPrice;
     private double pricePerPerson;
     
+    /**
+     * Sets trip time and distance from starting to ending address,
+     * calculations performed by Google Maps API calls
+     * 
+     * @throws Exception if Maps database was not accessed correctly
+     * @return true if Maps API database was accessed correctly, false
+     * otherwise
+     */
     public boolean getTripInfo() throws Exception {
         Methods.preserveMessages();
         String start = getStartingAddress();
@@ -62,6 +86,7 @@ public class GoogleMapsManager implements Serializable {
             JSONObject distance = element.optJSONObject("distance");
             int meters = distance.optInt("value",-1);
             AllRides ride = allRidesController.getSelected();
+            //set trip time and distance
             if (seconds > 0){
                 double minutesD = (double) seconds / 60;
                 int minutes = (int)minutesD;
@@ -83,7 +108,11 @@ public class GoogleMapsManager implements Serializable {
         }
         return true;
     }
-
+     /*
+    ===================
+    Getters and Setters
+    ===================
+     */
     public AllRidesController getAllRidesController() {
         return allRidesController;
     }
@@ -223,18 +252,25 @@ public class GoogleMapsManager implements Serializable {
         }
     }
 
+    /**
+     * @return API query string for Directions API
+     */
     public String getDirections() {
         return directionsUrl + apiKey + "&origin="+getStartingAddress() + "&destination=" + getEndingAddress();
     }
     
-    private void getLatLong() {
+    /**
+     * sets the latitude and longitude of the starting and ending addresses of the current trip
+    */
+    private void getLatLong(){
         String totalUrl1 = latLongUrl + getStartingAddress() + "&key=" + apiKey;
         String totalUrl2 = latLongUrl + getEndingAddress() + "&key=" + apiKey;
         Methods.preserveMessages();
         
         try {
-            
+            //access API 
             String urlResultsJsonData = readUrlContent(totalUrl1);
+            //parse API info
             JSONObject resultsJsonObject = new JSONObject(urlResultsJsonData);
             JSONArray results = resultsJsonObject.getJSONArray("results");
             JSONObject oneResult = results.getJSONObject(0);
@@ -276,14 +312,19 @@ public class GoogleMapsManager implements Serializable {
         
     }
     
-    
+    /**
+     * calculate gas price for current trip, set the trip price based on distance and gas price
+     */
     public void getGasPrice(){
         getLatLong();
+    
         gasPrice = 0;
         
         try {
+            //access API
             String totalUrl = priceUrl + startingLat +"/" + startingLong + "/20/reg/price/" + priceApiKey;
             String urlResultsJsonData = readUrlContent(totalUrl);
+            //parse API info
             JSONObject resultsJsonObject = new JSONObject(urlResultsJsonData);
             JSONArray stations = resultsJsonObject.getJSONArray("stations");
             if (stations.length() > 0){
@@ -299,6 +340,7 @@ public class GoogleMapsManager implements Serializable {
             System.out.println("" + gasPrice);
             AllRides ride = allRidesController.getSelected();
             pricePerPerson = gasPrice * ride.getTripDistance() / (ride.getCarMpg() * allRidesController.numberOfRiders());
+            //set the cost of the trip based on gas info
             ride.setTripCost((int)pricePerPerson);
             
             

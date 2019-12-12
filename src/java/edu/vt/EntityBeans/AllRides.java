@@ -27,7 +27,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author jusmk96
  */
+// The @Entity annotation designates this class as a JPA Entity class representing the AllRides table in the VTRidesDB database.
 @Entity
+// Name of the database table represented
 @Table(name = "AllRides")
 @XmlRootElement
 @NamedQueries({
@@ -63,6 +65,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 })
 public class AllRides implements Serializable {
 
+    /*
+    ========================================================
+    Instance variables representing the attributes (columns)
+    of the AllRides table in the VTRidesDB database.
+    ========================================================
+     */
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -171,6 +179,12 @@ public class AllRides implements Serializable {
     @ManyToOne
     private User driverId;
     
+     /*
+    =============================================================
+    Class constructors for instantiating a AllRides entity object to
+    represent a row in the User's table in the VTRidesDB database.
+    =============================================================
+     */
     public AllRides() {
     }
     
@@ -203,6 +217,11 @@ public class AllRides implements Serializable {
         this.carMpg = carMpg;
     }
 
+    /*
+    =========================
+    Getter and Setter methods 
+    =========================
+     */
     public Integer getId() {
         return id;
     }
@@ -428,7 +447,15 @@ public class AllRides implements Serializable {
     }
     
     
-
+    /*
+    ================
+    Instance Methods
+    ================
+     */
+    
+    /**
+     * @return Generates and returns a hash code value for the object with id
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -436,6 +463,12 @@ public class AllRides implements Serializable {
         return hash;
     }
 
+      /**
+     * Checks if the AllRides object identified by 'object' is the same as the AllRides object identified by 'id'
+     *
+     * @param object The AllRides object identified by 'object'
+     * @return True if the AllRides 'object' and 'id' are the same; otherwise, return False
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set

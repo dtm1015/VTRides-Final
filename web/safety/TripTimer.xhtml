@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Justin Kennedy on 2019.12.10 
+Copyright © 2019 Justin Kennedy. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+    <!-- This page is constructed based on the siteTemplate -->
+    <ui:composition template="/template/siteTemplate.xhtml">
+
+        <ui:define name="title">
+            <!-- Set the page title to Contact Us -->
+            <h:outputText value="Trip Setting"></h:outputText>
+        </ui:define>
+
+        <!-- Create the content for this page below -->
+        <ui:define name="editableContent">
+            <h:form id="StartStopForm"> 
+
+
+                <br/><br/>
+
+                <p:commandButton id="startButton" icon="fas fa-play"  value="Start Trip" 
+                                 update=":EmailConfirmForm,:StartStopForm, :headerForm"
+                                 disabled="#{empty allRidesController.selected}" actionListener="#{timerController.setTimes()}"
+                                 oncomplete="PF('EmailConfirmDialog').show()">
+                </p:commandButton>
+
+                <p:commandButton id="pauseButton" icon="fas fa-pause" update=":StartStopForm,:headerForm" 
+                                 value="Pause/Unpause Trip" 
+                                 actionListener="#{timerController.pauseTimes()}"
+                                 disabled="#{timerController.timerGoing == false}">
+                </p:commandButton>
+                
+                <p:commandButton id="stopButton" value="Stop Trip" icon="fas fa-stop"
+                                 disabled="#{timerController.timerGoing == false}" 
+                                 actionListener="#{timerController.stopTimes()}" immediate="false"
+                                 update=":StartStopForm,:headerForm">
+                </p:commandButton>
+
+                <br/>
+                <br/>
+            </h:form>
+
+            <p:dialog position="center center" id="EmailConfirmDlg" widgetVar="EmailConfirmDialog" 
+                      modal="true" resizable="true" appendTo="@(body)" header="Sent Email to Emergency Contact" 
+                      width="70%" >
+
+                <h:form id="EmailConfirmForm">
+
+                    <div align="center">
+                        <h2>Would you like to send an email to your emergency 
+                            contact letting them know you are starting your ride?</h2>
+
+                        <!--                        The value of the first button listed below will be 
+                                                shown as highlighted (default action) when displayed -->
+                        <p:button value="Yes" outcome="/safety/ConfirmDefaultStartMessage?faces-redirect=true" icon="fas fa-check-square" />
+                        &nbsp;
+                        <p:commandButton value="#{bundle.Cancel}" onclick="PF('EmailConfirmDialog').hide()"
+                                         icon="fas fa-ban" immediate="true" />
+
+                    </div>
+                </h:form>
+            </p:dialog>
+            
+        </ui:define>
+    </ui:composition>
+</html>

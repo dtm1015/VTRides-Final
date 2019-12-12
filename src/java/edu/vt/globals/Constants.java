@@ -1,3 +1,4 @@
+
 /*
  * Created by Justin Kennedy on 2019.11.16  * 
  * Copyright © 2019 Justin Kennedy. All rights reserved. * 
@@ -40,7 +41,7 @@ public final class Constants {
     - Balci
     dir=/home/cloudsd/Kennedy/DocRoot
      */
-    public static final String PHOTOS_ABSOLUTE_PATH = "C:/Users/Yogi/DocRoot/VTRidesStorage";
+    public static final String PHOTOS_ABSOLUTE_PATH = "C:/Users/Justin/DocRoot/VTRidesStorage/";
 
     /*
     In glassfish-web.xml, we specified an alternate document root (DocRoot) with the statement below
@@ -132,7 +133,5 @@ public final class Constants {
         "What is your mother's maiden name?",
         "What was your favorite place to visit as a child?"
     };
-
-    
-       
+      
 }

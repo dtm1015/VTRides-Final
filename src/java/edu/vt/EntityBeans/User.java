@@ -25,7 +25,9 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author jusmk96
  */
+// The @Entity annotation designates this class as a JPA Entity class representing the DefaultCar table in the VTRidesDB database.
 @Entity
+// Name of the database table represented
 @Table(name = "User")
 @XmlRootElement
 @NamedQueries({
@@ -51,6 +53,12 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "User.findByEmergencyContactPhoneCarrier", query = "SELECT u FROM User u WHERE u.emergencyContactPhoneCarrier = :emergencyContactPhoneCarrier")})
 public class User implements Serializable {
 
+    /*
+    ========================================================
+    Instance variables representing the attributes (columns)
+    of the User table in the VTRidesDB database.
+    ========================================================
+     */
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -157,6 +165,13 @@ public class User implements Serializable {
 //    private boolean isAPassenger4;
 //    private boolean isAPassenger5;
 //    private boolean isAPassenger6;
+    
+     /*
+    =============================================================
+    Class constructors for instantiating a User entity object to
+    represent a row in the Users table in the VTRidesDB database.
+    =============================================================
+     */
     public User() {
     }
 
@@ -183,7 +198,12 @@ public class User implements Serializable {
         this.emergencyContactPhoneNumber = emergencyContactPhoneNumber;
         this.emergencyContactPhoneCarrier = emergencyContactPhoneCarrier;
     }
-
+    
+     /*
+    =========================
+    Getter and Setter methods 
+    =========================
+     */
     public Integer getId() {
         return id;
     }
@@ -420,8 +440,15 @@ public class User implements Serializable {
 //    }
 //    
     
+    /*
+    ================
+    Instance Methods
+    ================
+     */
     
-
+    /**
+     * @return Generates and returns a hash code value for the object with id
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -429,6 +456,12 @@ public class User implements Serializable {
         return hash;
     }
 
+      /**
+     * Checks if the User object identified by 'object' is the same as the User object identified by 'id'
+     *
+     * @param object The User object identified by 'object'
+     * @return True if the User 'object' and 'id' are the same; otherwise, return False
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set

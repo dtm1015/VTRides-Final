@@ -4,10 +4,12 @@
  */
 package edu.vt.controllers;
 
+import edu.vt.EntityBeans.User;
 import edu.vt.globals.Methods;
+import java.io.Serializable;
 import javax.inject.Named;
 import java.util.Properties;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -17,24 +19,20 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-/* 
- The @Named class annotation designates the bean object created by this class 
- as a Contexts and Dependency Injection (CDI) managed bean. The object reference
- of a CDI-managed bean can be @Inject'ed in another CDI-Managed bean so that
- the other CDI-managed bean can access the methods and properties of this bean.
-
- Using the Expression Language (EL) in a JSF XHTML page, you can invoke a CDI-managed
- bean's method or set/get its property by using the logical name given with the 'value'
- parameter of the @Named annotation, e.g., #{emailController.methodName() or property name}
+/*
+-------------------------------------------------------------------------------
+Within JSF XHTML pages, this bean will be referenced by using the name
+'emailController'
+-------------------------------------------------------------------------------
  */
 @Named(value = "emailController")
-/* 
- The @RequestScoped annotation indicates that the user’s interaction with
- this CDI-managed bean will be active only in a single HTTP request.
+/*
+ emailController will be session scoped, so the values of its instance variables
+ will be preserved across multiple HTTP request-response cycles 
  */
-@RequestScoped
+@SessionScoped
 
-public class EmailController {
+public class EmailController implements Serializable{
 
     /*
     ==================
@@ -53,6 +51,7 @@ public class EmailController {
     //private String emailCc;             // Contains comma separated multiple email addresses with no spaces
     private String emailSubject;        // Subject line of the email message
     private String emailBody;           // Email content created in HTML format with PrimeFaces Editor
+    private User user;
 
     Properties emailServerProperties;   // java.util.Properties
     Session emailSession;               // javax.mail.Session
@@ -66,12 +65,16 @@ public class EmailController {
     constructors, factories, and service locators (e.g., JNDI). This process, known as 
     dependency injection, is beneficial to most nontrivial applications." [Oracle] 
     
-    The @Inject annotation of the instance variable "private EditorController editorController;" 
-    directs the CDI Container Manager to store the object reference of the EditorController class
-    bean object, after it is instantiated at runtime, into the instance variable "editorController".
+    The @Inject annotation of the instance variables:
+    editorController
+    allRidesCOntroller
+    userController
+    directs the CDI Container Manager to store the object reference of the EditorController,
+    AllRidesController, and UserController classes' bean objects, after it is instantiated
+    at runtime, into the instance variables given. 
 
-    With this injection, the instance variables and instance methods of the EditorController
-    class can be accessed in this CDI-managed bean.
+    With this injection, the instance variables and instance methods of the EditorController,
+    AllRidesController, and UserController classes can be accessed in this CDI-managed bean.
     ************************************************************************************************
      */
     @Inject
@@ -218,7 +221,7 @@ public class EmailController {
     Create Email Sesion and Transport Email in HTML Format
     ======================================================
      */
-    public void sendSafetyStartTripEmail() throws AddressException, MessagingException {
+    public String sendSafetyStartTripEmail() throws AddressException, MessagingException {
 
         // Obtain the email message content from the editorController object
         emailBody = this.setDefaultBeginEmail();
@@ -226,7 +229,7 @@ public class EmailController {
         // Email message content cannot be empty
         if (emailBody.isEmpty()) {
             Methods.showMessage("Error", "Please enter your email message!", "");
-            return;
+            return "safety/TripTimer?faces-redirect=true";
         }
 
         // Set Email Server Properties
@@ -246,7 +249,7 @@ public class EmailController {
             htmlEmailMessage = new MimeMessage(emailSession);
 
             // Set the email TO field to emailTo, which can contain only one email address
-            htmlEmailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(userController.getEmergencyContactEmail()));
+            htmlEmailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(userController.getSelected().getEmergencyContactEmail()));
 
             // It is okay for emailCc to be empty or null since the CC is optional
 
@@ -283,82 +286,17 @@ public class EmailController {
                     "Email Messaging Exception Occurred! Internet Connection Required!",
                     "See: " + me.getMessage());
         }
+        return "safety/TripTimer?faces-redirect=true";
     }
     
-    /*
-    ======================================================
-    Create Email Sesion and Transport Email in HTML Format
-    ======================================================
+   
+    /**
+     * @return String containing the text to be sent via email to the emergency contact
+     *          when the trip begins
      */
-    public void sendSafetyNoEndingEmail() throws AddressException, MessagingException {
-
-        // Obtain the email message content from the editorController object
-        emailBody = this.setDefaultNoEndingEmail();
-
-        // Email message content cannot be empty
-        if (emailBody.isEmpty()) {
-            Methods.showMessage("Error", "Please enter your email message!", "");
-            return;
-        }
-
-        // Set Email Server Properties
-        emailServerProperties = System.getProperties();
-        emailServerProperties.put("mail.smtp.port", "587");
-        emailServerProperties.put("mail.smtp.auth", "true");
-        emailServerProperties.put("mail.smtp.starttls.enable", "true");
-
-        try {
-            // Create an email session using the email server properties set above
-            emailSession = Session.getDefaultInstance(emailServerProperties, null);
-
-            /*
-            Create a Multi-purpose Internet Mail Extensions (MIME) style email
-            message from the MimeMessage class under the email session created.
-             */
-            htmlEmailMessage = new MimeMessage(emailSession);
-
-            // Set the email TO field to emailTo, which can contain only one email address
-            htmlEmailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(userController.getEmergencyContactEmail()));
-
-            // It is okay for emailCc to be empty or null since the CC is optional
-
-            // Set the email subject line
-            htmlEmailMessage.setSubject("VTRides No End Trip Notification");
-
-            // Set the email body to the HTML type text
-            htmlEmailMessage.setContent(emailBody, "text/html");
-
-            // Create a transport object that implements the Simple Mail Transfer Protocol (SMTP)
-            Transport transport = emailSession.getTransport("smtp");
-
-            /*
-            Connect to Gmail's SMTP server using the username and password provided.
-            For the Gmail's SMTP server to accept the unsecure connection, the
-            Cloud.Software.Email@gmail.com account's "Allow less secure apps" option is set to ON.
-             */
-            transport.connect("smtp.gmail.com", "Cloud.Software.Email@gmail.com", "csd@VT-1872");
-
-            // Send the htmlEmailMessage created to the specified list of addresses (recipients)
-            transport.sendMessage(htmlEmailMessage, htmlEmailMessage.getAllRecipients());
-
-            // Close this service and terminate its connection
-            transport.close();
-
-            Methods.showMessage("Information", "Success!", "Email Message is Sent!");
-
-        } catch (AddressException ae) {
-            Methods.showMessage("Fatal Error", "Email Address Exception Occurred!",
-                    "See: " + ae.getMessage());
-
-        } catch (MessagingException me) {
-            Methods.showMessage("Fatal Error",
-                    "Email Messaging Exception Occurred! Internet Connection Required!",
-                    "See: " + me.getMessage());
-        }
-    }
-    
     private String setDefaultBeginEmail(){
         defaultBody = userController.getFirstName() + " " + userController.getLastName() 
+
                 + " is beginning his/her trip from " + 
                 allRidesController.getSelected().getStartingAddress1() + " " + 
                 allRidesController.getSelected().getStartingCity() + ", " + 
@@ -379,6 +317,10 @@ public class EmailController {
         return defaultBody;
     }
     
+    /**
+     * @return String containing the text to be sent via email to the emergency contact
+     *          when the trip ends
+     */
     private String setDefaultNoEndingEmail(){
         defaultBody = userController.getFirstName() + " " + userController.getLastName() 
                 + " has not notified us that he/she has completed his/her trip from " + 

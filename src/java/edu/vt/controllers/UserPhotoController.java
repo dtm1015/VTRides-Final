@@ -32,7 +32,18 @@ import org.imgscalr.Scalr;
 import org.primefaces.event.CaptureEvent;
 import org.primefaces.model.UploadedFile;
 
+/*
+-------------------------------------------------------------------------------
+Within JSF XHTML pages, this bean will be referenced by using the name
+'userPhotoController'
+-------------------------------------------------------------------------------
+ */
 @Named("userPhotoController")
+
+/*
+ UserPhotoController will be session scoped, so the values of its instance variables
+ will be preserved across multiple HTTP request-response cycles 
+ */
 @SessionScoped
 
 public class UserPhotoController implements Serializable {

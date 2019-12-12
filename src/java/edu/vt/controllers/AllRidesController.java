@@ -12,6 +12,8 @@ import edu.vt.globals.Methods;
 import edu.vt.managers.GoogleMapsManager;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -26,10 +28,31 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 
+/*
+-------------------------------------------------------------------------------
+Within JSF XHTML pages, this bean will be referenced by using the name
+'allRidesController'
+-------------------------------------------------------------------------------
+ */
 @Named("allRidesController")
+
+/*
+ allRidesController will be session scoped, so the values of its instance variables
+ will be preserved across multiple HTTP request-response cycles 
+ */
 @SessionScoped
 public class AllRidesController implements Serializable {
 
+     /*
+    ===============================
+    Instance Variables (Properties)
+    ===============================
+     */
+    
+    /*
+    The @EJB annotation implies that the EJB container will perform an injection of the object
+    reference of the AllRides objects into each field when created at runtime. 
+     */
     @EJB
     private edu.vt.FacadeBeans.AllRidesFacade ejbFacade;
     private List<AllRides> items = null;
@@ -37,20 +60,53 @@ public class AllRidesController implements Serializable {
     private List<AllRides> searchedItems = null;
     private AllRides selected;
 
+
     @Inject
     private UserController userController;
-
+    
     @EJB
     private UserFacade userFacade;
+    
+     /*
+    ************************************************************************************************
+    The import javax.inject.Inject; brings in the javax.inject package into our project. 
+    "This package specifies a means for obtaining objects in such a way as to maximize 
+    reusability, testability and maintainability compared to traditional approaches such as
+    constructors, factories, and service locators (e.g., JNDI). This process, known as 
+    dependency injection, is beneficial to most nontrivial applications." [Oracle] 
+    
+    The @Inject annotation of the instance variables:
+    googleMapsManager
+    userController
+  
+    directs the CDI Container Manager to store the object reference of the GoogleMapsManager
+    and UserController classes' bean objects, after it is instantiated at runtime, into the 
+    instance variables given. 
 
+    With this injection, the instance variables and instance methods of the GoogleMapsManager
+    and UserController classes can be accessed in this CDI-managed bean.
+    ************************************************************************************************
+     */
     @Inject
     private GoogleMapsManager googleMapsManager;
+        
+    
     private String searchString;
     private String searchCategory;
 
+    /*
+    =================
+    Contructor Method
+    =================
+     */
     public AllRidesController() {
     }
-
+    
+     /*
+    ===================
+    Getters and Setters
+    ===================
+     */
     public AllRides getSelected() {
         return selected;
     }
@@ -99,7 +155,12 @@ public class AllRidesController implements Serializable {
     public void setSearchedItems(List<AllRides> searchedItems) {
         this.searchedItems = searchedItems;
     }
-
+    
+    /**
+     * search by starting or ending city, depending on the value of searchCategory,
+     * stores results in searchedItems
+     * @return redirect string for search results page
+     */
     public String search() {
 
         switch (searchCategory) {
@@ -113,10 +174,8 @@ public class AllRidesController implements Serializable {
         return "/search/Results?faces-redirect=true";
     }
 
-    /*
-    **************************************
-    Return List of U.S. State Postal Codes
-    **************************************
+    /**
+     * @return list of state abbreviations  
      */
     public String[] listOfStates() {
         return Constants.STATES;
@@ -127,10 +186,15 @@ public class AllRidesController implements Serializable {
 
     protected void initializeEmbeddableKey() {
     }
-
+    
     private AllRidesFacade getFacade() {
         return ejbFacade;
     }
+
+    /**
+     * 
+     * @param userCar is the user's default car entity 
+     */
 
     public void fillInDefaultCar(DefaultCar userCar) {
         if (userCar != null) {
@@ -147,7 +211,10 @@ public class AllRidesController implements Serializable {
     public String getMapUrl() {
         return googleMapsManager.getDirections();
     }
-
+/**
+ * decides whether the map can be displayed given the available information
+ * @return true if the relevant fields are not null, false otherwise 
+ */
     public boolean canUseMap() {
         return this.selected != null
                 && this.selected.getStartingAddress1() != null
@@ -159,7 +226,14 @@ public class AllRidesController implements Serializable {
                 && this.selected.getEndingState() != null
                 && this.selected.getEndingZipcode() != null;
     }
-
+/**
+ * updates passenger fields to indicate that a new rider has joined.
+ * Cases: 
+        1) There is an open spot - check if they are joined, add them if they are not
+        2) There is an open spot - check if they are joined, remove them if they are
+        3) There are no open spots - check if they are joined, and do nothing if they are not
+        4) There are no open spots - check if they are joined, remove them if they are
+ */
     public void join() {
         Methods.preserveMessages();
         int joinId = userController.getSelected().getId();
@@ -250,16 +324,11 @@ public class AllRidesController implements Serializable {
         }
         items = null;
         items = this.getItems();
-
-        /*
-        Cases: 
-        1) There is an open spot - check if they are joined, add them if they are not
-        2) There is an open spot - check if they are joined, remove them if they are
-        3) There are no open spots - check if they are joined, and do nothing if they are not
-        4) There are no open spots - check if they are joined, remove them if they are
-         */
     }
-
+    /**
+     * @param passengerId is the id associated with a potential passenger 
+     * @return seat number of passengerId if the passenger has joined the ride, 0 otherwise
+     */
     private int areJoined(int passengerId) {
         if (selected.getPasseger1Id() != null && selected.getPasseger1Id() == passengerId) {
             return 1;
@@ -277,7 +346,10 @@ public class AllRidesController implements Serializable {
             return 0;
         }
     }
-
+    /**
+     * @return email addresses of each passenger, comma separated
+     * in a single string
+     */
     public String getEmails() {
         StringBuilder emails = new StringBuilder("");
         if (selected.getPasseger1Id() != null) {
@@ -321,7 +393,10 @@ public class AllRidesController implements Serializable {
         }
         return emails.toString();
     }
-
+    
+    /**
+     *  @return number of filled seats on currently selected ride
+     */
     public int numberOfRiders() {
         int numPeople = 1;
         if (selected.getPasseger1Id() != null) {
@@ -344,15 +419,30 @@ public class AllRidesController implements Serializable {
         }
         return numPeople;
     }
-
+    
+    /**
+     *  initializes selected ride and sets the driver ID to the current 
+     * user ID
+     * @return newly created AllRides object stored in selected
+     */
     public AllRides prepareCreate() {
         selected = new AllRides();
         selected.setDriverId(userController.getSelected());
         initializeEmbeddableKey();
         return selected;
     }
-
+    
+     /*
+    ===============
+    CRUD Operations
+    ===============
+     */
+    
+    /**
+     * @throws Exception when creation fails
+     */
     public void create() throws Exception {
+        //if we have all the info needed to use Google Maps, store the trip info and gas price
         if (this.canUseMap()) {
             googleMapsManager.getTripInfo();
             googleMapsManager.getGasPrice();
@@ -383,7 +473,10 @@ public class AllRidesController implements Serializable {
         }
         return items;
     }
-
+ /**
+     * @param persistAction refers to CREATE, UPDATE (Edit) or DELETE action
+     * @param successMessage displayed to inform the user about the result
+ */
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();
@@ -412,6 +505,11 @@ public class AllRidesController implements Serializable {
         }
     }
 
+    /*
+    ************************************************
+    |   Other Auto Generated Methods by NetBeans   |
+    ************************************************
+     */
     public AllRides getAllRides(java.lang.Integer id) {
         return getFacade().find(id);
     }
@@ -422,6 +520,13 @@ public class AllRidesController implements Serializable {
 
     public List<AllRides> getItemsAvailableSelectOne() {
         return getFacade().findAll();
+    }
+    
+    public Date getEndTripDate(){
+        long now = new Date().getTime();
+        int milliseconds = this.selected.getTripTime() * 60000;
+        Date end = new Date(now + milliseconds);
+        return end;
     }
 
     @FacesConverter(forClass = AllRides.class)

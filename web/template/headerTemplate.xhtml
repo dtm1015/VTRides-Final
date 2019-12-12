@@ -9,7 +9,9 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pe="http://primefaces.org/ui/extensions">>
 
     <!--
     *********************************************
@@ -21,8 +23,8 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
     -->
 
     <!-- Do not enter tags before the composition line since they are ignored by JSF -->
-    <ui:composition>
-        <h:form>
+    <ui:composition>        
+        <h:form id="headerForm"
             <table border="0" cellspacing="0" cellpadding="10" width="100%">
                 <tr>
                     <!--
@@ -42,7 +44,7 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                                          alt="VT Logo" />
                                 </h:link>
                             </c:when>
-                            
+
                             <c:otherwise>
                                 <h:link outcome="/index">
                                     <img src="#{resource['images:VTLogo.png']}"
@@ -51,111 +53,136 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                                 </h:link>
                             </c:otherwise>
                         </c:choose>
+                    </td>
 
-                                </td>
-                                <!--
-                                *******************************
-                                Column 2 (Center): Welcome User
-                                *******************************
-                                If the user is the admin, say Hello, Administrator
-                                If the user is not the admin, say Hello, userFirstName
-                                If there is no logged in user, say Hello, Guest
-                                -->
-                                <td align="center" valign="middle">
-                                    <c:choose>
-                                        <c:when test="#{userController.isLoggedIn() == true}"> 
-                                            <div class="helloText">Hello, #{userController.selected.firstName}</div>
-                                        </c:when> 
-                                        <c:otherwise>
-                                            <c:when test="#{userController.isLoggedIn() == false}">
-                                                <h1>Hello, Guest</h1>
-                                            </c:when>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </td>
-                                <!--
-                                ***************************************
-                                Column 3 (Right): Hamburger Menu Button
-                                ***************************************
-                                -->
-                                <td align="right" valign="middle" style="width:100px;">
+                    <!--
+                        *******************************
+                        Column 2 (Center): Welcome User
+                        *******************************
+                        If the user is the admin, say Hello, Administrator
+                        If the user is not the admin, say Hello, userFirstName
+                        If there is no logged in user, say Hello, Guest
+                    -->
+                    <td align="center" valign="middle">
+                        <c:choose>
+                            <c:when test="#{userController.isLoggedIn() == true}"> 
+                                <div class="helloText">Hello, #{userController.selected.firstName}</div>
+                            </c:when> 
+                            <c:otherwise>
+                                <c:when test="#{userController.isLoggedIn() == false}">
+                                    <h1>Hello, Guest</h1>
+                                </c:when>
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
 
-                                    <!--
-                                    tabindex="0" enables the menu element to be focusable and to trigger interaction. 
-                                    This HTML5 attribute makes the menu element act like a button.
-                                    
-                                    style="float:left;" and style="left:0;" place the drop-down menu on the left side.
-                                    -->
-                                    <div tabindex="0" class="menu" style="float:right;padding-right:20px;">
-                                        <div class="menu-dropdown" style="right:0;">
+                    <!--
+                    *****************************************
+                    Column 3: Timer 
+                    *****************************************
+                    -->
+                    <td align="left" valign="middle" style="width:215px;">
+
+                        <pe:timer 
+                            widgetVar="timer"
+                            autoStart="#{timerController.isAutoStart() == true}"
+                            timeout="1"
+                            forward="false"
+                            listener="#{timerController.incrementTime()}"
+                            singleRun="false" visible="false"/>
+
+                        <p:outputPanel autoUpdate="true" rendered="#{timerController.currentTime > 0}" >
+                            <p:outputLabel> Time Left: </p:outputLabel>
+                            <p:outputLabel>
+                                #{timerController.currentTime}
+                            </p:outputLabel>
+
+                        </p:outputPanel> 
 
 
+                    </td>
+
+                    <!--
+                    ***************************************
+                    Column 4 (Right): Hamburger Menu Button
+                    ***************************************
+                    -->
 
 
-                                            <c:choose>
+                    <td align="right" valign="middle" style="width:100px;">
 
-                                                <c:when test="#{userController.isLoggedIn() == true}">
 
-                                                    <h:link outcome="/userAccount/Profile" class="standardText">
-                                                        <i class="fas fa-home"></i>&nbsp;Home
-                                                    </h:link>
+                        <!-- 
+                            ===============================================================
+                            |   Menu Options IF Nobody is Signed In   |
+                            ===============================================================
+                            The guest should be able to log in, or create an account
+                            Take Survey shows them to the sign in page since a user must
+                            be signed in to take a survey
+                        -->
+                        <div tabindex="0" class="menu" style="float:right;padding-right:20px;">
+                            <div class="menu-dropdown" style="right:0;">
 
-                                                    <h:link outcome="/allRides/List" class="standardText" >
-                                                        <i class="fas fa-users"></i>&nbsp;All Rides
-                                                    </h:link>
+                                <c:choose>
 
-                                                    <h:link outcome="/myRides/ListOfMyRides" class="standardText" >
-                                                        <i class="fas fa-car"></i>&nbsp;User Rides
-                                                    </h:link>
+                                    <c:when test="#{userController.isLoggedIn() == true}">
 
-                                                    <!-- Clicking "My Account" displays the Profile.xhtml file -->
-                                                    <h:link outcome="/userAccount/Profile" class="standardText">
-                                                        <!-- 
-                                                        Display the user's photo in a small circle. The cache="false" option
-                                                        enables immediate display of a newly uploaded photo without using cache.
-                                                        -->
-                                                        <p:graphicImage cache="false" class="smallProfilePhoto" 
-                                                                        value="#{userController.userPhoto()}"/>&nbsp;&nbsp;My Account
-                                                    </h:link>
+                                        <h:link outcome="/userAccount/Profile" class="standardText">
+                                            <i class="fas fa-home"></i>&nbsp;Home
+                                        </h:link>
 
-                                                    <!-- Clicking "Sign Out" invokes userController's logout() method -->
-                                                    <h:commandLink action="#{userController.logout()}" class="standardText" >
-                                                        <i class="fas fa-sign-out-alt"></i>&nbsp;Sign Out
-                                                    </h:commandLink>
+                                        <h:link outcome="/safety/TripTimer" class="standardText">
+                                            <i class="fas fa-clock"></i>&nbsp;Trip Logger
+                                        </h:link>
 
-                                                </c:when> 
-                                                <!-- 
-                                                    ===============================================================
-                                                    |   Menu Options IF Nobody is Signed In   |
-                                                    ===============================================================
-                                                    The guest should be able to log in, or create an account
-                                                    Take Survey shows them to the sign in page since a user must
-                                                    be signed in to take a survey
-                                                -->
-                                                <c:otherwise>
+                                        <h:link outcome="/allRides/List" class="standardText" >
+                                            <i class="fas fa-cars"></i>&nbsp;All Rides
+                                        </h:link>
 
-                                                    <c:when test="#{userController.isLoggedIn() == false}">
-                                                        <h:link outcome="/index" class="standardText">
-                                                            <i class="fas fa-home"></i>&nbsp;Home
-                                                        </h:link>
-                                                        <!-- Clicking "Create an Account" displays the CreateAccount.xhtml file -->
-                                                        <h:link outcome="/userAccount/CreateAccount" class="standardText">
-                                                            <i class="fas fa-user-plus"></i>&nbsp;Create an Account
-                                                        </h:link>
-                                                    </c:when>
+                                        <h:link outcome="/myRides/ListOfMyRides" class="standardText" >
+                                            <i class="fas fa-car"></i>&nbsp;User Rides
+                                        </h:link>
 
-                                                </c:otherwise>
-                                            </c:choose>
+                                        <!-- Clicking "My Account" displays the Profile.xhtml file -->
+                                        <h:link outcome="/userAccount/Profile" class="standardText">
+                                            <!-- 
+                                            Display the user's photo in a small circle. The cache="false" option
+                                            enables immediate display of a newly uploaded photo without using cache.
+                                            -->
+                                            <p:graphicImage cache="false" class="smallProfilePhoto" 
+                                                            value="#{userController.userPhoto()}"/>&nbsp;&nbsp;My Account
+                                        </h:link>
 
-                                        </div>
-                                    </div>
-                                </td>
-                                </tr>
-                                </table>
+                                        <!-- Clicking "Sign Out" invokes userController's logout() method -->
+                                        <h:commandLink action="#{userController.logout()}" class="standardText" >
+                                            <i class="fas fa-sign-out-alt"></i>&nbsp;Sign Out
+                                        </h:commandLink>
 
-                                </h:form>
+                                    </c:when> 
+                                    <c:otherwise>
 
-                                </ui:composition>
-                                <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+                                        <c:when test="#{userController.isLoggedIn() == false}">
+                                            <h:link outcome="/index" class="standardText">
+                                                <i class="fas fa-home"></i>&nbsp;Home
+                                            </h:link>
+                                            <!-- Clicking "Create an Account" displays the CreateAccount.xhtml file -->
+                                            <h:link outcome="/userAccount/CreateAccount" class="standardText">
+                                                <i class="fas fa-user-plus"></i>&nbsp;Create an Account
+                                            </h:link>
+                                        </c:when>
 
-                                </html>
+                                    </c:otherwise>
+                                </c:choose>
+
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+        </h:form>
+
+    </ui:composition>
+    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+</html>
