@@ -17,21 +17,16 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 /*
- The @Named class annotation designates the bean object created by this class
- as a Contexts and Dependency Injection (CDI) managed bean. The object reference
- of a CDI-managed bean can be @Inject'ed in another CDI-Managed bean so that
- the other CDI-managed bean can access the methods and properties of this bean.
- 
- Using the Expression Language (EL) in a JSF XHTML page, you can invoke a CDI-managed
- bean's method or set/get its property by using the logical name given with the 'value'
- parameter of the @Named annotation, e.g., 
-    #{textMessageController.methodName() or property name}
+-------------------------------------------------------------------------------
+Within JSF XHTML pages, this bean will be referenced by using the name
+'textMessageController'
+-------------------------------------------------------------------------------
  */
 @Named(value = "textMessageController")
 
 /*
- The @RequestScoped annotation indicates that the user’s interaction with
- this CDI-managed bean will be active only in a single HTTP request.
+ textMessageController will be session scoped, so the values of its instance variables
+ will be preserved across multiple HTTP request-response cycles 
  */
 @RequestScoped
 

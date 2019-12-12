@@ -24,7 +24,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author jusmk96
  */
+// The @Entity annotation designates this class as a JPA Entity class representing the DefaultCar table in the VTRidesDB database.
 @Entity
+// Name of the database table represented
 @Table(name = "DefaultCar")
 @XmlRootElement
 @NamedQueries({
@@ -38,7 +40,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "DefaultCar.findByUserid", query = "SELECT d FROM DefaultCar d WHERE d.userId = :userid")})
 
 public class DefaultCar implements Serializable {
-
+    /*
+    ========================================================
+    Instance variables representing the attributes (columns)
+    of the DefaultCar table in the VTRidesDB database.
+    ========================================================
+     */
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -73,6 +80,12 @@ public class DefaultCar implements Serializable {
     @ManyToOne
     private User userId;
 
+    /*
+    =============================================================
+    Class constructors for instantiating a DefaultCar entity object to
+    represent a row in the DefaultCar table in the VTRidesDB database.
+    =============================================================
+     */
     public DefaultCar() {
     }
 
@@ -88,6 +101,12 @@ public class DefaultCar implements Serializable {
         this.licensePlate = licensePlate;
         this.mpg = mpg;
     }
+    
+     /*
+    =========================
+    Getter and Setter methods 
+    =========================
+     */
 
     public Integer getId() {
         return id;
@@ -144,7 +163,15 @@ public class DefaultCar implements Serializable {
     public void setUserId(User userId) {
         this.userId = userId;
     }
-
+    /*
+    ================
+    Instance Methods
+    ================
+     */
+    
+    /**
+     * @return Generates and returns a hash code value for the object with id
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -152,6 +179,12 @@ public class DefaultCar implements Serializable {
         return hash;
     }
 
+       /**
+     * Checks if the DefaultCar object identified by 'object' is the same as the DefaultCar object identified by 'id'
+     *
+     * @param object The DefaultCar object identified by 'object'
+     * @return True if the DefaultCar 'object' and 'id' are the same; otherwise, return False
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -167,6 +200,7 @@ public class DefaultCar implements Serializable {
 
     @Override
     public String toString() {
+         // Convert the User object's database primary key (Integer) to String type and return it.
         return "edu.vt.EntityBeans.DefaultCar[ id=" + id + " ]";
     }
     

@@ -17,20 +17,16 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-/* 
- The @Named class annotation designates the bean object created by this class 
- as a Contexts and Dependency Injection (CDI) managed bean. The object reference
- of a CDI-managed bean can be @Inject'ed in another CDI-Managed bean so that
- the other CDI-managed bean can access the methods and properties of this bean.
-
- Using the Expression Language (EL) in a JSF XHTML page, you can invoke a CDI-managed
- bean's method or set/get its property by using the logical name given with the 'value'
- parameter of the @Named annotation, e.g., #{emailController.methodName() or property name}
+/*
+-------------------------------------------------------------------------------
+Within JSF XHTML pages, this bean will be referenced by using the name
+'emailController'
+-------------------------------------------------------------------------------
  */
 @Named(value = "emailController")
-/* 
- The @RequestScoped annotation indicates that the user’s interaction with
- this CDI-managed bean will be active only in a single HTTP request.
+/*
+ emailController will be session scoped, so the values of its instance variables
+ will be preserved across multiple HTTP request-response cycles 
  */
 @RequestScoped
 
@@ -66,12 +62,16 @@ public class EmailController {
     constructors, factories, and service locators (e.g., JNDI). This process, known as 
     dependency injection, is beneficial to most nontrivial applications." [Oracle] 
     
-    The @Inject annotation of the instance variable "private EditorController editorController;" 
-    directs the CDI Container Manager to store the object reference of the EditorController class
-    bean object, after it is instantiated at runtime, into the instance variable "editorController".
+    The @Inject annotation of the instance variables:
+    editorController
+    allRidesCOntroller
+    userController
+    directs the CDI Container Manager to store the object reference of the EditorController,
+    AllRidesController, and UserController classes' bean objects, after it is instantiated
+    at runtime, into the instance variables given. 
 
-    With this injection, the instance variables and instance methods of the EditorController
-    class can be accessed in this CDI-managed bean.
+    With this injection, the instance variables and instance methods of the EditorController,
+    AllRidesController, and UserController classes can be accessed in this CDI-managed bean.
     ************************************************************************************************
      */
     @Inject
@@ -357,6 +357,10 @@ public class EmailController {
         }
     }
     
+    /**
+     * @return String containing the text to be sent via email to the emergency contact
+     *          when the trip begins
+     */
     private String setDefaultBeginEmail(){
         defaultBody = userController.getFirstName() + " " + userController.getLastName() 
                 + " is beginning his/her trip from " + 
@@ -379,6 +383,10 @@ public class EmailController {
         return defaultBody;
     }
     
+    /**
+     * @return String containing the text to be sent via email to the emergency contact
+     *          when the trip ends
+     */
     private String setDefaultNoEndingEmail(){
         defaultBody = userController.getFirstName() + " " + userController.getLastName() 
                 + " has not notified us that he/she has completed his/her trip from " + 

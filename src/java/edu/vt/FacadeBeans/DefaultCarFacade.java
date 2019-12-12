@@ -29,6 +29,10 @@ public class DefaultCarFacade extends AbstractFacade<DefaultCar> {
         super(DefaultCar.class);
     }
     
+    /**
+     * @param userid is the primaryKey associated with a User entity in the database.
+     * @return default car associated with the user indicated by userid
+     */
     public DefaultCar findByUserid(User userid) {
         if (em.createQuery("SELECT d FROM DefaultCar d WHERE d.userId = :userid")
                 .setParameter("userid", userid)

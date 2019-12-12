@@ -34,10 +34,9 @@ public final class Constants {
 
     Windows OS: Specify file or directory paths starting with C:
     
-    public static final String PHOTOS_ABSOLUTE_PATH = "C:/Users/Balci/DocRoot/UserPhotoStorage/";
+    public static final String PHOTOS_ABSOLUTE_PATH = "C:/Users/User/DocRoot/UserPhotoStorage/";
     
     macOS (Unix or Linux): Specify the absolute directory path as shown below.
-    - Balci
     dir=/home/cloudsd/Kennedy/DocRoot
      */
     public static final String PHOTOS_ABSOLUTE_PATH = "C:/Users/Yogi/DocRoot/VTRidesStorage";
