@@ -62,122 +62,146 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                                         <i class="fas fa-home"></i>&nbsp;Home
                                     </h:link>
                                 </li>
+                                <!-- 
+                                    See if the user already has a default car. If so, show the link for the edit car page.
+                                    Otherwise, show the link for the create car page.
+                                -->
+                                <c:choose>
 
-                                <li class="verticalMenuItem">
-                                    <!--
-                                    ================================
-                                    |        Create DEFAULT CAR Link        |
-                                    ================================
-                                    -->
-                                    <h:link outcome="/defaultCar/Create">
-                                        <i class="fas fa-th-list"></i>&nbsp;Create Default Car
-                                    </h:link>
-                                </li>
+                                    <c:when test="#{defaultCarController.hasDefaultCar(userController.selected) == true}">
+
+
+
+                                        <li class="verticalMenuItem">
+                                            <!--
+                                            ================================
+                                            |        Edit DEFAULT CAR Link        |
+                                            ================================
+                                            -->
+                                            <h:link outcome="/defaultCar/Edit">
+                                                <i class="fas fa-th-list"></i>&nbsp;Edit Default Car
+                                            </h:link>
+                                        </li>
+
+                                    </c:when>
+
+                                    <c:otherwise>
+                                        <li class="verticalMenuItem">
+                                            <!--
+                                            ================================
+                                            |        Create DEFAULT CAR Link        |
+                                            ================================
+                                            -->
+                                            <h:link outcome="/defaultCar/Create">
+                                                <i class="fas fa-th-list"></i>&nbsp;Create Default Car
+                                            </h:link>
+                                        </li>
+                                    </c:otherwise>
+                                </c:choose>
                                 
-                                
-                                <li class="verticalMenuItem">
-                                    <!--
-                                    ================================
-                                    |         ALL RIDES Link        |
-                                    ================================
-                                    -->
-                                    <h:link outcome="/allRides/List">
-                                        <i class="fas fa-users"></i>&nbsp;All Rides
-                                    </h:link>
-                                </li>
-                                
-                                <li class="verticalMenuItem">
-                                    <!--
-                                    ================================
-                                    |         USER RIDES Link        |
-                                    ================================
-                                    -->
-                                    <h:link outcome="/myRides/ListOfMyRides">
-                                        <i class="fas fa-car"></i>&nbsp;My Rides
-                                    </h:link>
-                                </li>
+                                    <li class="verticalMenuItem">
+                                        <!--
+                                        ================================
+                                        |         ALL RIDES Link        |
+                                        ================================
+                                        -->
+                                        <h:link outcome="/allRides/List">
+                                            <i class="fas fa-users"></i>&nbsp;All Rides
+                                        </h:link>
+                                    </li>
 
-                                <li class="verticalMenuItem">
-                                    <!--
-                                    ================================
-                                    |      EDIT PROFILE Link       |
-                                    ================================
-                                    -->
-                                    <h:link outcome="/userAccount/EditAccount">
-                                        <i class="fas fa-edit"></i>&nbsp;Edit Profile
-                                    </h:link>
-                                </li>
+                                    <li class="verticalMenuItem">
+                                        <!--
+                                        ================================
+                                        |         USER RIDES Link        |
+                                        ================================
+                                        -->
+                                        <h:link outcome="/myRides/ListOfMyRides">
+                                            <i class="fas fa-car"></i>&nbsp;My Rides
+                                        </h:link>
+                                    </li>
 
-                                <li class="verticalMenuItem"> 
-                                    <!--
-                                    ================================
-                                    |      CHANGE PHOTO Link       |
-                                    ================================
-                                    -->
-                                    <h:link outcome="/userPhoto/ChangePhoto">
-                                        <i class="fas fa-camera"></i>&nbsp;Change Photo
-                                    </h:link>
-                                </li>
+                                    <li class="verticalMenuItem">
+                                        <!--
+                                        ================================
+                                        |      EDIT PROFILE Link       |
+                                        ================================
+                                        -->
+                                        <h:link outcome="/userAccount/EditAccount">
+                                            <i class="fas fa-edit"></i>&nbsp;Edit Profile
+                                        </h:link>
+                                    </li>
 
-                                <li class="verticalMenuItem">
-                                    <!--
-                                    ================================
-                                    |     CHANGE PASSWORD Link     |
-                                    ================================
-                                    -->
-                                    <h:link outcome="/userPasswordChange/EnterUsername">
-                                        <i class="fas fa-key"></i>&nbsp;Change Password
-                                    </h:link>
-                                </li>
+                                    <li class="verticalMenuItem"> 
+                                        <!--
+                                        ================================
+                                        |      CHANGE PHOTO Link       |
+                                        ================================
+                                        -->
+                                        <h:link outcome="/userPhoto/ChangePhoto">
+                                            <i class="fas fa-camera"></i>&nbsp;Change Photo
+                                        </h:link>
+                                    </li>
 
-                                <li class="verticalMenuItem">
-                                    <!--
-                                    ================================
-                                    |      DELETE ACCOUNT Link     |
-                                    ================================
-                                    -->
+                                    <li class="verticalMenuItem">
+                                        <!--
+                                        ================================
+                                        |     CHANGE PASSWORD Link     |
+                                        ================================
+                                        -->
+                                        <h:link outcome="/userPasswordChange/EnterUsername">
+                                            <i class="fas fa-key"></i>&nbsp;Change Password
+                                        </h:link>
+                                    </li>
 
-                                    <!-- ****************** Delete Account Begin **************************** -->
-                                    <!-- 
-                                    When the user selects YES on the confirmDialogBox, SecurityQuestionDialog included below is
-                                    displayed, and the form with id SecurityQuestionForm in the SecurityQuestionDialog is updated.
-                                    -->
-                                    <p:commandLink oncomplete="PF('SecurityQuestionDialog').show()" update=":SecurityQuestionForm" >
+                                    <li class="verticalMenuItem">
+                                        <!--
+                                        ================================
+                                        |      DELETE ACCOUNT Link     |
+                                        ================================
+                                        -->
 
-                                        <label style="font-size: 10pt;">
-                                            <i class="fas fa-trash-alt"></i>&nbsp;Delete Account
-                                        </label>
+                                        <!-- ****************** Delete Account Begin **************************** -->
+                                        <!-- 
+                                        When the user selects YES on the confirmDialogBox, SecurityQuestionDialog included below is
+                                        displayed, and the form with id SecurityQuestionForm in the SecurityQuestionDialog is updated.
+                                        -->
+                                        <p:commandLink oncomplete="PF('SecurityQuestionDialog').show()" update=":SecurityQuestionForm" >
 
-                                        <p:confirm header="Account Deletion Confirmation" 
-                                                   message="Are you sure to permanently delete your account? This cannot be undone!" 
-                                                   icon="fas fa-exclamation-triangle fa-2x" />
-                                    </p:commandLink>
-                                    <!-- 
-                                    The confirmation dialog is displayed to check if the user really wants to delete the account.
-                                    -->
-                                    <p:confirmDialog id="confirmDialogBox" global="true" showEffect="fade" hideEffect="fade">
-                                        <div align="center">
-                                            <p:commandButton value="No" type="button" 
-                                                             class="ui-confirmdialog-no" icon="fas fa-window-close" />
-                                            &nbsp;
-                                            <p:commandButton value="Yes" type="button" 
-                                                             class="ui-confirmdialog-yes" icon="fas fa-check-square" />
-                                        </div>
-                                    </p:confirmDialog>
+                                            <label style="font-size: 10pt;">
+                                                <i class="fas fa-trash-alt"></i>&nbsp;Delete Account
+                                            </label>
 
-                                    <!-- ****************** Delete Account End **************************** -->
-                                </li>
+                                            <p:confirm header="Account Deletion Confirmation" 
+                                                       message="Are you sure to permanently delete your account? This cannot be undone!" 
+                                                       icon="fas fa-exclamation-triangle fa-2x" />
+                                        </p:commandLink>
+                                        <!-- 
+                                        The confirmation dialog is displayed to check if the user really wants to delete the account.
+                                        -->
+                                        <p:confirmDialog id="confirmDialogBox" global="true" showEffect="fade" hideEffect="fade">
+                                            <div align="center">
+                                                <p:commandButton value="No" type="button" 
+                                                                 class="ui-confirmdialog-no" icon="fas fa-window-close" />
+                                                &nbsp;
+                                                <p:commandButton value="Yes" type="button" 
+                                                                 class="ui-confirmdialog-yes" icon="fas fa-check-square" />
+                                            </div>
+                                        </p:confirmDialog>
 
-                                <li class="verticalMenuItem">
-                                    <!--
-                                    ================================
-                                    |         SIGN OUT Link        |
-                                    ================================
-                                    -->
-                                    <h:commandLink action="#{userController.logout()}">
-                                        <i class="fas fa-sign-out-alt"></i>&nbsp;Sign Out
-                                    </h:commandLink>
-                                </li>
+                                        <!-- ****************** Delete Account End **************************** -->
+                                    </li>
+
+                                    <li class="verticalMenuItem">
+                                        <!--
+                                        ================================
+                                        |         SIGN OUT Link        |
+                                        ================================
+                                        -->
+                                        <h:commandLink action="#{userController.logout()}">
+                                            <i class="fas fa-sign-out-alt"></i>&nbsp;Sign Out
+                                        </h:commandLink>
+                                    </li>
                             </ul>
                         </td>
                         <!--
@@ -244,7 +268,7 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
             <p:dialog position="center center" id="SecurityQuestionDlg" widgetVar="SecurityQuestionDialog" 
                       modal="true" resizable="false" appendTo="@(body)" header="Security Question" 
                       showEffect="blind" hideEffect="fade">
-                
+
                 <!--This dialog is opened when the user would like to delete their account. To ensure that 
                     they fully intend to delete their account, they must first answer their security question-->
                 <h:form id="SecurityQuestionForm">

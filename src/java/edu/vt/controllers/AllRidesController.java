@@ -1,6 +1,7 @@
 package edu.vt.controllers;
 
 import edu.vt.EntityBeans.AllRides;
+import edu.vt.EntityBeans.DefaultCar;
 import edu.vt.EntityBeans.User;
 import edu.vt.controllers.util.JsfUtil;
 import edu.vt.controllers.util.JsfUtil.PersistAction;
@@ -11,6 +12,8 @@ import edu.vt.globals.Methods;
 import edu.vt.managers.GoogleMapsManager;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -39,9 +42,6 @@ public class AllRidesController implements Serializable {
     @Inject
     private UserController userController;
     
-    @Inject 
-    private TimerController timerController;
-
     @EJB
     private UserFacade userFacade;
 
@@ -132,6 +132,18 @@ public class AllRidesController implements Serializable {
 
     private AllRidesFacade getFacade() {
         return ejbFacade;
+    }
+
+    public void fillInDefaultCar(DefaultCar userCar) {
+        if (userCar != null) {
+            this.selected.setCarMake(userCar.getMake());
+            this.selected.setCarModel(userCar.getModel());
+            this.selected.setCarColor(userCar.getColor());
+            this.selected.setCarLicensePlate(userCar.getLicensePlate());
+            this.selected.setCarMpg(userCar.getMpg());
+        } else {
+            Methods.showMessage("Error", "You don't have a default car!","Fill in the text boxes below.");
+        }
     }
 
     public String getMapUrl() {
@@ -412,6 +424,13 @@ public class AllRidesController implements Serializable {
 
     public List<AllRides> getItemsAvailableSelectOne() {
         return getFacade().findAll();
+    }
+    
+    public Date getEndTripDate(){
+        long now = new Date().getTime();
+        int milliseconds = this.selected.getTripTime() * 60000;
+        Date end = new Date(now + milliseconds);
+        return end;
     }
 
     @FacesConverter(forClass = AllRides.class)

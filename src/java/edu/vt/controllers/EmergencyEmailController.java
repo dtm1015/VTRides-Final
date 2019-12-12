@@ -6,7 +6,11 @@ package edu.vt.controllers;
 
 import edu.vt.EntityBeans.User;
 import edu.vt.globals.Methods;
+import java.io.Serializable;
 import java.util.Properties;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -19,7 +23,9 @@ import javax.mail.internet.MimeMessage;
  *
  * @author jusmk96
  */
-public class EmergencyEmailController {
+@Named("emergencyEmailController")
+@SessionScoped
+public class EmergencyEmailController implements Serializable {
     //private String emailSubject;        // Subject line of the email message
     private String emailBody;           // Email content created in HTML format with PrimeFaces Editor
     
@@ -27,13 +33,19 @@ public class EmergencyEmailController {
     Properties emailServerProperties;   // java.util.Properties
     Session emailSession;               // javax.mail.Session
     MimeMessage htmlEmailMessage;       // javax.mail.internet.MimeMessage
+    @Inject
+    UserController userController;
+    @Inject
+    AllRidesController allRidesController;
+    
     /*
     ======================================================
     Create Email Sesion and Transport Email in HTML Format
     ======================================================
      */
-    public void sendSafetyNoEndingEmail(User user, AllRidesController allRidesController) throws AddressException, MessagingException {
+    public void sendSafetyNoEndingEmail() throws AddressException, MessagingException {
         
+        User user = userController.getSelected();
         // Obtain the email message content from the editorController object
         emailBody = this.setDefaultNoEndingEmail(user, allRidesController);
 

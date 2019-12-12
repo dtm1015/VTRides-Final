@@ -27,7 +27,8 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                 <h:body>
                     <h:outputText value="#{emailController.setDefaultBeginEmail()}"/>
                 </h:body>
-                <p:commandButton id="confirmButton" value="Confirm" onclick="PF('timer').start()" actionListener="#{emailController.sendSafetyStartTripEmail()}"/>
+                <br /><br />
+                <p:commandButton id="confirmButton" icon="fas fa-check-square" value="Confirm" actionListener="#{emailController.sendSafetyStartTripEmail()}"/>
                 <p:button id="cancelButton" value="Cancel" outcome="/safety/TripTimer"/>
             </h:form>
         </ui:define>

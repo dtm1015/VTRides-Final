@@ -221,7 +221,7 @@ public class EmailController implements Serializable{
     Create Email Sesion and Transport Email in HTML Format
     ======================================================
      */
-    public void sendSafetyStartTripEmail() throws AddressException, MessagingException {
+    public String sendSafetyStartTripEmail() throws AddressException, MessagingException {
 
         // Obtain the email message content from the editorController object
         emailBody = this.setDefaultBeginEmail();
@@ -229,7 +229,7 @@ public class EmailController implements Serializable{
         // Email message content cannot be empty
         if (emailBody.isEmpty()) {
             Methods.showMessage("Error", "Please enter your email message!", "");
-            return;
+            return "safety/TripTimer?faces-redirect=true";
         }
 
         // Set Email Server Properties
@@ -286,6 +286,7 @@ public class EmailController implements Serializable{
                     "Email Messaging Exception Occurred! Internet Connection Required!",
                     "See: " + me.getMessage());
         }
+        return "safety/TripTimer?faces-redirect=true";
     }
     
     

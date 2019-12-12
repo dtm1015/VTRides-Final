@@ -150,7 +150,7 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                                 <f:validator validatorId="zipCodeValidator"/> 
                             </p:inputText>
 
-                            
+
                             <!--
                         **********************************
                         *          TRIP DATE        *
@@ -177,14 +177,29 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                                 <f:selectItem itemLabel="6"           itemValue="#{6}" />
                             </p:selectOneMenu>
 
-                             <!--
-                        *************************************
-                        *          Car Make        *
-                        *************************************
+                            <!--
+                       *************************************
+                       *          Use Default Car Button       *
+                       *************************************
+                            -->
+                            <p:outputLabel value="Use default Car"/>
+                            <p:commandButton icon="fas fa-car" ajax="true" update="carMake,carModel,carColor,carLicensePlate,carMpg"
+                                             actionListener="#{allRidesController.fillInDefaultCar(defaultCarController.selected)}"
+                                             process="@this">
+                            </p:commandButton>
+
+
+                            <!--
+                       *************************************
+                       *          Car Make        *
+                       *************************************
                             -->
                             <p:outputLabel value="#{bundle.CreateAllRidesLabel_carMake}" for="carMake" />
-                            <p:inputText id="carMake" value="#{allRidesController.selected.carMake}" 
-                                         class="inputTextField" required="true" requiredMessage="#{bundle.CreateAllRidesRequiredMessage_carMake}"/>
+                            <p:inputText id="carMake" value="#{allRidesController.selected.carMake}"
+                                         class="inputTextField" required="true" 
+                                         requiredMessage="#{bundle.CreateAllRidesRequiredMessage_carMake}">
+                                <p:ajax listener="#{allRidesController.fillInDefaultCar(defaultCarController.selected)}"/>
+                            </p:inputText>
 
                             <!--
                         *************************************
@@ -194,7 +209,7 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                             <p:outputLabel value="#{bundle.CreateAllRidesLabel_carModel}" for="carModel" />
                             <p:inputText id="carModel" value="#{allRidesController.selected.carModel}" 
                                          class="inputTextField" required="true" requiredMessage="#{bundle.CreateAllRidesRequiredMessage_carModel}"/>
-                            
+
                             <!--
                         *************************************
                         *          Car Color        *
@@ -203,7 +218,7 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                             <p:outputLabel value="#{bundle.CreateAllRidesLabel_carColor}" for="carColor" />
                             <p:inputText id="carColor" value="#{allRidesController.selected.carColor}" 
                                          class="inputTextField" required="true" requiredMessage="#{bundle.CreateAllRidesRequiredMessage_carColor}"/>
-                            
+
                             <!--
                         *************************************
                         *          Car License Plate       *
@@ -212,16 +227,16 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                             <p:outputLabel value="#{bundle.CreateAllRidesLabel_carLicensePlate}" for="carLicensePlate" />
                             <p:inputText id="carLicensePlate" value="#{allRidesController.selected.carLicensePlate}" 
                                          class="inputTextField" required="true" requiredMessage="#{bundle.CreateAllRidesRequiredMessage_carLicensePlate}"/>
-                            
+
                             <!--
                         *************************************
                         *          Car Mpg      *
                         *************************************
                             -->
                             <p:outputLabel value="#{bundle.CreateAllRidesLabel_carMpg}" for="carMpg" />
-                            <p:inputText id="carMpg" value="#{allRidesController.selected.carMpg}" 
+                            <p:inputText id="carMpg" value="#{allRidesController.selected.carMpg}"
                                          class="inputTextField" required="true" requiredMessage="#{bundle.CreateAllRidesRequiredMessage_carMpg}"/>
-                            
+
                         </p:panelGrid>
                         <div align="center">
                             <!-- SAVE BUTTON -->

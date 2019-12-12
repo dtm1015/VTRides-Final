@@ -10,7 +10,8 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pe="http://primefaces.org/ui/extensions">>
 
     <!--
     *********************************************
@@ -23,7 +24,7 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
 
     <!-- Do not enter tags before the composition line since they are ignored by JSF -->
     <ui:composition>        
-        <h:form>
+        <h:form id="headerForm">
             <table border="0" cellspacing="0" cellpadding="10" width="100%">
                 <tr>
                     <!--
@@ -32,15 +33,30 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                     *****************************************
                     -->
                     <td align="left" valign="middle" style="width:215px;">
+                        <c:choose>
 
-                        <!-- Use EL to reference the image file since it will be accessed from all UI pages -->
-                        <h:link outcome="/index">
-                            <img src="#{resource['images:VTLogo.png']}"
-                                 style="width:100%; height:100%; max-height:64px; max-width:64px; border: none"
-                                 alt="VT Logo" />
-                        </h:link>
+                            <c:when test="#{userController.isLoggedIn() == true}">
 
+                                <!-- Use EL to reference the image file since it will be accessed from all UI pages -->
+                                <h:link outcome="/userAccount/Profile.xhtml">
+                                    <img src="#{resource['images:VTLogo.png']}"
+                                         style="width:100%; height:100%; max-height:64px; max-width:64px; border: none"
+                                         alt="VT Logo" />
+                                </h:link>
+                            </c:when>
+
+                            <c:otherwise>
+                                <h:link outcome="/index">
+                                    <img src="#{resource['images:VTLogo.png']}"
+                                         style="width:100%; height:100%; max-height:64px; max-width:64px; border: none"
+                                         alt="VT Logo" />
+                                </h:link>
+                            </c:otherwise>
+                        </c:choose>
                     </td>
+
+
+
                     <!--
                     *******************************
                     Column 2 (Center): Welcome User
@@ -62,25 +78,52 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                         </c:choose>
                     </td>
 
-                    
+                    <!--
+                    *****************************************
+                    Column 1 (Left): Health Survey Logo Image
+                    *****************************************
+                    -->
+                    <td align="left" valign="middle" style="width:215px;">
+
+                        <pe:timer 
+                            widgetVar="timer"
+                            autoStart="#{timerController.isAutoStart() == true}"
+                            timeout="1"
+                            forward="false"
+                            listener="#{timerController.incrementTime()}"
+                            singleRun="false" visible="false"/>
+                        
+                        <p:outputPanel autoUpdate="true" rendered="#{timerController.currentTime > 0}" >
+                            <p:outputLabel> Time Left: </p:outputLabel>
+                                <p:outputLabel>
+                                    #{timerController.currentTime}
+                                </p:outputLabel>
+
+                            </p:outputPanel> 
+                        
+
+                    </td>
+
                     <!--
                     ***************************************
-                    Column 4 (Right): Hamburger Menu Button
+                    Column 3 (Right): Hamburger Menu Button
                     ***************************************
                     -->
+
+
                     <td align="right" valign="middle" style="width:100px;">
 
-                        <!--
-                        tabindex="0" enables the menu element to be focusable and to trigger interaction. 
-                        This HTML5 attribute makes the menu element act like a button.
-                        
-                        style="float:left;" and style="left:0;" place the drop-down menu on the left side.
+
+                        <!-- 
+                            ===============================================================
+                            |   Menu Options IF Nobody is Signed In   |
+                            ===============================================================
+                            The guest should be able to log in, or create an account
+                            Take Survey shows them to the sign in page since a user must
+                            be signed in to take a survey
                         -->
                         <div tabindex="0" class="menu" style="float:right;padding-right:20px;">
                             <div class="menu-dropdown" style="right:0;">
-
-
-
 
                                 <c:choose>
 
@@ -91,11 +134,11 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                                         </h:link>
 
                                         <h:link outcome="/safety/TripTimer" class="standardText">
-                                            <i class="fas fa-home"></i>&nbsp;Timer
+                                            <i class="fas fa-clock"></i>&nbsp;Trip Logger
                                         </h:link>
 
                                         <h:link outcome="/allRides/List" class="standardText" >
-                                            <i class="fas fa-users"></i>&nbsp;All Rides
+                                            <i class="fas fa-cars"></i>&nbsp;All Rides
                                         </h:link>
 
                                         <h:link outcome="/myRides/ListOfMyRides" class="standardText" >
