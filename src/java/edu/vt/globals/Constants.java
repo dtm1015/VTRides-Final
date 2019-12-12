@@ -1,3 +1,4 @@
+
 /*
  * Created by Justin Kennedy on 2019.11.16  * 
  * Copyright © 2019 Justin Kennedy. All rights reserved. * 
@@ -132,7 +133,5 @@ public final class Constants {
         "What is your mother's maiden name?",
         "What was your favorite place to visit as a child?"
     };
-
-    
-       
+      
 }

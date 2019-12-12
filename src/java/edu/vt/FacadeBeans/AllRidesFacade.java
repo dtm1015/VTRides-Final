@@ -35,13 +35,13 @@ public class AllRidesFacade extends AbstractFacade<AllRides> {
     
     /*
     *********************************************************
-    The following method is added to the auto generated code.
+    The following methods are added to the auto generated code.
     *********************************************************
      */
     /**
      * @param primaryKey is the Primary Key of the User entity in a table row in the database.
-     * @return a list of photos associated with the User whose primary key is primaryKey
-     * the primary key is the userId associated with the user whose photo you are looking for
+     * @return a list of Rides associated with the Driver given by primaryKey. Returns all rides that 
+     *          the User created as a driver
      */
     public List<AllRides> findRidesByDriverId(Integer primaryKey) {
 
@@ -50,6 +50,11 @@ public class AllRidesFacade extends AbstractFacade<AllRides> {
                 .getResultList();
     }
     
+    /**
+     * @param primaryKey is the Primary Key of the User entity in a table row in the database.
+     * @return a list of Rides associated with the User given by primaryKey. Returns all rides that 
+     *          the User created as a driver or joined as a passenger
+     */
     public List<AllRides> findRidesByUserId(Integer primaryKey) {
         
         
@@ -90,6 +95,10 @@ public class AllRidesFacade extends AbstractFacade<AllRides> {
         return driver;
     }
     
+    /**
+     * @param start is the starting city to search by.
+     * @return a list of Rides which start from the city indicated by start
+     */
     public List<AllRides> findRidesStartingCity(String start) {
 
         return (List<AllRides>) em.createNamedQuery("AllRides.findByStartingCity")
@@ -97,6 +106,11 @@ public class AllRidesFacade extends AbstractFacade<AllRides> {
                 .getResultList();
     }
     
+    /**
+     * @param end is the ending city to search by.
+     * @return a list of Rides which end at the city indicated by end
+     */
+
     public List<AllRides> findRidesEndingCity(String end) {
 
         return (List<AllRides>) em.createNamedQuery("AllRides.findByEndingCity")

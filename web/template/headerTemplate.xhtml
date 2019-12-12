@@ -24,7 +24,7 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
 
     <!-- Do not enter tags before the composition line since they are ignored by JSF -->
     <ui:composition>        
-        <h:form id="headerForm">
+        <h:form id="headerForm"
             <table border="0" cellspacing="0" cellpadding="10" width="100%">
                 <tr>
                     <!--
@@ -55,15 +55,13 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                         </c:choose>
                     </td>
 
-
-
                     <!--
-                    *******************************
-                    Column 2 (Center): Welcome User
-                    *******************************
-                    If the user is the admin, say Hello, Administrator
-                    If the user is not the admin, say Hello, userFirstName
-                    If there is no logged in user, say Hello, Guest
+                        *******************************
+                        Column 2 (Center): Welcome User
+                        *******************************
+                        If the user is the admin, say Hello, Administrator
+                        If the user is not the admin, say Hello, userFirstName
+                        If there is no logged in user, say Hello, Guest
                     -->
                     <td align="center" valign="middle">
                         <c:choose>
@@ -80,7 +78,7 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
 
                     <!--
                     *****************************************
-                    Column 1 (Left): Health Survey Logo Image
+                    Column 3: Timer 
                     *****************************************
                     -->
                     <td align="left" valign="middle" style="width:215px;">
@@ -92,21 +90,21 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                             forward="false"
                             listener="#{timerController.incrementTime()}"
                             singleRun="false" visible="false"/>
-                        
+
                         <p:outputPanel autoUpdate="true" rendered="#{timerController.currentTime > 0}" >
                             <p:outputLabel> Time Left: </p:outputLabel>
-                                <p:outputLabel>
-                                    #{timerController.currentTime}
-                                </p:outputLabel>
+                            <p:outputLabel>
+                                #{timerController.currentTime}
+                            </p:outputLabel>
 
-                            </p:outputPanel> 
-                        
+                        </p:outputPanel> 
+
 
                     </td>
 
                     <!--
                     ***************************************
-                    Column 3 (Right): Hamburger Menu Button
+                    Column 4 (Right): Hamburger Menu Button
                     ***************************************
                     -->
 
@@ -161,14 +159,6 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                                         </h:commandLink>
 
                                     </c:when> 
-                                    <!-- 
-                                        ===============================================================
-                                        |   Menu Options IF Nobody is Signed In   |
-                                        ===============================================================
-                                        The guest should be able to log in, or create an account
-                                        Take Survey shows them to the sign in page since a user must
-                                        be signed in to take a survey
-                                    -->
                                     <c:otherwise>
 
                                         <c:when test="#{userController.isLoggedIn() == false}">

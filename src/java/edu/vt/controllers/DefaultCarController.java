@@ -6,7 +6,7 @@ import edu.vt.controllers.util.JsfUtil;
 import edu.vt.controllers.util.JsfUtil.PersistAction;
 import edu.vt.FacadeBeans.DefaultCarFacade;
 import edu.vt.globals.Methods;
-import edu.vt.globals.Password;
+
 
 import java.lang.String;
 import java.io.Serializable;
@@ -23,9 +23,26 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
+/*
+-------------------------------------------------------------------------------
+Within JSF XHTML pages, this bean will be referenced by using the name
+'defaultCarController'
+-------------------------------------------------------------------------------
+ */
 @Named("defaultCarController")
+
+/*
+ defaultCarController will be session scoped, so the values of its instance variables
+ will be preserved across multiple HTTP request-response cycles 
+ */
 @SessionScoped
 public class DefaultCarController implements Serializable {
+
+     /*
+    ===============================
+    Instance Variables (Properties)
+    ===============================
+     */
 
     private String carMake;
     private String carModel;
@@ -37,12 +54,29 @@ public class DefaultCarController implements Serializable {
     private List<DefaultCar> items = null;
     private DefaultCar selected;
 
+
+    /*
+    The @EJB annotation implies that the EJB container will perform an injection of the object
+    reference of the DefaultCarFacade object into carFacade when it is created at runtime.
+     */
+
     @EJB
     private DefaultCarFacade carFacade;
 
+    /*
+    =================
+    Contructor Method
+    =================
+     */
     public DefaultCarController() {
     }
 
+    
+    /*
+    =========================
+    Getter and Setter Methods
+    =========================
+     */
     public DefaultCar getSelected() {
         return selected;
     }
@@ -117,6 +151,11 @@ public class DefaultCarController implements Serializable {
         return ejbFacade;
     }
 
+
+     /**
+     * @param user is the entity corresponding to some user 
+     * @return true if the user has previously specified a default car, false otherwise
+     */
     public boolean hasDefaultCar(User user) {
         DefaultCar userCar = getCarFacade().findByUserid(user);
         if (userCar != null) {
@@ -131,6 +170,11 @@ public class DefaultCarController implements Serializable {
         }
     }
 
+    /**
+     * creates default car associated with user 
+     * @param user is the entity corresponding to some user 
+     * @return redirect address for for the current user's profile page
+     */
     public String createDefaultCar(User user) {
         Methods.preserveMessages();
         DefaultCar userCar = getCarFacade().findByUserid(user);
@@ -162,19 +206,36 @@ public class DefaultCarController implements Serializable {
         return "/userAccount/Profile.xhtml?faces-redirect=true";
     }
 
+
+    /**
+     * edit default car of current user, redirect to profile page when done
+     * @return redirect address for for the current user's profile page
+     */
     public String updateDefaultCar() {
         Methods.preserveMessages();
         getCarFacade().edit(selected);
         return "/userAccount/Profile.xhtml?faces-redirect=true";
     }
+    /**
+     * prepare to create a new DefaultCar
+     * @return newly created DefaultCar object, stored in selected
+     */
 
     public DefaultCar prepareCreate() {
         selected = new DefaultCar();
         initializeEmbeddableKey();
         return selected;
     }
-
+    
+    /*
+    ===============
+    CRUD Operations
+    ===============
+     */
+   
     public void create() {
+        Methods.preserveMessages();
+        
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("DefaultCarCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -194,7 +255,11 @@ public class DefaultCarController implements Serializable {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
-
+    /*
+    ************************************************
+    |   Other Auto Generated Methods by NetBeans   |
+    ************************************************
+     */
     public List<DefaultCar> getItems() {
         if (items == null) {
             items = getFacade().findAll();

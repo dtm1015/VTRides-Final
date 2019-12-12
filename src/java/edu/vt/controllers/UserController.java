@@ -26,10 +26,18 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
-
+/*
+-------------------------------------------------------------------------------
+Within JSF XHTML pages, this bean will be referenced by using the name
+'userController'
+-------------------------------------------------------------------------------
+ */
 @Named("userController")
 
-
+/*
+ UserController will be session scoped, so the values of its instance variables
+ will be preserved across multiple HTTP request-response cycles 
+ */
 @SessionScoped
 
 
