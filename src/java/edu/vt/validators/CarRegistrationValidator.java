@@ -1,6 +1,6 @@
 /*
  * Created by Quinton Miller on 2019.12.10  * 
- * Copyright © 2019 Osman Balci. All rights reserved. * 
+ * Copyright © 2019 Quinton Miller. All rights reserved. * 
  */
 package edu.vt.validators;
 
