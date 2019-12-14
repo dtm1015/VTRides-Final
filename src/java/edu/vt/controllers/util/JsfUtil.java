@@ -1,3 +1,7 @@
+/*
+ * Created by Justin Kennedy on 2019.09.15
+ * Copyright © 2019 Justin Kennedy. All rights reserved.
+ */
 package edu.vt.controllers.util;
 
 import java.util.List;

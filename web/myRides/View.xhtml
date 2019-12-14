@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Created by Justin Kennedy on 2019.10.31
+Copyright © 2019 Justin Kennedy. All rights reserved.
+-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -99,14 +103,14 @@
                                                  disabled="#{empty allRidesController.selected}">
 
                                     <p:confirm header="Deletion Confirmation" 
-                                               message="Are you sure you want to permanently delete the selected video from the database?" 
+                                               message="Are you sure you want to permanently delete the selected ride from the database?" 
                                                icon="fas fa-exclamation-triangle fa-2x" />
                                 </p:commandButton>
 
                                 <p:confirmDialog id="deleteConfirmDialogBox" global="true" showEffect="slide" hideEffect="fade">
                                     <div align="center">
-                                        The value of the first button listed below will be 
-                                        shown as highlighted (default action) when displayed 
+                                       <!-- The value of the first button listed below will be 
+                                        shown as highlighted (default action) when displayed -->
                                         <p:commandButton value="No" type="button" 
                                                          class="ui-confirmdialog-no" icon="fas fa-window-close" />
                                         &nbsp;

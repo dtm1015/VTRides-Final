@@ -1,6 +1,6 @@
 /*
- * Created by Osman Balci on 2018.06.26
- * Copyright © 2018 Osman Balci. All rights reserved.
+ * Created by Justin Kennedy on 2019.09.15
+ * Copyright © 2019 Justin Kennedy. All rights reserved.
  */
 package edu.vt.controllers;
 
