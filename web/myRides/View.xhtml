@@ -7,8 +7,8 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-     <ui:composition template="/template/siteTemplate.xhtml">
 
+    <ui:composition template="/template/siteTemplate.xhtml">
         <ui:define name="title">
             <!-- Set the page title -->
             <h:outputText value="View Ride"></h:outputText>
@@ -16,177 +16,175 @@
 
         <ui:define name="editableContent">
 
-           <div align="center" style="width:97%;">
-           <h:form id="MyRidesViewForm">
-                <iframe
-                    width="450"
-                    height="250"
-                    frameborder="0" style="border:0"
-                    src="#{allRidesController.mapUrl}" allowfullscreen="true">
-                </iframe>
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" columnClasses="panelGridColumn1,panelGridColumn2" rendered="#{allRidesController.selected != null}">
-                        <h:outputText value="#{bundle.ViewAllRidesLabel_id}"/>
-                        <h:outputText value="#{allRidesController.selected.id}" title="#{bundle.ViewAllRidesTitle_id}"/>
-                        <h:outputText value="#{bundle.ViewAllRidesLabel_passeger1Id}"/>
-                        <h:outputText value="#{allRidesController.selected.passeger1Id}" title="#{bundle.ViewAllRidesTitle_passeger1Id}"/>
-                        <h:outputText value="#{bundle.ViewAllRidesLabel_passenger2Id}"/>
-                        <h:outputText value="#{allRidesController.selected.passenger2Id}" title="#{bundle.ViewAllRidesTitle_passenger2Id}"/>
-                        <h:outputText value="#{bundle.ViewAllRidesLabel_passenger3Id}"/>
-                        <h:outputText value="#{allRidesController.selected.passenger3Id}" title="#{bundle.ViewAllRidesTitle_passenger3Id}"/>
-                        <h:outputText value="#{bundle.ViewAllRidesLabel_passenger4Id}"/>
-                        <h:outputText value="#{allRidesController.selected.passenger4Id}" title="#{bundle.ViewAllRidesTitle_passenger4Id}"/>
-                        <h:outputText value="#{bundle.ViewAllRidesLabel_passenger5Id}"/>
-                        <h:outputText value="#{allRidesController.selected.passenger5Id}" title="#{bundle.ViewAllRidesTitle_passenger5Id}"/>
-                        <h:outputText value="#{bundle.ViewAllRidesLabel_passenger6Id}"/>
-                        <h:outputText value="#{allRidesController.selected.passenger6Id}" title="#{bundle.ViewAllRidesTitle_passenger6Id}"/>
-                        <h:outputText value="#{bundle.ViewAllRidesLabel_seatsAvailable}"/>
-                        <h:outputText value="#{allRidesController.selected.seatsAvailable}" title="#{bundle.ViewAllRidesTitle_seatsAvailable}"/>
-                        <h:outputText value="#{bundle.ViewAllRidesLabel_startingAddress1}"/>
-                        <h:outputText value="#{allRidesController.selected.startingAddress1}" title="#{bundle.ViewAllRidesTitle_startingAddress1}"/>
-                        <h:outputText value="#{bundle.ViewAllRidesLabel_startingAddress2}"/>
-                        <h:outputText value="#{allRidesController.selected.startingAddress2}" title="#{bundle.ViewAllRidesTitle_startingAddress2}"/>
-                        <h:outputText value="#{bundle.ViewAllRidesLabel_startingCity}"/>
-                        <h:outputText value="#{allRidesController.selected.startingCity}" title="#{bundle.ViewAllRidesTitle_startingCity}"/>
-                        <h:outputText value="#{bundle.ViewAllRidesLabel_startingState}"/>
-                        <h:outputText value="#{allRidesController.selected.startingState}" title="#{bundle.ViewAllRidesTitle_startingState}"/>
-                        <h:outputText value="#{bundle.ViewAllRidesLabel_startingZipcode}"/>
-                        <h:outputText value="#{allRidesController.selected.startingZipcode}" title="#{bundle.ViewAllRidesTitle_startingZipcode}"/>
-                        <h:outputText value="#{bundle.ViewAllRidesLabel_endingAddress1}"/>
-                        <h:outputText value="#{allRidesController.selected.endingAddress1}" title="#{bundle.ViewAllRidesTitle_endingAddress1}"/>
-                        <h:outputText value="#{bundle.ViewAllRidesLabel_endingAddress2}"/>
-                        <h:outputText value="#{allRidesController.selected.endingAddress2}" title="#{bundle.ViewAllRidesTitle_endingAddress2}"/>
-                        <h:outputText value="#{bundle.ViewAllRidesLabel_endingCity}"/>
-                        <h:outputText value="#{allRidesController.selected.endingCity}" title="#{bundle.ViewAllRidesTitle_endingCity}"/>
-                        <h:outputText value="#{bundle.ViewAllRidesLabel_endingState}"/>
-                        <h:outputText value="#{allRidesController.selected.endingState}" title="#{bundle.ViewAllRidesTitle_endingState}"/>
-                        <h:outputText value="#{bundle.ViewAllRidesLabel_endingZipcode}"/>
-                        <h:outputText value="#{allRidesController.selected.endingZipcode}" title="#{bundle.ViewAllRidesTitle_endingZipcode}"/>
-                        <h:outputText value="#{bundle.ViewAllRidesLabel_tripTime}"/>
-                        <h:outputText value="#{allRidesController.selected.tripTime}" title="#{bundle.ViewAllRidesTitle_tripTime}"/>
-                        <h:outputText value="#{bundle.ViewAllRidesLabel_tripDistance}"/>
-                        <h:outputText value="#{allRidesController.selected.tripDistance}" title="#{bundle.ViewAllRidesTitle_tripDistance}"/>
-                        <h:outputText value="#{bundle.ViewAllRidesLabel_tripCost}"/>
-                        <h:outputText value="#{allRidesController.selected.tripCost}" title="#{bundle.ViewAllRidesTitle_tripCost}"/>
-                        <h:outputText value="#{bundle.ViewAllRidesLabel_tripDate}"/>
-                        <h:outputText value="#{allRidesController.selected.tripDate}" title="#{bundle.ViewAllRidesTitle_tripDate}">
-                            <f:convertDateTime pattern="MM/dd/yyyy" />
-                        </h:outputText>
-                        <h:outputText value="#{bundle.ViewAllRidesLabel_carMake}"/>
-                        <h:outputText value="#{allRidesController.selected.carMake}" title="#{bundle.ViewAllRidesTitle_carMake}"/>
-                        <h:outputText value="#{bundle.ViewAllRidesLabel_carModel}"/>
-                        <h:outputText value="#{allRidesController.selected.carModel}" title="#{bundle.ViewAllRidesTitle_carModel}"/>
-                        <h:outputText value="#{bundle.ViewAllRidesLabel_carColor}"/>
-                        <h:outputText value="#{allRidesController.selected.carColor}" title="#{bundle.ViewAllRidesTitle_carColor}"/>
-                        <h:outputText value="#{bundle.ViewAllRidesLabel_carLicensePlate}"/>
-                        <h:outputText value="#{allRidesController.selected.carLicensePlate}" title="#{bundle.ViewAllRidesTitle_carLicensePlate}"/>
-                        <h:outputText value="#{bundle.ViewAllRidesLabel_carMpg}"/>
-                        <h:outputText value="#{allRidesController.selected.carMpg}" title="#{bundle.ViewAllRidesTitle_carMpg}"/>
-                        <h:outputText value="#{bundle.ViewAllRidesLabel_driverId}"/>
-                        <h:outputText value="#{allRidesController.selected.driverId}" title="#{bundle.ViewAllRidesTitle_driverId}"/>
-                    </p:panelGrid>
-                    <c:choose>
-                        <c:when test="#{userController.selected.id == allRidesController.selected.driverId.id || allRidesController.selected.driverId == null}">
-                            <!--
-                               ***************************************************
-                               Display a Confirmation dialog for the DELETE button
-                               *************************************************** 
-                            -->
+            <div align="center" style="width:97%;">
+                <h:form id="MyRidesViewForm">
+                    <iframe
+                        width="450"
+                        height="250"
+                        frameborder="0" style="border:0"
+                        src="#{allRidesController.mapUrl}" allowfullscreen="true">
+                    </iframe>
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="2" columnClasses="panelGridColumn1,panelGridColumn2" rendered="#{allRidesController.selected != null}">
+                            <h:outputText value="#{bundle.ViewAllRidesLabel_id}"/>
+                            <h:outputText value="#{allRidesController.selected.id}" title="#{bundle.ViewAllRidesTitle_id}"/>
+                            <h:outputText value="#{bundle.ViewAllRidesLabel_passeger1Id}"/>
+                            <h:outputText value="#{allRidesController.selected.passeger1Id}" title="#{bundle.ViewAllRidesTitle_passeger1Id}"/>
+                            <h:outputText value="#{bundle.ViewAllRidesLabel_passenger2Id}"/>
+                            <h:outputText value="#{allRidesController.selected.passenger2Id}" title="#{bundle.ViewAllRidesTitle_passenger2Id}"/>
+                            <h:outputText value="#{bundle.ViewAllRidesLabel_passenger3Id}"/>
+                            <h:outputText value="#{allRidesController.selected.passenger3Id}" title="#{bundle.ViewAllRidesTitle_passenger3Id}"/>
+                            <h:outputText value="#{bundle.ViewAllRidesLabel_passenger4Id}"/>
+                            <h:outputText value="#{allRidesController.selected.passenger4Id}" title="#{bundle.ViewAllRidesTitle_passenger4Id}"/>
+                            <h:outputText value="#{bundle.ViewAllRidesLabel_passenger5Id}"/>
+                            <h:outputText value="#{allRidesController.selected.passenger5Id}" title="#{bundle.ViewAllRidesTitle_passenger5Id}"/>
+                            <h:outputText value="#{bundle.ViewAllRidesLabel_passenger6Id}"/>
+                            <h:outputText value="#{allRidesController.selected.passenger6Id}" title="#{bundle.ViewAllRidesTitle_passenger6Id}"/>
+                            <h:outputText value="#{bundle.ViewAllRidesLabel_seatsAvailable}"/>
+                            <h:outputText value="#{allRidesController.selected.seatsAvailable}" title="#{bundle.ViewAllRidesTitle_seatsAvailable}"/>
+                            <h:outputText value="#{bundle.ViewAllRidesLabel_startingAddress1}"/>
+                            <h:outputText value="#{allRidesController.selected.startingAddress1}" title="#{bundle.ViewAllRidesTitle_startingAddress1}"/>
+                            <h:outputText value="#{bundle.ViewAllRidesLabel_startingAddress2}"/>
+                            <h:outputText value="#{allRidesController.selected.startingAddress2}" title="#{bundle.ViewAllRidesTitle_startingAddress2}"/>
+                            <h:outputText value="#{bundle.ViewAllRidesLabel_startingCity}"/>
+                            <h:outputText value="#{allRidesController.selected.startingCity}" title="#{bundle.ViewAllRidesTitle_startingCity}"/>
+                            <h:outputText value="#{bundle.ViewAllRidesLabel_startingState}"/>
+                            <h:outputText value="#{allRidesController.selected.startingState}" title="#{bundle.ViewAllRidesTitle_startingState}"/>
+                            <h:outputText value="#{bundle.ViewAllRidesLabel_startingZipcode}"/>
+                            <h:outputText value="#{allRidesController.selected.startingZipcode}" title="#{bundle.ViewAllRidesTitle_startingZipcode}"/>
+                            <h:outputText value="#{bundle.ViewAllRidesLabel_endingAddress1}"/>
+                            <h:outputText value="#{allRidesController.selected.endingAddress1}" title="#{bundle.ViewAllRidesTitle_endingAddress1}"/>
+                            <h:outputText value="#{bundle.ViewAllRidesLabel_endingAddress2}"/>
+                            <h:outputText value="#{allRidesController.selected.endingAddress2}" title="#{bundle.ViewAllRidesTitle_endingAddress2}"/>
+                            <h:outputText value="#{bundle.ViewAllRidesLabel_endingCity}"/>
+                            <h:outputText value="#{allRidesController.selected.endingCity}" title="#{bundle.ViewAllRidesTitle_endingCity}"/>
+                            <h:outputText value="#{bundle.ViewAllRidesLabel_endingState}"/>
+                            <h:outputText value="#{allRidesController.selected.endingState}" title="#{bundle.ViewAllRidesTitle_endingState}"/>
+                            <h:outputText value="#{bundle.ViewAllRidesLabel_endingZipcode}"/>
+                            <h:outputText value="#{allRidesController.selected.endingZipcode}" title="#{bundle.ViewAllRidesTitle_endingZipcode}"/>
+                            <h:outputText value="#{bundle.ViewAllRidesLabel_tripTime}"/>
+                            <h:outputText value="#{allRidesController.selected.tripTime}" title="#{bundle.ViewAllRidesTitle_tripTime}"/>
+                            <h:outputText value="#{bundle.ViewAllRidesLabel_tripDistance}"/>
+                            <h:outputText value="#{allRidesController.selected.tripDistance}" title="#{bundle.ViewAllRidesTitle_tripDistance}"/>
+                            <h:outputText value="#{bundle.ViewAllRidesLabel_tripCost}"/>
+                            <h:outputText value="#{allRidesController.selected.tripCost}" title="#{bundle.ViewAllRidesTitle_tripCost}"/>
+                            <h:outputText value="#{bundle.ViewAllRidesLabel_tripDate}"/>
+                            <h:outputText value="#{allRidesController.selected.tripDate}" title="#{bundle.ViewAllRidesTitle_tripDate}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                            <h:outputText value="#{bundle.ViewAllRidesLabel_carMake}"/>
+                            <h:outputText value="#{allRidesController.selected.carMake}" title="#{bundle.ViewAllRidesTitle_carMake}"/>
+                            <h:outputText value="#{bundle.ViewAllRidesLabel_carModel}"/>
+                            <h:outputText value="#{allRidesController.selected.carModel}" title="#{bundle.ViewAllRidesTitle_carModel}"/>
+                            <h:outputText value="#{bundle.ViewAllRidesLabel_carColor}"/>
+                            <h:outputText value="#{allRidesController.selected.carColor}" title="#{bundle.ViewAllRidesTitle_carColor}"/>
+                            <h:outputText value="#{bundle.ViewAllRidesLabel_carLicensePlate}"/>
+                            <h:outputText value="#{allRidesController.selected.carLicensePlate}" title="#{bundle.ViewAllRidesTitle_carLicensePlate}"/>
+                            <h:outputText value="#{bundle.ViewAllRidesLabel_carMpg}"/>
+                            <h:outputText value="#{allRidesController.selected.carMpg}" title="#{bundle.ViewAllRidesTitle_carMpg}"/>
+                            <h:outputText value="#{bundle.ViewAllRidesLabel_driverId}"/>
+                            <h:outputText value="#{allRidesController.selected.driverId}" title="#{bundle.ViewAllRidesTitle_driverId}"/>
+                        </p:panelGrid>
+                        <c:choose>
+                            <c:when test="#{userController.selected.id == allRidesController.selected.driverId.id || allRidesController.selected.driverId == null}">
+                                <!--
+                                   ***************************************************
+                                   Display a Confirmation dialog for the DELETE button
+                                   *************************************************** 
+                                -->
 
-                            <p:commandButton id="deleteButton" icon="fas fa-trash-alt"  value="#{bundle.Delete}" 
-                                             actionListener="#{allRidesController.destroy}" oncomplete="PF('MyRidesViewDialog').hide()"  
-                                             update="growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage" 
-                                             disabled="#{empty allRidesController.selected}">
-
-                                <p:confirm header="Deletion Confirmation" 
-                                           message="Are you sure you want to permanently delete the selected video from the database?" 
-                                           icon="fas fa-exclamation-triangle fa-2x" />
-                            </p:commandButton>
-
-                            <p:confirmDialog id="deleteConfirmDialogBox" global="true" showEffect="slide" hideEffect="fade">
-                                <div align="center">
-                                    The value of the first button listed below will be 
-                                    shown as highlighted (default action) when displayed 
-                                    <p:commandButton value="No" type="button" 
-                                                     class="ui-confirmdialog-no" icon="fas fa-window-close" />
-                                    &nbsp;
-                                    <p:commandButton value="Yes" type="button" 
-                                                     class="ui-confirmdialog-yes" icon="fas fa-check-square" />
-                                </div>
-                            </p:confirmDialog>
-
-                            <p:commandButton id="editButton"   icon="fas fa-edit" value="#{bundle.Edit}" 
-                                             update="" oncomplete="PF('MyRidesEditDialog').show()" 
-                                             disabled="#{empty allRidesController.selected}"/>
-                            <!--
-                            ************************************************
-                            End of Display of the DELETE Confirmation dialog 
-                            ************************************************ 
-                            -->
-                        </c:when>
-                        <c:otherwise>
-                            <c:when test="#{userController.selected.id != allRidesController.selected.driverId.id}">
-                                <p:commandButton id="joinButton" ajax="true" icon="fas fa-edit" value="Join/Unjoin" 
-                                                 actionListener="#{allRidesController.join()}" oncomplete="PF('MyRidesViewDialog').hide()"  
+                                <p:commandButton id="deleteButton" icon="fas fa-trash-alt"  value="#{bundle.Delete}" 
+                                                 actionListener="#{allRidesController.destroy}" oncomplete="PF('MyRidesViewDialog').hide()"  
                                                  update="growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage" 
-                                                 disabled="#{empty allRidesController.selected}" process="@this" immediate="true">
-                                    
+                                                 disabled="#{empty allRidesController.selected}">
+
+                                    <p:confirm header="Deletion Confirmation" 
+                                               message="Are you sure you want to permanently delete the selected video from the database?" 
+                                               icon="fas fa-exclamation-triangle fa-2x" />
                                 </p:commandButton>
-                                
+
+                                <p:confirmDialog id="deleteConfirmDialogBox" global="true" showEffect="slide" hideEffect="fade">
+                                    <div align="center">
+                                        The value of the first button listed below will be 
+                                        shown as highlighted (default action) when displayed 
+                                        <p:commandButton value="No" type="button" 
+                                                         class="ui-confirmdialog-no" icon="fas fa-window-close" />
+                                        &nbsp;
+                                        <p:commandButton value="Yes" type="button" 
+                                                         class="ui-confirmdialog-yes" icon="fas fa-check-square" />
+                                    </div>
+                                </p:confirmDialog>
+
+                                <p:commandButton id="editButton"   icon="fas fa-edit" value="#{bundle.Edit}" 
+                                                 update="" oncomplete="PF('MyRidesEditDialog').show()" 
+                                                 disabled="#{empty allRidesController.selected}"/>
+                                <!--
+                                ************************************************
+                                End of Display of the DELETE Confirmation dialog 
+                                ************************************************ 
+                                -->
                             </c:when>
+                            <c:otherwise>
+                                <c:when test="#{userController.selected.id != allRidesController.selected.driverId.id}">
+                                    <p:commandButton id="joinButton" ajax="true" icon="fas fa-edit" value="Join/Unjoin" 
+                                                     actionListener="#{allRidesController.join()}" oncomplete="PF('MyRidesViewDialog').hide()"  
+                                                     update="growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage" 
+                                                     disabled="#{empty allRidesController.selected}" process="@this" immediate="true">
 
-                        </c:otherwise> 
-                    </c:choose>
-                    
-               <h:form id="StartStopForm"> 
+                                    </p:commandButton>
 
+                                </c:when>
 
-                <br/><br/>
-
-                <p:commandButton id="startButton" icon="fas fa-play"  value="Start Trip" 
-                                 update=":EmailConfirmForm,:MyRidesViewForm:StartStopForm, :headerForm"
-                                 disabled="#{timerController.timerGoing == true}" actionListener="#{timerController.setTimes()}"
-                                 oncomplete="PF('EmailConfirmDialog').show()">
-                </p:commandButton>
-
-                <p:commandButton id="pauseButton" icon="fas fa-pause" update=":MyRidesViewForm:StartStopForm,:headerForm" 
-                                 value="Pause/Unpause Trip" 
-                                 actionListener="#{timerController.pauseTimes()}"
-                                 disabled="#{timerController.timerGoing == false}">
-                </p:commandButton>
-                
-                <p:commandButton id="stopButton" value="Stop Trip" icon="fas fa-stop"
-                                 disabled="#{timerController.timerGoing == false}" 
-                                 actionListener="#{timerController.stopTimes()}" immediate="false"
-                                 update=":MyRidesViewForm:StartStopForm,:headerForm">
-                </p:commandButton>
-
-                <br/>
-                <br/>
-            </h:form>
-                </h:panelGroup>
-             </h:form>
-              <p:dialog position="center center" id="EmailConfirmDlg" widgetVar="EmailConfirmDialog" 
-                      modal="true" resizable="true" appendTo="@(body)" header="Sent Email to Emergency Contact" 
-                      width="70%" >
-
-                <h:form id="EmailConfirmForm">
-
-                    <div align="center">
-                        <h2>Would you like to send an email to your emergency 
-                            contact letting them know you are starting your ride?</h2>
-
-                        <!--                        The value of the first button listed below will be 
-                                                shown as highlighted (default action) when displayed -->
-                        <p:button value="Yes" outcome="/safety/ConfirmDefaultStartMessage?faces-redirect=true" icon="fas fa-check-square" />
-                        &nbsp;
-                        <p:commandButton value="#{bundle.Cancel}" onclick="PF('EmailConfirmDialog').hide()"
-                                         icon="fas fa-ban" immediate="true" />
-
-                    </div>
+                            </c:otherwise> 
+                        </c:choose>
+                    </h:panelGroup>
                 </h:form>
-            </p:dialog>
+                <h:form id="StartStopForm"> 
+
+                    <br/><br/>
+
+                    <p:commandButton id="startButton" icon="fas fa-play"  value="Start Trip" 
+                                     update=":EmailConfirmForm,:StartStopForm,:headerForm" 
+                                     disabled="#{timerController.timerGoing == true}" actionListener="#{timerController.setTimes()}"
+                                     oncomplete="PF('EmailConfirmDialog').show()">
+                    </p:commandButton>
+
+                    <p:commandButton id="pauseButton" icon="fas fa-pause" update=":StartStopForm,:headerForm" 
+                                     value="Pause/Unpause Trip"  
+                                     actionListener="#{timerController.pauseTimes()}"
+                                     disabled="#{timerController.timerGoing == false}">
+                    </p:commandButton>
+
+                    <p:commandButton id="stopButton" value="Stop Trip" icon="fas fa-stop"
+                                     disabled="#{timerController.timerGoing == false}" 
+                                     actionListener="#{timerController.stopTimes()}"  immediate="false"
+                                     update=":StartStopForm,:headerForm">
+                    </p:commandButton>
+
+                    <br/>
+                    <br/>
+                </h:form>
+                <p:dialog position="center center" id="EmailConfirmDlg" widgetVar="EmailConfirmDialog" 
+                          modal="true" resizable="true" appendTo="@(body)" header="Sent Email to Emergency Contact" 
+                          width="70%" >
+
+                    <h:form id="EmailConfirmForm">
+
+                        <div align="center">
+                            <h2>Would you like to send an email to your emergency 
+                                contact letting them know you are starting your ride?</h2>
+
+                            <!--                        The value of the first button listed below will be 
+                                                    shown as highlighted (default action) when displayed -->
+                            <p:button value="Yes" outcome="/safety/ConfirmDefaultStartMessage?faces-redirect=true" icon="fas fa-check-square" />
+                            &nbsp;
+                            <p:commandButton value="#{bundle.Cancel}" onclick="PF('EmailConfirmDialog').hide()"
+                                             icon="fas fa-ban" immediate="true" />
+
+                        </div>
+                    </h:form>
+                </p:dialog>
             </div>
-         </ui:define>
+        </ui:define>
     </ui:composition>
 </html>
