@@ -78,7 +78,7 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                                                  update="MyRidesCreateForm" oncomplete="PF('MyRidesCreateDialog').show()"/>
 
                                 <p:commandButton id="viewButton"   icon="fas fa-eye" value="#{bundle.View}" 
-                                                 update="MyRidesViewForm" oncomplete="PF('MyRidesViewDialog').show()" 
+                                                 action="/myRides/View?faces-redirect=true" 
                                                  disabled="#{empty allRidesController.selected}"/>
 
                                 <p:commandButton id="editButton"   icon="fas fa-edit" value="#{bundle.Edit}" 
@@ -163,7 +163,6 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
 
             <ui:include src="Create.xhtml"/>
             <ui:include src="Edit.xhtml"/>
-            <ui:include src="View.xhtml"/>
             <ui:include src="/search/Search.xhtml"/>
             
         </ui:define>

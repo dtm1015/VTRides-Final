@@ -7,11 +7,17 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-    <ui:composition>
+     <ui:composition template="/template/siteTemplate.xhtml">
 
-        <p:dialog id="MyRidesViewDlg" widgetVar="MyRidesViewDialog" 
-                  modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewAllRidesTitle}" rendered="#{allRidesController.selected != null}" width="500px" height="500px">
-            <h:form id="MyRidesViewForm">
+        <ui:define name="title">
+            <!-- Set the page title -->
+            <h:outputText value="View Ride"></h:outputText>
+        </ui:define>
+
+        <ui:define name="editableContent">
+
+           <div align="center" style="width:97%;">
+           <h:form id="MyRidesViewForm">
                 <iframe
                     width="450"
                     height="250"
@@ -89,7 +95,7 @@
 
                             <p:commandButton id="deleteButton" icon="fas fa-trash-alt"  value="#{bundle.Delete}" 
                                              actionListener="#{allRidesController.destroy}" oncomplete="PF('MyRidesViewDialog').hide()"  
-                                             update="MyRidesListForm,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage" 
+                                             update="growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage" 
                                              disabled="#{empty allRidesController.selected}">
 
                                 <p:confirm header="Deletion Confirmation" 
@@ -110,7 +116,7 @@
                             </p:confirmDialog>
 
                             <p:commandButton id="editButton"   icon="fas fa-edit" value="#{bundle.Edit}" 
-                                             update=":MyRidesEditForm" oncomplete="PF('MyRidesEditDialog').show()" 
+                                             update="" oncomplete="PF('MyRidesEditDialog').show()" 
                                              disabled="#{empty allRidesController.selected}"/>
                             <!--
                             ************************************************
@@ -122,7 +128,7 @@
                             <c:when test="#{userController.selected.id != allRidesController.selected.driverId.id}">
                                 <p:commandButton id="joinButton" ajax="true" icon="fas fa-edit" value="Join/Unjoin" 
                                                  actionListener="#{allRidesController.join()}" oncomplete="PF('MyRidesViewDialog').hide()"  
-                                                 update="MyRidesListForm,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage" 
+                                                 update="growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage" 
                                                  disabled="#{empty allRidesController.selected}" process="@this" immediate="true">
                                     
                                 </p:commandButton>
@@ -132,14 +138,55 @@
                         </c:otherwise> 
                     </c:choose>
                     
-                    <p:commandButton value="#{bundle.Close}" onclick="MyRidesViewDialog.hide()"/>
-                </h:panelGroup>
+               <h:form id="StartStopForm"> 
 
 
+                <br/><br/>
+
+                <p:commandButton id="startButton" icon="fas fa-play"  value="Start Trip" 
+                                 update=":EmailConfirmForm,:MyRidesViewForm:StartStopForm, :headerForm"
+                                 disabled="#{timerController.timerGoing == true}" actionListener="#{timerController.setTimes()}"
+                                 oncomplete="PF('EmailConfirmDialog').show()">
+                </p:commandButton>
+
+                <p:commandButton id="pauseButton" icon="fas fa-pause" update=":MyRidesViewForm:StartStopForm,:headerForm" 
+                                 value="Pause/Unpause Trip" 
+                                 actionListener="#{timerController.pauseTimes()}"
+                                 disabled="#{timerController.timerGoing == false}">
+                </p:commandButton>
+                
+                <p:commandButton id="stopButton" value="Stop Trip" icon="fas fa-stop"
+                                 disabled="#{timerController.timerGoing == false}" 
+                                 actionListener="#{timerController.stopTimes()}" immediate="false"
+                                 update=":MyRidesViewForm:StartStopForm,:headerForm">
+                </p:commandButton>
+
+                <br/>
+                <br/>
             </h:form>
+                </h:panelGroup>
+             </h:form>
+              <p:dialog position="center center" id="EmailConfirmDlg" widgetVar="EmailConfirmDialog" 
+                      modal="true" resizable="true" appendTo="@(body)" header="Sent Email to Emergency Contact" 
+                      width="70%" >
 
-        </p:dialog>
+                <h:form id="EmailConfirmForm">
 
+                    <div align="center">
+                        <h2>Would you like to send an email to your emergency 
+                            contact letting them know you are starting your ride?</h2>
 
+                        <!--                        The value of the first button listed below will be 
+                                                shown as highlighted (default action) when displayed -->
+                        <p:button value="Yes" outcome="/safety/ConfirmDefaultStartMessage?faces-redirect=true" icon="fas fa-check-square" />
+                        &nbsp;
+                        <p:commandButton value="#{bundle.Cancel}" onclick="PF('EmailConfirmDialog').hide()"
+                                         icon="fas fa-ban" immediate="true" />
+
+                    </div>
+                </h:form>
+            </p:dialog>
+            </div>
+         </ui:define>
     </ui:composition>
 </html>
