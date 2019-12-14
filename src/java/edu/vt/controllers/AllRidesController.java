@@ -28,38 +28,16 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 
-/*
--------------------------------------------------------------------------------
-Within JSF XHTML pages, this bean will be referenced by using the name
-'allRidesController'
--------------------------------------------------------------------------------
- */
 @Named("allRidesController")
-
-/*
- allRidesController will be session scoped, so the values of its instance variables
- will be preserved across multiple HTTP request-response cycles 
- */
 @SessionScoped
 public class AllRidesController implements Serializable {
 
-     /*
-    ===============================
-    Instance Variables (Properties)
-    ===============================
-     */
-    
-    /*
-    The @EJB annotation implies that the EJB container will perform an injection of the object
-    reference of the AllRides objects into each field when created at runtime. 
-     */
     @EJB
     private edu.vt.FacadeBeans.AllRidesFacade ejbFacade;
     private List<AllRides> items = null;
     private List<AllRides> myItems = null;
     private List<AllRides> searchedItems = null;
     private AllRides selected;
-
 
     @Inject
     private UserController userController;
@@ -94,19 +72,9 @@ public class AllRidesController implements Serializable {
     private String searchString;
     private String searchCategory;
 
-    /*
-    =================
-    Contructor Method
-    =================
-     */
     public AllRidesController() {
     }
     
-     /*
-    ===================
-    Getters and Setters
-    ===================
-     */
     public AllRides getSelected() {
         return selected;
     }
@@ -156,11 +124,6 @@ public class AllRidesController implements Serializable {
         this.searchedItems = searchedItems;
     }
     
-    /**
-     * search by starting or ending city, depending on the value of searchCategory,
-     * stores results in searchedItems
-     * @return redirect string for search results page
-     */
     public String search() {
 
         switch (searchCategory) {
@@ -190,11 +153,6 @@ public class AllRidesController implements Serializable {
     private AllRidesFacade getFacade() {
         return ejbFacade;
     }
-
-    /**
-     * 
-     * @param userCar is the user's default car entity 
-     */
 
     public void fillInDefaultCar(DefaultCar userCar) {
         if (userCar != null) {
