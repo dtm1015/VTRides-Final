@@ -4,31 +4,23 @@
  */
 package edu.vt.validators;
 
-import edu.vt.EntityBeans.AllRides;
-import edu.vt.controllers.AllRidesController;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
+
 import java.io.InputStreamReader;
-import java.io.OutputStream;
+
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.Socket;
+
 import java.net.URL;
-import java.net.URLConnection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import jdk.internal.org.xml.sax.XMLReader;
-import static org.primefaces.component.hotkey.HotkeyBase.PropertyKeys.handler;
-import org.xml.sax.helpers.XMLReaderFactory;
 
 @FacesValidator("carRegistrationValidator")
 public class CarRegistrationValidator implements Validator {
