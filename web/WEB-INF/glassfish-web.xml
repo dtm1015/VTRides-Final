@@ -43,5 +43,5 @@ This file is used to configure a web application (WAR file).
     Windows OS: Specify the DocRoot absolute path starting with C:
     <property name="alternatedocroot_1" value="from=/CloudStorage/* dir=C:/Users/Balci/DocRoot" />
   -->
-  <property name="alternatedocroot_1" value="from=/VTRidesStorage/* dir=C:/Users/Yogi/DocRoot" />
+  <property name="alternatedocroot_1" value="from=/VTRidesStorage/* dir=/home/cloudsd/Kennedy/DocRoot" />
 </glassfish-web-app>

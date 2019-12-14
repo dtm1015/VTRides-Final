@@ -49,7 +49,7 @@ public class CarRegistrationValidator implements Validator {
             } else {
                 String licenseNumber = splitString[0];
                 String stateAbbreviation = splitString[1];
-                String username = "qemiller";
+                String username = "jusmk96";
                 String urlString = "http://www.vehicleregistrationapi.com/api/reg.asmx/CheckUSA?"
                         + "RegistrationNumber=" + licenseNumber
                         + "&State=" + stateAbbreviation
