@@ -34,48 +34,10 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                     <br /><br />
                     <h:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2" cellpadding="10">
 
-                        <p:outputLabel for="cellPhoneNumber" value="Cell Phone Number" class="standardText" />
-                        <!-- 
-                        PrimeFaces inputMask enforces the phone number format defined by mask="(999) 999-9999"  
-                        and prevents a non-numeric character to be entered by the user.
-                        -->
-                        <p:inputMask id="cellPhoneNumber" class="standardText"
-                                     required="true" requiredMessage="Cell Phone Number is Required!" 
-                                     value="#{textMessageController.cellPhoneNumber}" mask="(999) 999-9999" />
-
-                        <p:outputLabel for="carrier" value="Cell Phone Carrier" class="standardText" />
-
-                        <!-- 
-                        Specify the email address to send the email message containing the text message as
-                
-                            5401234567@CellPhoneCarrier's MMS gateway domain
-                
-                        The designated cell phone number will be charged for the text messaging by its carrier.
-                        Here are the MMS gateway domain names for some of the cell phone carriers:
-                
-                            mms.att.net         for AT&T            5401234567@mms.att.net
-                            pm.sprint.com       for Sprint          5401234567@pm.sprint.com
-                            tmomail.net         for T-Mobile        5401234567@tmomail.net
-                            vzwpix.com          for Verizon         5401234567@vzwpix.com
-                            vmpix.com           for Virgin Mobile   5401234567@vmpix.com
-                        
-                        When the email message is sent to the cell phone number @ the MMS gateway domain,
-                        the message is automatically sent to the cell phone as an MMS text message by the
-                        domain and the carrier charges the cell phone number for the text messaging.
-                        -->  
-
-                        <p:selectOneMenu id="carrier" value="#{textMessageController.cellPhoneCarrierDomain}"
-                                         required="true" requiredMessage="Please Select a Carrier!" 
-                                         class="standardText" >
-
-                            <f:selectItem itemLabel="Select a Carrier"  itemValue="" noSelectionOption="true"/>
-                            <f:selectItem itemLabel="AT&amp;T"          itemValue="mms.att.net" />
-                            <f:selectItem itemLabel="Sprint"            itemValue="pm.sprint.com" />
-                            <f:selectItem itemLabel="T-Mobile"          itemValue="tmomail.net" />
-                            <f:selectItem itemLabel="Verizon"           itemValue="vzwpix.com" />
-                            <f:selectItem itemLabel="Virgin Mobile"     itemValue="vmpix.com" />
-
-                        </p:selectOneMenu>
+                        <p:outputLabel for="cellPhoneNumber" value="Emergency Contact Phone Number" class="standardText" />
+                        <!-- The emergency contact number is already known so we can tell the user what the number is. -->
+                        <p:outputLabel id="cellPhoneNumber" class="standardText" 
+                                     value="#{userController.selected.emergencyContactPhoneNumber}"/>
 
                     </h:panelGrid>
 
@@ -93,7 +55,7 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                     -->
                     <p:inputTextarea id="textMessage" rows="5" cols="50" counter="counterText" maxlength="500" 
                                      counterTemplate="{0} characters remaining..." autoResize="false" 
-                                     value="#{textMessageController.mmsTextMessage}" class="standardText"
+                                     value="#{textMessageController.message}" class="standardText"
                                      required="true" requiredMessage="Text Message Body is Required!" />
 
                     <p:watermark for="textMessage" value="Enter your text message here. Resize box if needed." />
@@ -109,7 +71,7 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                         ================================
                         -->
                         <p:commandButton value="Send Text Message" icon="far fa-comment-dots" ajax="false"
-                                         action="#{textMessageController.sendTextMessage()}" />
+                                         action="#{textMessageController.sendTextMessage(userController.selected.emergencyContactPhoneNumber, userController.selected.emergencyContactPhoneCarrier)}" />
 
                         &nbsp;
                         <!--

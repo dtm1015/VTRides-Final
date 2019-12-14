@@ -140,13 +140,11 @@ public class EmailController implements Serializable{
     public String emailPassengers() throws AddressException, MessagingException {
 
         Methods.preserveMessages();
-        // Obtain the email message content from the editorController object
-        emailBody = editorController.getEmailMessage();
 
         // Email message content cannot be empty
         if (emailBody.isEmpty()) {
             Methods.showMessage("Error", "Please enter your email message!", "");
-            return "allRides/List?faces-redirect=true";
+            return "";
         }
 
         // Set Email Server Properties
@@ -212,7 +210,7 @@ public class EmailController implements Serializable{
                     "Email Messaging Exception Occurred! Internet Connection Required!",
                     "See: " + me.getMessage());
         }
-        return "allRides/List?faces-redirect=true";
+        return "/myRides/View?faces-redirect=true";
     }
     
     

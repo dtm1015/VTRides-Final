@@ -163,6 +163,18 @@
 
                     <br/>
                     <br/>
+                    <c:choose>
+                        <c:when test="#{userController.selected.id == allRidesController.selected.driverId.id}">
+                            <p:commandButton action="/send/Email?faces-redirect=true" id="emailPassengersButton" value="Email Passangers"
+                                             icon="fas fa-envelope-open-text"/>
+
+                        </c:when>
+                       
+                        <c:otherwise>
+                             <p:commandButton action="/send/TextMessage?faces-redirect=true" id="textEmergencyContactButton" 
+                                         value="Text Emergency Contact" icon="fas fa-mobile"/>
+                        </c:otherwise>
+                    </c:choose>
                 </h:form>
                 <p:dialog position="center center" id="EmailConfirmDlg" widgetVar="EmailConfirmDialog" 
                           modal="true" resizable="true" appendTo="@(body)" header="Sent Email to Emergency Contact" 
