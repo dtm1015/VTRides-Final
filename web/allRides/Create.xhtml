@@ -224,9 +224,17 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                         *          Car License Plate       *
                         *************************************
                             -->
-                            <p:outputLabel value="#{bundle.CreateAllRidesLabel_carLicensePlate}" for="carLicensePlate" />
+                            <p:outputLabel id="licensePlateEntry" value="#{bundle.CreateAllRidesLabel_carLicensePlate}" for="carLicensePlate" >
+                                &nbsp;<i class="fas fa-question-circle"/>
+                                 <p:tooltip for="licensePlateEntry" value="Enter licnse plate without dashes, 
+                                            then a space, then your state abreviation in all caps e.g. ZZZ9999 VA " 
+                                           showEffect="clip" hideEffect="explode" position="top" />
+                            </p:outputLabel>
                             <p:inputText id="carLicensePlate" value="#{allRidesController.selected.carLicensePlate}" 
-                                         class="inputTextField" required="true" requiredMessage="#{bundle.CreateAllRidesRequiredMessage_carLicensePlate}"/>
+                                         class="inputTextField" required="true" requiredMessage="#{bundle.CreateAllRidesRequiredMessage_carLicensePlate}">
+                                
+                                <f:validator validatorId="carRegistrationValidator"/> 
+                            </p:inputText>
 
                             <!--
                         *************************************

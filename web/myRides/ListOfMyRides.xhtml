@@ -38,8 +38,8 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                                      class="dataTable"
                                      >
                             <!-- When I select a row, I want to enable the buttons, other than create and share, which are already enabled -->
-                            <p:ajax event="rowSelect"   update="createButton viewButton editButton"/>
-                            <p:ajax event="rowUnselect" update="createButton viewButton editButton"/>
+                            <p:ajax event="rowSelect"   update="createButton viewButton"/>
+                            <p:ajax event="rowUnselect" update="createButton viewButton"/>
 
                             <!-- ID COLUMN-->
                             <p:column headerText="#{bundle.ListAllRidesTitle_id}">
@@ -81,9 +81,9 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                                                  action="/myRides/View?faces-redirect=true" 
                                                  disabled="#{empty allRidesController.selected}"/>
 
-                                <p:commandButton id="editButton"   icon="fas fa-edit" value="#{bundle.Edit}" 
+<!--                                <p:commandButton id="editButton"   icon="fas fa-edit" value="#{bundle.Edit}" 
                                                  update="MyRidesEditForm" oncomplete="PF('MyRidesEditDialog').show()" 
-                                                 disabled="#{empty allRidesController.selected}"/>
+                                                 disabled="#{empty allRidesController.selected}"/>-->
 
 <!--                                 
                                ***************************************************
