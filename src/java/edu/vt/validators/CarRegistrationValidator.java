@@ -77,7 +77,7 @@ public class CarRegistrationValidator implements Validator {
                         connection.disconnect();
                         if (found == false) {
                             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_FATAL,
-                                    "Invalid REgistration!", "The License plate you entered was not found!"));
+                                    "Invalid Registration!", "The License plate you entered was not found!"));
                         }
                     }
 

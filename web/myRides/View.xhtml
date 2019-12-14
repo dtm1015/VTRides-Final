@@ -127,7 +127,7 @@
                             <c:otherwise>
                                 <c:when test="#{userController.selected.id != allRidesController.selected.driverId.id}">
                                     <p:commandButton id="joinButton" ajax="true" icon="fas fa-edit" value="Join/Unjoin" 
-                                                     actionListener="#{allRidesController.join()}" oncomplete="PF('MyRidesViewDialog').hide()"  
+                                                     actionListener="#{allRidesController.join()}" action="/myRides/ListOfMyRides?faces-redirect=true"  
                                                      update="growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage" 
                                                      disabled="#{empty allRidesController.selected}" process="@this" immediate="true">
 
@@ -137,7 +137,20 @@
 
                             </c:otherwise> 
                         </c:choose>
+                        <c:choose>
+                            <c:when test="#{userController.selected.id == allRidesController.selected.driverId.id}">
+                                <p:commandButton action="/send/Email?faces-redirect=true" id="emailPassengersButton" value="Email Passangers"
+                                                 icon="fas fa-envelope-open-text"/>
+
+                            </c:when>
+
+                            <c:otherwise>
+                                <p:commandButton action="/send/TextMessage?faces-redirect=true" id="textEmergencyContactButton" 
+                                                 value="Text Emergency Contact" icon="fas fa-mobile"/>
+                            </c:otherwise>
+                        </c:choose>
                     </h:panelGroup>
+
                 </h:form>
                 <h:form id="StartStopForm"> 
 
@@ -163,18 +176,6 @@
 
                     <br/>
                     <br/>
-                    <c:choose>
-                        <c:when test="#{userController.selected.id == allRidesController.selected.driverId.id}">
-                            <p:commandButton action="/send/Email?faces-redirect=true" id="emailPassengersButton" value="Email Passangers"
-                                             icon="fas fa-envelope-open-text"/>
-
-                        </c:when>
-                       
-                        <c:otherwise>
-                             <p:commandButton action="/send/TextMessage?faces-redirect=true" id="textEmergencyContactButton" 
-                                         value="Text Emergency Contact" icon="fas fa-mobile"/>
-                        </c:otherwise>
-                    </c:choose>
                 </h:form>
                 <p:dialog position="center center" id="EmailConfirmDlg" widgetVar="EmailConfirmDialog" 
                           modal="true" resizable="true" appendTo="@(body)" header="Sent Email to Emergency Contact" 

@@ -21,7 +21,7 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
         ============================================================
         -->
         <p:dialog id="AllRidesCreateDlg" widgetVar="AllRidesCreateDialog" modal="true" 
-                  resizable="false" appendTo="@(body)" header="#{bundle.CreateAllRidesTitle}" width="500px" height="500px">
+                  resizable="false" appendTo="@(body)" header="#{bundle.CreateAllRidesTitle}" width="600px" height="500px">
 
             <div align="center">
                 <h:form id="AllRidesCreateForm" class="ui-datatable-data" style="align-content: center; align-items: center">
@@ -233,7 +233,7 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                             <p:inputText id="carLicensePlate" value="#{allRidesController.selected.carLicensePlate}" 
                                          class="inputTextField" required="true" requiredMessage="#{bundle.CreateAllRidesRequiredMessage_carLicensePlate}">
                                 
-                                <f:validator validatorId="carRegistrationValidator"/> 
+                                <f:validator validatorId="carRegistrationValidator" disabled="#{!userController.isAdministrator()}"/> 
                             </p:inputText>
 
                             <!--

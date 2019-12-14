@@ -284,7 +284,7 @@ public class EmailController implements Serializable{
                     "Email Messaging Exception Occurred! Internet Connection Required!",
                     "See: " + me.getMessage());
         }
-        return "safety/TripTimer?faces-redirect=true";
+        return "/myRides/View?faces-redirect=true";
     }
     
    
@@ -292,8 +292,8 @@ public class EmailController implements Serializable{
      * @return String containing the text to be sent via email to the emergency contact
      *          when the trip begins
      */
-    private String setDefaultBeginEmail(){
-        defaultBody = userController.getFirstName() + " " + userController.getLastName() 
+    public String setDefaultBeginEmail(){
+        defaultBody = userController.getSelected().getFirstName() + " " + userController.getSelected().getLastName() 
 
                 + " is beginning his/her trip from " + 
                 allRidesController.getSelected().getStartingAddress1() + " " + 

@@ -28,8 +28,10 @@ Copyright © 2019 Justin Kennedy. All rights reserved.
                     <h:outputText value="#{emailController.setDefaultBeginEmail()}"/>
                 </h:body>
                 <br /><br />
-                <p:commandButton id="confirmButton" icon="fas fa-check-square" value="Confirm" actionListener="#{emailController.sendSafetyStartTripEmail()}"/>
-                <p:button id="cancelButton" value="Cancel" outcome="/safety/TripTimer"/>
+                <p:commandButton id="confirmButton" icon="fas fa-check-square" value="Confirm" 
+                                 actionListener="#{emailController.sendSafetyStartTripEmail()}"
+                                 action="/myRides/View" ajax="false"/>
+                <p:button id="cancelButton" value="Cancel" outcome="/myRides/View"/>
             </h:form>
         </ui:define>
 

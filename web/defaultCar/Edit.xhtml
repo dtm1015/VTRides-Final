@@ -22,7 +22,7 @@
 
                 <h:form id="DefaultCarEditForm">
                     <h:panelGroup id="display">
-                        <p:panelGrid columns="2">
+                        <p:panelGrid columns="2" columnClasses="panelGridColumn1,panelGridColumn2">
 
                             <p:outputLabel value="#{bundle.EditDefaultCarLabel_make}" for="make" />
                             <p:inputText id="make" value="#{defaultCarController.selected.make}" 
@@ -39,7 +39,12 @@
                                          title="#{bundle.EditDefaultCarTitle_color}" required="true" 
                                          requiredMessage="#{bundle.EditDefaultCarRequiredMessage_color}"/>
 
-                            <p:outputLabel value="#{bundle.EditDefaultCarLabel_licensePlate}" for="licensePlate" />
+                            <p:outputLabel value="#{bundle.EditDefaultCarLabel_licensePlate}" for="licensePlate" id="licensePlateEntry">
+                                &nbsp;<i class="fas fa-question-circle"/>
+                                <p:tooltip for="licensePlateEntry" value="Enter licnse plate without dashes, 
+                                           then a space, then your state abreviation in all caps e.g. ZZZ9999 VA " 
+                                           showEffect="clip" hideEffect="explode" position="top" />
+                            </p:outputLabel>
                             <p:inputText id="licensePlate" value="#{defaultCarController.selected.licensePlate}" 
                                          title="#{bundle.EditDefaultCarTitle_licensePlate}" required="true" 
                                          requiredMessage="#{bundle.EditDefaultCarRequiredMessage_licensePlate}"/>

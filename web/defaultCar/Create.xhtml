@@ -43,7 +43,12 @@
                                          requiredMessage="#{bundle.CreateDefaultCarRequiredMessage_color}"/>
 
                             <!-- License plate number of car -->
-                            <p:outputLabel value="#{bundle.CreateDefaultCarLabel_licensePlate}" for="licensePlate" />
+                            <p:outputLabel value="#{bundle.CreateDefaultCarLabel_licensePlate}" for="licensePlate" id="licensePlateEntry">
+                                &nbsp;<i class="fas fa-question-circle"/>
+                                <p:tooltip for="licensePlateEntry" value="Enter licnse plate without dashes, 
+                                           then a space, then your state abreviation in all caps e.g. ZZZ9999 VA " 
+                                           showEffect="clip" hideEffect="explode" position="top" />
+                            </p:outputLabel>
                             <p:inputText id="licensePlate" value="#{defaultCarController.carLicenseNumber}" 
                                          title="#{bundle.CreateDefaultCarTitle_licensePlate}" required="true" 
                                          requiredMessage="#{bundle.CreateDefaultCarRequiredMessage_licensePlate}"/>
@@ -60,7 +65,7 @@
                     </h:panelGroup>
                 </h:form>
             </div>
-            
+
         </ui:define>
     </ui:composition>
 </html>
